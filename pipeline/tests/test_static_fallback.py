@@ -136,7 +136,7 @@ def test_call_card_fallback_figures_match_lock_file(index_html):
         )
         assert f'<span class="seg-{label}" style="width:{value * 100:.1f}%">' in block
 
-    assert f"{m0['assumed_move_bp']:g}bp two-state assumption" in block
+    assert f"assumes a single {m0['assumed_move_bp']:g}bp move or hold" in block
     assert lock["index_current_doc_id"] in block
     assert f"<strong>{lock['index_current']:.3f}</strong>" in block
     assert f"<strong>{lock['index_trailing_mean']:.3f}</strong>" in block

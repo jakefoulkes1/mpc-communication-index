@@ -3523,3 +3523,26 @@ methods run over. Numbers shown to the author before publication.
 - **Not rebuilt, deliberately, as in August**: `site_context.json` (its Bank
   Rate panel still reads "latest, 30 July 2026"), `member_behaviour_v1.json`,
   `validation_v1.json`. Flagged so the omission is on the record.
+
+## 2026-10-06 - Interactive homepage (presentation only)
+
+At the author's request, the homepage moves from the paper-style layout to
+an interactive research dashboard, informed by the Bank of England's Bank
+Rate explainer. The earlier presentation decisions remain on the record.
+
+- The meeting selector and chart-period controls display existing minutes
+  and readings from `data/index.json`. A selected meeting shows its own vote
+  and dictionary-hit counts alongside the next observed decision, explicitly
+  distinguished from the decision published with those minutes.
+- Chart-period filters change the displayed history only. They do not
+  recompute or subset the ladder, inference, or locked-call scores.
+- The forecasting comparison switches between the published Brier, log and
+  skill scores. Market pricing is the benchmark; the always-hold reference
+  can be included. The full score table remains available, including when
+  scripts or data requests fail.
+- The statistical result is displayed beside the later-sample check and the
+  discrete-decision test. The small live record and the untested significance
+  of the skill difference remain explicit.
+- No science-layer code, lexicon, data schema, stored result, annotation or
+  locked prediction is changed. Existing generated figures and rationale
+  text are preserved; the changes concern layout, copy and interaction.

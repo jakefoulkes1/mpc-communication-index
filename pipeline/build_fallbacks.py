@@ -436,10 +436,12 @@ def build_verify(html: str) -> str:
     tag_url = f"{REPO_URL}/releases/tag/{tag}"
     body = f'''
   <section class="section" id="how-to-check">
-    <h2>How to verify the call yourself</h2>
-    <p class="plain-summary">Nothing here has to be taken on trust. The call below was tagged
-    and pushed to GitHub before the announcement it is about, and everything behind it is in
-    the open.</p>
+    <h2>Check the record</h2>
+    <p class="plain-summary">The call below was published before the announcement.
+    Its timestamp, original text, data and code are public.</p>
+    <details class="disclosure" open>
+      <summary><span class="caret" aria-hidden="true"></span>Read more: verify the timestamp and original call</summary>
+      <div class="disclosure-body">
     <ol class="verify-list">
       <li><strong>The timestamp.</strong> Open the
       <a href="{tag_url}" rel="noopener">tag <code>{tag}</code></a>, which GitHub dates
@@ -451,6 +453,8 @@ def build_verify(html: str) -> str:
       methodological choice are in
       <a href="{REPO_URL}" rel="noopener">the repository</a>.</li>
     </ol>
+      </div>
+    </details>
   </section>
   '''
     return replace_region(html, "verify", body)
@@ -516,9 +520,8 @@ def build_call(html: str) -> str:
     )
     outcome_note = (
         '''
-      <p class="oc-note" id="call-outcome-note">Scored after the announcement by
-      <code>pipeline/predict/score_outcomes.py</code>, which fills the outcome and scores fields
-      and nothing else.</p>'''
+      <p class="oc-note" id="call-outcome-note">The outcome and scores were added after
+      the announcement. The original call and reasoning are retained.</p>'''
         if scored else ""
     )
     body = f'''
@@ -536,14 +539,13 @@ def build_call(html: str) -> str:
          says which one a reader is looking at. -->
     <p class="call-asat" id="call-asat">Figures as at the lock date ({lock_day}).</p>
 
-    <!-- The same "In plain English" device the Results section uses. -->
-    <p class="plain-summary" id="call-plain"><em>In plain English: this is the call, written
-    down and tagged before the announcement so it cannot be revised afterwards. The
-    percentages are the market's; the point call and the reasoning are mine.</em></p>
+    <p class="plain-summary" id="call-plain">The percentages below come from market
+    pricing. The point call and reasoning are mine, published and locked before
+    the announcement.</p>
 
     <div class="call-probs" id="call-probs">{prob_divs}</div>
     <div class="call-probbar" id="call-probbar" aria-hidden="true">{bar_segs}</div>
-    <p class="call-probsrc" id="call-probsrc"><strong>m0</strong> <span class="prob-gloss">{M0_GLOSS}</span> &mdash; OIS forward curve vs SONIA, {m0["assumed_move_bp"]:g}bp two-state assumption. Not the point call.</p>
+    <p class="call-probsrc" id="call-probsrc"><strong>m0</strong> <span class="prob-gloss">{M0_GLOSS}</span> &mdash; assumes a single {m0["assumed_move_bp"]:g}bp move or hold.</p>
     <p class="fine call-index-line" id="call-index-line">A&amp;BG index ({lock["index_current_doc_id"]}): <strong>{index_value(lock["index_current"])}</strong> vs trailing {lock["index_trailing_n"]}-document mean <strong>{index_value(lock["index_trailing_mean"])}</strong> ({index_value(vs)} {word})</p>
     <div class="call-rationale" id="call-rationale">
       <p class="call-rationale-h" id="call-rationale-h">Point call <span class="pt-call">{lock["point_call"]}</span></p>
