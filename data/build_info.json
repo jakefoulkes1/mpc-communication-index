@@ -1,9 +1,9 @@
 {
   "schema": "build-info-v1",
-  "last_commit_sha": "a48f75a35ace1273ff9de0e7e9493c56f7458d95",
-  "last_commit_short_sha": "a48f75a",
-  "last_commit_iso": "2026-10-05T20:18:59+01:00",
-  "last_commit_subject": "Episode: September 2026, the lexicon caught it anyway",
-  "generated_utc": "2026-10-05T19:19:06+00:00",
+  "last_commit_sha": "72bdee6399f720f50b984c7da0487dd0fe0025e0",
+  "last_commit_short_sha": "72bdee6",
+  "last_commit_iso": "2026-10-10T15:02:55+01:00",
+  "last_commit_subject": "Redesign homepage as interactive research dashboard",
+  "generated_utc": "2026-10-10T14:02:56+00:00",
   "note": "Written by pipeline/build_build_info.py from git log -1 at the time it ran. Not a claim about the data's vintage - data/index.json carries its own generated_utc."
 }
