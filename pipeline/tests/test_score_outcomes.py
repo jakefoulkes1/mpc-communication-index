@@ -36,3 +36,40 @@ def test_fill_outcome_scores_both_forecasts():
     # m0 gave hike more weight than the always-hold reference did, so it
     # should score better (lower Brier) when hike is the actual outcome.
     assert result["scores"]["m0_market_only"]["brier_score"] < result["scores"]["always_hold_reference"]["brier_score"]
+
+
+def test_existing_scores_are_idempotent_and_cannot_be_replaced():
+    payload = fill_outcome({"m0_market_only": PERFECT_HIKE}, "hold")
+    assert fill_outcome(payload, "hold") == payload
+    with pytest.raises(ValueError, match="do not overwrite"):
+        fill_outcome(payload, "hike")
+    assert payload["outcome"] == "hold"
+
+
+def test_rescoring_does_not_rewrite_file(tmp_path, monkeypatch):
+    import json
+    from pipeline.predict import score_outcomes
+
+    path = tmp_path / "lock.json"
+    original = json.dumps(fill_outcome({"m0_market_only": PERFECT_HIKE}, "hold"))
+    path.write_text(original)
+    monkeypatch.setattr(score_outcomes.sys, "argv", ["score", str(path), "hold"])
+    score_outcomes.main()
+    assert path.read_text() == original
+
+
+@pytest.mark.parametrize("probs", [
+    {"p_hike": float('nan'), "p_hold": 1, "p_cut": 0},
+    {"p_hike": 1.1, "p_hold": -0.1, "p_cut": 0},
+    {"p_hike": 0.4, "p_hold": 0.4, "p_cut": 0},
+])
+def test_invalid_probabilities_cannot_be_scored(probs):
+    for score in [brier_score, log_score]:
+        with pytest.raises(ValueError, match="HARD STOP"):
+            score(probs, "hold")
+
+
+def test_scoring_rejects_unrecognised_outcome():
+    for score in [brier_score, log_score]:
+        with pytest.raises(ValueError, match="outcome"):
+            score(PERFECT_HIKE, "sideways")

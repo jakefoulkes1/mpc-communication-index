@@ -86,6 +86,8 @@ def main() -> None:
                 resp, url = candidate_resp, candidate_url
                 break
             except requests.exceptions.RequestException as exc:
+                if not isinstance(exc, requests.exceptions.HTTPError) or exc.response is None or exc.response.status_code != 404:
+                    raise
                 last_exc = exc
             finally:
                 time.sleep(2.0)
@@ -104,6 +106,7 @@ def main() -> None:
             continue
         path.write_text(pdf_text)
         source_kind[path.name] = "pdf"
+        SOURCE_KIND_PATH.write_text(json.dumps(source_kind, indent=2, sort_keys=True) + "\n")
         replaced.append(path.name)
         print(f"{path.name}: replaced with PDF text ({word_count} words)  {url}")
 
@@ -111,6 +114,7 @@ def main() -> None:
     print(f"\nreplaced: {len(replaced)}  failed/left summary-only: {len(failed)}")
     if failed:
         print("failed/left as summary-only:", failed)
+        raise ValueError("HARD STOP: unresolved PDF minutes; do not build the index")
 
 
 if __name__ == "__main__":

@@ -3546,3 +3546,73 @@ Rate explainer. The earlier presentation decisions remain on the record.
 - No science-layer code, lexicon, data schema, stored result, annotation or
   locked prediction is changed. Existing generated figures and rationale
   text are preserved; the changes concern layout, copy and interaction.
+
+## 2026-10-10 - Audit corrections and prospective safety guards
+
+The author explicitly authorised changes to the science-layer code after
+the redesign audit. This entry records corrections to the description of
+v1 and operational safeguards, not a new experiment or revised result.
+
+- The v1 historical benchmark requests meeting plus three days from a curve
+  dated two calendar days before the announcement. Its requested maturity
+  is therefore five days; the cached workbooks start at one month. The
+  endpoint-clipping rule uses that first node in every historical row.
+  The offset does not correct meeting-date smoothing in this backtest.
+  Documentation now calls this an OIS-based proxy, not a meeting-specific
+  probability distribution. The v1 calculation and stored results stay fixed.
+- Curve valuation dates and SONIA reference dates are not publication times.
+  The historical archive is revised and the backtest does not reconstruct
+  vintage public availability at a timestamped two-day-before cutoff. A
+  future release-aware benchmark requires separately versioned data and
+  evaluation; none is substituted here.
+- New prediction files must have safe names, precede the meeting, and be
+  created exclusively. Existing files cannot be overwritten, including by
+  a concurrent writer. Future-dated curves are rejected. The existing
+  outcome-scoring exception remains the only way to append realised scores;
+  an already scored file is left byte-identical and conflicting rescoring
+  stops for an erratum rather than replacing an outcome.
+- Cached minutes are preserved on routine scraping, including PDF-derived
+  text. Non-404 HTTP failures stop the era run. Fresh reconstruction needs
+  PDF backfill, emergency documents and the documented manual repairs;
+  setup instructions no longer imply an HTML scrape alone reproduces it.
+  The index builder also refuses a routine rebuild that drops or replaces
+  an existing document hash or source kind.
+- Missing vote splits remain missing, not imputed. Chart filters affect
+  display only; decision markers denote the decision accompanying those
+  minutes, not the next decision. Archived context is labelled as archived.
+- Later-sample nonsignificance is described as uncertainty, not evidence
+  that the coefficient disappears. L3 tests tone and vote skew jointly;
+  L4 is not a tone model. Its majority-state and roster assumptions remain
+  limitations of v1. Any retrospectively designed lexicon is exploratory.
+- Presentation, metadata and regression tests are updated. Locked calls,
+  numerical research results, handwritten episodes, earlier log entries
+  and the date-integrity errata are not rewritten.
+- A hypothetical probability slider illustrates the existing three-class
+  Brier formula. It is not a forecast, observation or additional experiment.
+  Browser regression tests now run in CI as well as locally.
+- Invalid or non-finite curve inputs and probability distributions stop
+  before mapping or scoring; valid inputs retain exactly the v1 arithmetic.
+  PDF provenance is checkpointed after each replacement so a later fetch
+  failure does not leave earlier replacements labelled as HTML.
+
+## 2026-10-11 - Linked references and plain-language statistical explanations
+
+Presentation only, at the author's request. The bibliography now links each
+paper directly, without venue details or interpretive glosses. The Apel and
+Blix Grimaldi paper is linked to the verified Riksbank archive PDF. Inline
+source notes become descriptive links to the existing code, data and log.
+
+Short explanations distinguish historical association, historical model fit
+and out-of-sample forecasting. Regression slopes, ordered logit, likelihood
+ratios, p-values and Newey-West uncertainty are explained before the detailed
+specifications. The remaining market-benchmark summary is aligned with the
+first-node clipping limitation recorded above. No new test is run, no result
+is recalculated and no science-layer module, locked call, handwritten episode
+or earlier decision-log entry is changed by this presentation pass.
+
+## 2026-10-11 - Homepage project introduction
+
+At the author's request, a short introduction now precedes the findings and
+in-page navigation. It names the research question, the author, the fixed
+dictionary, the market comparison and the prospective lock-and-score record.
+This is explanatory copy only; no methodology, result or locked call changes.

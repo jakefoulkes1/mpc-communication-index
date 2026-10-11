@@ -18,6 +18,7 @@
 <link rel="preload" href="site/fonts/SourceSerif4-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="site/fonts/SourceSerif4Display-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="site/site.css">
+<link rel="stylesheet" href="site/dashboard.css">
 <script src="site/theme.js" defer></script>
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="MPC Communication Index">
@@ -38,16 +39,14 @@
 <meta name="twitter:image" content="https://jakefoulkes1.github.io/mpc-index/og-image.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20fill='%23fcfbf9'/%3E%3Crect%20x='.5'%20y='.5'%20width='31'%20height='31'%20fill='none'%20stroke='%23d8d3cb'/%3E%3Cpolyline%20points='5,22%2011,14%2016,18%2022,8%2027,12'%20fill='none'%20stroke='%231c1b19'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Ccircle%20cx='27'%20cy='12'%20r='2.6'%20fill='%238a5a12'/%3E%3C/svg%3E">
 </head>
-<body>
+<body class="dashboard document-page">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="wrap">
   <header class="masthead">
+    <!-- fallback:researchnav --><div class="brand-row"><a class="research-brand" href="index.html"><span class="brand-mark">MPC</span><span>MPC Communication Index<br><span class="brand-subtitle">Independent monetary policy research</span></span></a><nav aria-label="Research pages"><a href="index.html">Overview</a><a href="methodology.html">Methodology</a><a href="episodes.html" aria-current="page">Meeting notes</a><a href="https://github.com/jakefoulkes1/mpc-index">Source</a></nav></div><!-- /fallback:researchnav -->
     <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark</button>
-    <a class="backlink" href="index.html">MPC Communication Index</a>
-    <h1>Episodes</h1>
-    <p class="lede">Short, dated notes on particular meetings &mdash; written by hand, not
-    generated, and kept whether the reading held or failed.
-    <!-- fig:episode_count -->2<!-- /fig:episode_count --> published so far.</p>
+    <h1>Meeting notes</h1>
+    <p class="lede">Short, dated notes on particular meetings - kept whether the reading held or failed.</p>
     <!-- Status line: the same generated regions as index.html's masthead. -->
     <p class="status-line" id="status-line"><!-- fallback:status --><a href="index.html#call-card">2 locked calls</a> <span class="sep" aria-hidden="true">&middot;</span> next lock 3 November 2026 <span class="sep" aria-hidden="true">&middot;</span> 96 documents<!-- /fallback:status --> <span class="sep" aria-hidden="true">&middot;</span> <span id="build-stamp"><!-- fallback:buildstamp -->site built 10 October 2026 (<a href="https://github.com/jakefoulkes1/mpc-index/commit/72bdee6399f720f50b984c7da0487dd0fe0025e0"><code>72bdee6</code></a>)<!-- /fallback:buildstamp --></span></p>
   </header>
@@ -55,7 +54,8 @@
   <!-- In-page contents, one entry per note, generated from
        data/annotations.json by pipeline/build_fallbacks.py (build_episode_toc).
        Same pattern as methodology.html's. -->
-  <nav class="toc" id="main" aria-label="Notes">
+  <main id="main">
+  <nav class="toc" aria-label="Notes">
     <!-- fallback:toc -->
     <ol>
       <li><a href="#episode-2026-10-05">The lexicon caught it anyway</a> <span class="toc-date">5 October 2026</span></li>
@@ -81,6 +81,7 @@
     <a href="https://github.com/jakefoulkes1/mpc-index">Source on GitHub</a>
   </nav>
 
+  </main>
   <footer>
     <p><a href="index.html">Back to the index</a>. Not investment advice. Source documents
     &copy; Bank of England, linked, not republished.</p>

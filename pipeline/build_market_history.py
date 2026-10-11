@@ -1,13 +1,19 @@
-"""Builds data/market_history.csv: m0 market-implied {cut, hold, hike}
+"""Builds data/market_history.csv: v1 OIS-based proxy {cut, hold, hike}
 probabilities for every meeting in the text corpus (Aug 2015-present),
 from the historical OIS forward curve + SONIA, using the same convention
 as the live dry-run card (pipeline/predict/market_probs.py, LOCK_OFFSET_DAYS
 = 3 days after the meeting - see DECISIONS.md, 2026-07-11).
 
-Lock date (the curve snapshot used, as if this were locked ahead of the
-announcement): announcement - LOCK_DATE_OFFSET_DAYS (2) calendar days; if
+`lock_date` is a valuation date, NOT a verified public-availability cutoff:
+announcement - LOCK_DATE_OFFSET_DAYS (2) calendar days; if
 that isn't a trading day (weekend/holiday - simply absent from the data),
 walks back to the nearest one that is, logged.
+
+Historical files can be revised and release lags are not reconstructed.
+All currently published rows request a five-day maturity below the first
+one-month node, so endpoint clipping applies. Preserve v1 results; a
+release-aware, meeting-specific benchmark needs a separate version.
+See DECISIONS.md 2026-10-10.
 
 `scheduled` (bool): False for special_minutes (emergency meetings, e.g.
 the March 2020 Covid cuts) - at "lock time" nobody could have registered

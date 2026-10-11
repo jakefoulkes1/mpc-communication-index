@@ -23,6 +23,8 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt playwright
+      - name: Install browser
+        run: python -m playwright install --with-deps chromium
       - name: Run tests
         run: pytest

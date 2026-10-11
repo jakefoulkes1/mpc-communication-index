@@ -318,7 +318,6 @@ def figures() -> dict[str, str]:
         "lock_meeting": gb_date(lock["meeting_announcement"]),
         "lock_tag": Path(pred_path).stem,
         # ---- the episode notes, now their own page ----
-        "episode_count": str(len(load("data/annotations.json")["episodes"])),
         # ---- the stat strip (DECISIONS.md 2026-09-17, structure pass landed) ----
         # Bank Rate as the context panel already prints it, from the same
         # published series; the strip states the level, the panel the history.

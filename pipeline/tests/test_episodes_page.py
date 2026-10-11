@@ -35,6 +35,14 @@ def episodes() -> list[dict]:
     return json.loads((ROOT / "data" / "annotations.json").read_text())["episodes"]
 
 
+def test_meeting_notes_introduction_matches_requested_copy():
+    lede = re.search(r'<p class="lede">(.*?)</p>', EPISODES.read_text(), re.S)
+    assert lede
+    assert " ".join(lede.group(1).split()) == (
+        "Short, dated notes on particular meetings - kept whether the reading held or failed."
+    )
+
+
 def test_every_published_note_is_rendered_on_its_own_page(episodes):
     html = EPISODES.read_text()
     for ep in episodes:

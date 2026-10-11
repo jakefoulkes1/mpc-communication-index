@@ -64,7 +64,7 @@ MODEL_GLOSS = {
     "L3": "market + tone + skew",
     "L4": "member simulation",
 }
-M0_GLOSS = "market pricing only"
+M0_GLOSS = "OIS-based proxy, not the author's forecast"
 
 # The README's longer descriptions of the same five models. Author's labels.
 MODEL_DESCRIPTION = {
@@ -86,67 +86,41 @@ CONTEXT_NOTE = (
 )
 
 
-# Related work, rendered on index.html (Related work) and methodology.html
-# (References) from this one list. Author-year-title-venue, the link on the
-# venue, and a one-clause gloss. Every entry was checked against a primary
-# source by the author and filed on 2026-09-02; nothing here is written from
-# memory. Apel and Blix Grimaldi carries no link: the citation is the
-# `citation` field of pipeline/score/lexicon/abg_2012.json verbatim, and the
-# riksbank.se path that copy came from is not a stable public URL.
-# (DECISIONS.md 2026-09-02, close-out.)
+# Shared linked bibliography for the overview and methodology pages.
 RELATED_WORK = [
     {
-        # Verbatim from pipeline/score/lexicon/abg_2012.json's `citation` field.
         "cite": "Apel, M. and Blix Grimaldi, M. (2012). The Information Content of Central "
                 "Bank Minutes.",
-        "venue": "Sveriges Riksbank Working Paper Series No. 261",
-        "url": None,
-        "note": "the dictionary this index implements verbatim, from a retrieved copy of the paper",
+        "url": "https://archive.riksbank.se/Documents/Rapporter/Working_papers/2012/rap_wp261_120426.pdf",
     },
     {
         "cite": "Gerlach-Kristen, P. (2004). Is the MPC's Voting Record Informative about "
                 "Future UK Monetary Policy?",
-        "venue": "Scandinavian Journal of Economics, 106(2), 299&ndash;313",
         "url": "https://www.jstor.org/stable/3440935",
-        "note": "source of the vote-skew construction (via Apel and Blix Grimaldi 2012, p.13); "
-                "finds skew predicts rate changes even controlling for market expectations over "
-                "1997&ndash;2003, a result this project's 2019&ndash;2026 ladder does not reproduce",
     },
     {
         "cite": "Hansen, S. and McMahon, M. (2016). Shocking language: Understanding the "
                 "macroeconomic effects of central bank communication.",
-        "venue": "Journal of International Economics, 99(S1), S114&ndash;S133",
         "url": "https://doi.org/10.1016/j.jinteco.2015.12.008",
-        "note": "FOMC communication as text, its market and real effects measured in a FAVAR",
     },
     {
         "cite": "Bholat, D., Hansen, S., Santos, P. and Schonhardt-Bailey, C. (2015). Text "
                 "mining for central banks.",
-        "venue": "Centre for Central Banking Studies Handbook No. 33, Bank of England",
         "url": "https://www.bankofengland.co.uk/-/media/boe/files/ccbs/resources/text-mining-for-central-banks.pdf",
-        "note": "the Bank's own primer, dictionary methods included",
     },
     {
         "cite": "Lloyd, S. P. (2018). Overnight index swap market-based measures of monetary "
                 "policy expectations.",
-        "venue": "Bank of England Staff Working Paper No. 709",
         "url": "https://www.bankofengland.co.uk/working-paper/2018/overnight-index-swap-market-based-measures-of-monetary-policy-expectations",
-        "note": "evidence that UK OIS rates at one to 18 months track expected policy rates "
-                "closely, which is what makes L1 a fair benchmark; the residual premium is the "
-                "first limitation",
     },
     {
         "cite": "Gneiting, T. and Raftery, A. E. (2007). Strictly Proper Scoring Rules, "
                 "Prediction, and Estimation.",
-        "venue": "Journal of the American Statistical Association, 102(477), 359&ndash;378",
         "url": "https://doi.org/10.1198/016214506000001437",
-        "note": "Brier and log score as strictly proper rules",
     },
     {
         "cite": "Diebold, F. X. and Mariano, R. S. (1995). Comparing Predictive Accuracy.",
-        "venue": "Journal of Business &amp; Economic Statistics, 13(3), 253&ndash;263",
         "url": "https://doi.org/10.1080/07350015.1995.10524599",
-        "note": "the test on the loss differential scheduled for the September cycle",
     },
 ]
 
@@ -156,13 +130,11 @@ def load(rel: str):
 
 
 def related_work_html() -> str:
-    items = []
-    for r in RELATED_WORK:
-        venue = (
-            f'<a href="{r["url"]}" rel="noopener">{r["venue"]}</a>' if r["url"] else r["venue"]
-        )
-        items.append(f'      <dt>{r["cite"]} {venue}.</dt>\n      <dd>{r["note"]}</dd>')
-    return '\n    <dl class="refs">\n' + "\n".join(items) + "\n    </dl>\n    "
+    items = [
+        f'      <li><a href="{r["url"]}" rel="noopener">{r["cite"]}</a></li>'
+        for r in RELATED_WORK
+    ]
+    return '\n    <ul class="refs">\n' + "\n".join(items) + "\n    </ul>\n    "
 
 
 def build_related_work(html: str, where: str) -> str:
@@ -196,6 +168,20 @@ def build_status(html: str, where: str) -> str:
     info = load("data/build_info.json")
     html = replace_region(html, "buildstamp", stamp_short(info), where=where)
     return html
+
+
+def build_research_nav(html: str, where: str) -> str:
+    links = []
+    for path, label in (("index.html", "Overview"), ("methodology.html", "Methodology"), ("episodes.html", "Meeting notes")):
+        current = ' aria-current="page"' if path == where else ''
+        links.append(f'<a href="{path}"{current}>{label}</a>')
+    return replace_region(html, "researchnav", (
+        '<div class="brand-row"><a class="research-brand" href="index.html">'
+        '<span class="brand-mark">MPC</span><span>MPC Communication Index<br>'
+        '<span class="brand-subtitle">Independent monetary policy research</span></span></a>'
+        '<nav aria-label="Research pages">' + ''.join(links) +
+        '<a href="https://github.com/jakefoulkes1/mpc-index">Source</a></nav></div>'
+    ), where=where)
 
 
 def replace_region(text: str, name: str, body: str, kind: str = "fallback", where: str = "index.html") -> str:
@@ -328,17 +314,21 @@ def spec3_sentence(f: dict[str, str], code_open: str = "<code>", code_close: str
         f"(OLS, Newey{ndash}West standard errors, {f['nw_lags']} lags, n={f['spec3_n']} "
         f"scheduled meetings): coefficient {strong_open}{f['spec3_coef']}{strong_close} "
         f"(t = {f['spec3_t']}, {strong_open}p = {f['spec3_p']}{strong_close}). On the post-hiking-cycle "
-        f"subsample (from {f['frag_start']}, n={f['frag_n']}) the result does not "
-        f"replicate: coefficient {f['frag_coef']} (t = {f['frag_t']}, p = {f['frag_p']}). "
+        f"subsample (from {f['frag_start']}, n={f['frag_n']}) the estimate has the same sign "
+        f"but is not statistically distinguishable from zero: coefficient {f['frag_coef']} "
+        f"(t = {f['frag_t']}, p = {f['frag_p']}). "
         f"Spec 2, an ordered-logit likelihood-ratio test on the discrete decision, finds "
-        f"nothing: LR = {f['spec2_lr']}, p = {f['spec2_p']}. "
+        f"no statistically significant improvement: LR = {f['spec2_lr']}, p = {f['spec2_p']}. "
         f"Coefficients and t-statistics are rounded to 2 decimal places and p-values to 4; "
         f"full precision is in {code_open}data/inference_v1.json{code_close}."
     )
 
 
 def build_spec3(html: str) -> str:
-    line = spec3_sentence(figures())
+    line = spec3_sentence(figures()).replace(
+        "<code>data/inference_v1.json</code>",
+        '<a href="data/inference_v1.json">the full statistical results</a>',
+    )
     return replace_region(
         html, "spec3",
         f'\n          <p id="spec3-line" class="prose" style="margin:0">{line}</p>\n        ',
@@ -684,6 +674,10 @@ def build_context(html: str) -> str:
     """
     ctx = load("data/site_context.json")
     op = ctx["ois_path"]
+    html = replace_region(html, "contextstamp", (
+        f'<p class="archive-stamp" id="context-snapshot">Archived snapshot generated {gb_date(ctx["generated_utc"])}. '
+        f'Market observations as of {gb_date(op["curve_as_of"])}; not current pricing.</p>'
+    ))
     n = len(op["meetings"])
     rows = []
     for m in op["meetings"]:
@@ -701,7 +695,7 @@ def build_context(html: str) -> str:
     g = ctx["gilt_2y"]
     body = f'''
       <div class="ctx-block">
-        <h3 class="ctx-h" id="ois-h">OIS-implied path &middot; next {n} scheduled meeting{"" if n == 1 else "s"}</h3>
+        <h3 class="ctx-h" id="ois-h">OIS-based path &middot; {n} meeting{"" if n == 1 else "s"} in this snapshot</h3>
         <p class="ctx-sub" id="ois-sub">Curve as of <b>{gb_date(op["curve_as_of"])}</b> vs SONIA {op["sonia_pct"]:.3f}% ({gb_date(op["sonia_as_of"])}) &middot; two-state &plusmn;{op["assumed_move_bp"]:g}bp assumption.</p>
         <div class="ois-legend">
           <span class="key"><span class="box cut"></span> cut</span>
@@ -939,7 +933,7 @@ def build_readme(md: str) -> str:
     md = replace_region(md, "readme_spec3", spec3, where="README.md")
 
     lock_line = (
-        f"**First pre-registered lock: {f['lock_stamp_utc']}, for the {f['lock_meeting']} "
+        f"**Latest pre-registered lock: {f['lock_stamp_utc']}, for the {f['lock_meeting']} "
         f"announcement** (tag `{f['lock_tag']}`). Locked calls so far: {f['lock_count']}. "
         f"Next lock: {f['next_lock_date']}, for the {f['next_meeting']} announcement."
     )
@@ -963,6 +957,7 @@ def main() -> None:
     html = build_meta(html, "index.html")
     html = build_byline(html, "index.html")
     html = build_status(html, "index.html")
+    html = build_research_nav(html, "index.html")
     html = build_related_work(html, "index.html")
     html = write_figures(html, "index.html")
     index_path.write_text(html)
@@ -972,6 +967,7 @@ def main() -> None:
     meth = build_meta(meth, "methodology.html")
     meth = build_byline(meth, "methodology.html")
     meth = build_status(meth, "methodology.html")
+    meth = build_research_nav(meth, "methodology.html")
     meth = build_related_work(meth, "methodology.html")
     meth = build_toc(meth, "methodology.html")
     meth_path.write_text(write_figures(meth, "methodology.html"))
@@ -983,6 +979,7 @@ def main() -> None:
     eps = build_meta(eps, "episodes.html")
     eps = build_byline(eps, "episodes.html")
     eps = build_status(eps, "episodes.html")
+    eps = build_research_nav(eps, "episodes.html")
     ep_path.write_text(write_figures(eps, "episodes.html"))
 
     readme_path = ROOT / "README.md"

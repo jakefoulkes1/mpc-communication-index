@@ -30,6 +30,28 @@ def test_interpolated_forward_rate_clips_outside_range():
     assert interpolated_forward_rate(maturities, rates, 10.0) == 3.75
 
 
+def test_historical_two_day_valuation_read_clips_before_first_node():
+    meeting = dt.date(2026, 7, 30)
+    valuation = meeting - dt.timedelta(days=2)
+    maturities, rates = [1.0, 2.0], [3.7, 3.9]
+    assert forward_rate_for_date(maturities, rates, valuation, meeting) == rates[0]
+    assert interpolated_forward_rate(maturities, rates, months_between(valuation, meeting)) == rates[0]
+
+
+@pytest.mark.parametrize("maturities,rates,target", [([], [], 1), ([1, 2], [3.7], 1), ([2, 1], [3.7, 3.8], 1), ([1, 1], [3.7, 3.8], 1), ([1], [float('nan')], 1), ([1], [3.7], float('inf'))])
+def test_malformed_curves_stop(maturities, rates, target):
+    with pytest.raises(ValueError, match="HARD STOP"):
+        interpolated_forward_rate(maturities, rates, target)
+
+
+@pytest.mark.parametrize("rate", [float('nan'), float('inf'), -float('inf')])
+def test_nonfinite_rate_cannot_become_certain_hold(rate):
+    with pytest.raises(ValueError, match="HARD STOP"):
+        implied_probs(rate, 3.75)
+    with pytest.raises(ValueError, match="HARD STOP"):
+        implied_probs(3.75, rate)
+
+
 def test_forward_rate_for_date_uses_lock_offset_not_meeting_date():
     maturities = [1.0, 2.0, 3.0, 4.0]
     rates = [3.70, 3.75, 3.80, 3.85]

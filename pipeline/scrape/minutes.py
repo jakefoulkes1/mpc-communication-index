@@ -31,8 +31,16 @@ def minutes_url(year: int, month: str, prefixed: bool = False) -> str:
 
 
 def scrape_month(year: int, month: str) -> Path:
+    stem = f"{year}-{MONTH_NUM[month.lower()]:02d}-minutes"
+    out = ROOT / "data" / "raw" / f"{stem}.txt"
+    if out.exists():
+        print(f"cached: {out} (preserved; may contain PDF-derived text)")
+        return out
     raw_html = ROOT / "data" / "raw" / "html"
     raw_html.mkdir(parents=True, exist_ok=True)
+    html_path = raw_html / f"{stem}.html"
+    if html_path.exists():
+        raise FileExistsError(f"HARD STOP: incomplete cache at {html_path}; inspect before recovery")
     url = minutes_url(year, month)
     resp = requests.get(url, headers=HEADERS, timeout=30)
     if resp.status_code == 404:
@@ -44,11 +52,11 @@ def scrape_month(year: int, month: str) -> Path:
             url, resp = alt_url, alt_resp
     resp.raise_for_status()
     time.sleep(2.0)
-    stem = f"{year}-{MONTH_NUM[month.lower()]:02d}-minutes"
-    (raw_html / f"{stem}.html").write_text(resp.text)
     text = html_to_text(resp.text)
-    out = ROOT / "data" / "raw" / f"{stem}.txt"
-    out.write_text(text)
+    with html_path.open("x", encoding="utf-8") as handle:
+        handle.write(resp.text)
+    with out.open("x", encoding="utf-8") as handle:
+        handle.write(text)
     digest = hashlib.sha256(text.encode()).hexdigest()[:16]
     print(f"{url}\n -> {out}  sha256={digest}...  ({len(text.split())} words)")
     return out

@@ -1,4 +1,6 @@
 import random
+import json
+from pathlib import Path
 
 from pipeline.build_ladder import run_evaluation, score_models
 
@@ -19,7 +21,7 @@ def _fixture_records(n: int, seed: int = 3) -> list[dict]:
             "scheduled": rng.random() > 0.1,  # a few unscheduled/special fixtures too
             "outcome": outcome,
             "implied_change_bp": bp,
-            "m0_probs": {"p_cut": max(0.0, -bp / 25), "p_hold": 1 - min(1.0, abs(bp) / 25), "p_hike": max(0.0, bp / 25)},
+            "m0_probs": {"p_cut": min(1.0, max(0.0, -bp / 25)), "p_hold": 1 - min(1.0, abs(bp) / 25), "p_hike": min(1.0, max(0.0, bp / 25))},
             "index_level": rng.uniform(0.5, 1.5),
             "skew": rng.uniform(-0.001, 0.001),
             "votes_date": f"{year}-{month:02d}-15",
@@ -57,3 +59,11 @@ def test_ladder_run_is_reproducible_on_a_fixture():
     assert scores1 == scores2
     for model in ("L0", "L1", "L2", "L3", "L4"):
         assert scores1[model]["n"] == len(result1["per_meeting"])
+
+
+def test_published_scores_recompute_without_changing_results():
+    path = Path(__file__).resolve().parents[2] / "data/ladder_v1.json"
+    data = json.loads(path.read_text())
+    for scheduled, key in [(True, "headline_scores_scheduled_only"), (False, "specials_robustness_scores")]:
+        forecasts = [row for row in data["per_meeting"] if row["scheduled"] == scheduled]
+        assert score_models(forecasts) == data[key]

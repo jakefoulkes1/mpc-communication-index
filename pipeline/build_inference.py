@@ -3,7 +3,7 @@ test, full sample and a Sep 2023-present fragility check) and writes
 data/inference_v1.json. See pipeline/inference.py and DECISIONS.md
 (2026-07-11) for every modelling choice.
 
-NOT published to the site - per instruction, for review first.
+Published v1 results. Re-running fits is a research update, not a site build.
 
 Run:  python -m pipeline.build_inference
 """
@@ -33,6 +33,18 @@ def run_specs(rows: list[dict], records: list[dict]) -> dict:
     }
 
 
+def result_notes(full_sample: dict, fragility: dict) -> str:
+    convergence = fragility["spec2_ordered_logit_lr_test"]["converged"]
+    status = "converged" if convergence else "did not converge; its LR test is not computed"
+    return (
+        f"Published specifications on {full_sample['n']} scheduled meetings (full sample) / "
+        f"{fragility['n']} (later subsample). Lagged index and skew use the previous meeting, "
+        "as in ladder L3. The later subsample overlaps the full sample and is not an "
+        f"independent replication. Its ordered-logit fit {status}. See DECISIONS.md "
+        "2026-07-11 and the interpretation correction dated 2026-10-10."
+    )
+
+
 def main() -> None:
     rows = load_surprises_with_lags()
     records = load_records()
@@ -50,13 +62,7 @@ def main() -> None:
             "start_date": FRAGILITY_SUBSAMPLE_START,
             "results": fragility,
         },
-        "notes": ("Small and careful, per instruction: this is a handful of specifications on "
-                  "91 scheduled meetings (full sample) / 23 (post-hiking-cycle subsample), not a "
-                  "search over many. Lagged features (index_level, skew) use the PREVIOUS meeting's "
-                  "value, same convention as the benchmark ladder's L3 - see DECISIONS.md, 2026-07-11 "
-                  "(ladder and headline-inference entries). The fragility-check subsample is small (n=23) and its ordered-logit "
-                  "fit did not converge - reported anyway, clearly caveated, not hidden. "
-                  "NOT published to the site - for review first."),
+        "notes": result_notes(full_sample, fragility),
     }
     OUT.write_text(json.dumps(payload, indent=2) + "\n")
 

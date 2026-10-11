@@ -1,9 +1,23 @@
 from pathlib import Path
 
-from pipeline.build_index import parse_entry
+import pytest
+
+from pipeline.build_index import assert_existing_corpus_preserved, parse_entry
 from pipeline.score.abg import score_document as score_document_abg
 
 FIX = Path(__file__).parent / "fixtures"
+
+
+@pytest.mark.parametrize("replacement", [[], [{"doc_id": "a", "sha256": "changed", "source_kind": "pdf"}], [{"doc_id": "a", "sha256": "fixed", "source_kind": "html"}]])
+def test_rebuild_rejects_missing_or_replaced_corpus(replacement):
+    old = [{"doc_id": "a", "sha256": "fixed", "source_kind": "pdf"}]
+    with pytest.raises(ValueError, match="HARD STOP"):
+        assert_existing_corpus_preserved(replacement, old)
+
+
+def test_rebuild_accepts_additive_ingest():
+    old = [{"doc_id": "a", "sha256": "fixed", "source_kind": "pdf"}]
+    assert_existing_corpus_preserved(old + [{"doc_id": "b"}], old)
 
 # Fields index.html's renderChart() reads off each document with a
 # `published` date - see index.html's renderChart function.

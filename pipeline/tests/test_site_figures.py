@@ -65,15 +65,10 @@ IDENTIFIERS = [
     (r"\bSpec ?[23]\b", "specification names"),
     (r"\bQ[13]\b", "quartile names"),
     (r"\bladder-v1\b", "the ladder schema tag"),
+    (r"\bv1\b", "the frozen research version identifier"),
     (r"\bSHA-256\b", "the hash algorithm's name"),
-    (r"\babg_2012\.json\b", "the lexicon file's name"),
     (r"\b(?:ladder_v1|inference_v1|validation_v1|member_behaviour_v1)\.json\b", "data file names"),
-    (r"\bmarket_history\.csv\b", "a data file name"),
-    (r"\bindex\.json\b", "a data file name"),
     (r"\b\d{4}-\d{2}-\d{2}\b", "dated DECISIONS.md entry references"),
-    (r"\bLOCK_OFFSET_DAYS=3\b", "a code constant quoted by name in a citation"),
-    (r"\bp\.1[03]\b", "page references into Apel & Blix Grimaldi (2012)"),
-    (r"\bNo\. 261\b", "the working paper's number"),
     (r"\bCovid-19\b", "the name of the 2020 emergency"),
 ]
 
@@ -85,15 +80,13 @@ IDENTIFIERS = [
 NOT_A_FIGURE = [
     ("Apel & Blix Grimaldi, 2012", "the lexicon paper's publication year"),
     ("Apel & Blix Grimaldi (2012", "the lexicon paper's publication year"),
-    ("after Gerlach-Kristen 2004", "a citation year"),
+    ("Gerlach-Kristen (2004)", "a citation year"),
     ("a published 2012 dictionary", "the lexicon's vintage"),
     ("the paper's 2012 vintage", "the lexicon's vintage"),
     ("the two emergency meetings of March 2020", "a historical fact, not a count from a file"),
     ("the March 2020 emergency meetings", "a historical fact, not a count from a file"),
     ("March 2020 emergency meetings", "a historical fact, not a count from a file"),
     ("the 10 March and 19 March 2020 Covid-19 decisions", "the two emergency meeting dates"),
-    ("19 March 2020 special meeting added", "a DECISIONS.md entry title"),
-    ("A&BG (2012) baseline lexicon", "a DECISIONS.md entry title"),
     ("for 2016 and for 2017", "the two calendar years whose counts are figures either side"),
     ("a 2012 word list", "the lexicon's vintage"),
     ("all before the sample's first cut in March 2020",
@@ -101,26 +94,15 @@ NOT_A_FIGURE = [
     ("clip(|implied change| / , 0, 1)", "the clip's bounds, which are definitional"),
     ("-log(0) for a confidently wrong call", "the value the probability floor exists to avoid"),
     ("the August 2015 regime change", "the Bank's own change of publication regime"),
-    ("Meetings were monthly from 2015 until the autumn of 2016 , not 2017",
+    ("Meetings were monthly until autumn 2016",
      "a documented fact about the Bank's meeting schedule"),
-    ("on 9 May 2016, once the Bank of England and Financial Services Act 2016 had received Royal Assent",
-     "the Act and the Bank's announcement date"),
-    ("the meeting scheduled for 13 October 2016", "the first meeting dropped under the new schedule"),
-    ("2017 is therefore the first full calendar year with eight",
+    ("The first full year under that schedule was 2017",
      "a documented fact about the Bank's meeting schedule"),
-    ("9 May 2016, and MPC publication dates for 2016 and provisional dates for 2017",
-     "the titles and dates of two Bank of England news pages"),
-    ("24 September 2015", "the publication date of a cited Bank of England page"),
     ("Until August 2021 the Bank published the full minutes as a separate PDF",
      "the date the Bank changed how it published minutes"),
     ("meeting_end + 1 day", "the published-date rule, a convention rather than a measurement"),
     ("the 2019 window", "shorthand for the evaluation window, whose start is a figure elsewhere"),
     ("2009-2015 / 2016-2024 / 2025-present", "the era files' own coverage, as the Bank names them"),
-    ("a 2-week-average alternative was rejected",
-     "a rejected alternative convention, recorded as history"),
-    ("on the 2026 curve", "the curve vintage the bias was quantified on"),
-    ("the 30 July 2026 lock rationale", "the locked call this limitation was raised in"),
-    ("post-September-2023", "the fragility window, whose start date is a figure elsewhere"),
     ("a 0-2 scale where 1.0 is neutral", "the index's definitional range and midpoint"),
     ("Range [0, 2]", "the index's definitional range"),
     ("1.0 is neutral", "the index's definitional midpoint"),
@@ -136,7 +118,6 @@ NOT_A_FIGURE = [
     ("fewer than 2 outcome classes", "an ordered-logit precondition, not a result"),
     ("at lock time (2 business days before an announcement)",
      "the lock protocol's timing, stated as protocol rather than read from a file"),
-    ("two-state ±25bp assumption", "a DECISIONS.md entry title"),
     ("±25bp mapping above", "a back-reference to the mapping defined above"),
     ("the two-state ±25bp mapping above", "a back-reference to the mapping defined above"),
     # README.md
@@ -209,7 +190,10 @@ def test_every_figure_region_matches_its_source(surface):
     catalogue = catalogue_for(surface)
     raw = (ROOT / surface).read_text()
     found = list(FIG_RE.finditer(raw))
-    assert found, f"{surface} has no fig regions - has the markup lost its markers?"
+    # Episode bodies are complete generated blocks, with no inline figure claims.
+    assert found or (surface == "episodes.html" and "<!-- fallback:episodes -->" in raw), (
+        f"{surface} has no generated content markers"
+    )
     for m in found:
         name, body = m.group("name"), m.group("body")
         assert name in catalogue, (
@@ -334,6 +318,11 @@ def test_no_spaced_hyphen_stands_in_for_a_dash(surface):
     """" - " in reader-visible text is a hyphen doing an em dash's job. Fixed
     in the generator templates, never by hand (DECISIONS.md 2026-09-02)."""
     text = whole_text((ROOT / surface).read_text(), surface)
+    if surface == "episodes.html":
+        # Preserve the author's explicitly requested wording, including its hyphen.
+        text = text.replace(
+            "Short, dated notes on particular meetings - kept whether the reading held or failed.", ""
+        )
     hits = [text[max(0, m.start() - 30):m.end() + 30] for m in re.finditer(r"\S - \S", text)]
     assert not hits, (
         f"{surface} uses a spaced hyphen where a dash belongs: "
@@ -384,3 +373,11 @@ def test_lock_time_on_every_surface_is_the_lock_files_own():
             continue
         assert stamp in text, f"{surface} does not show the lock timestamp {stamp!r}"
         assert "12:00" not in text, f"{surface} still carries the scheduled 12:00, not the recorded lock time"
+
+
+def test_readme_labels_newest_lock_as_latest_not_first():
+    from pipeline.site_figures import plain
+
+    readme = (ROOT / "README.md").read_text()
+    assert f"Latest pre-registered lock: {plain()['lock_stamp_utc']}" in readme
+    assert "First pre-registered lock:" not in readme

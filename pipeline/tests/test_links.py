@@ -16,6 +16,7 @@ output in DECISIONS.md when a pass depends on it (2026-09-02).
 import re
 import sys
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 import pytest
 
@@ -40,9 +41,13 @@ def hrefs(surface: str) -> list[str]:
 
 def github_slug(heading: str) -> str:
     """GitHub's heading-anchor rule: lowercase, drop punctuation, spaces to hyphens."""
-    s = re.sub(r"[`*_]", "", heading).strip().lower()
+    s = re.sub(r"[`*]", "", heading).strip().lower()
     s = re.sub(r"[^\w\s-]", "", s)
     return re.sub(r"\s", "-", s)
+
+
+def test_github_slug_preserves_underscores_in_source_names():
+    assert github_slug("market_probs: two-state ±25bp assumption") == "market_probs-two-state-25bp-assumption"
 
 
 def anchors(target: str) -> set[str]:
@@ -101,6 +106,71 @@ def test_the_tag_and_source_document_are_linked():
     assert f"{AUTHOR['repo']}/releases/tag/{tag}" in urls
     latest = json.loads((ROOT / "data/index.json").read_text())["documents"][-1]["source_url"]
     assert latest in urls
+
+
+@pytest.mark.parametrize("surface", SURFACES)
+def test_repository_source_links_resolve_locally(surface):
+    """Code and log citations must point at real files and existing headings."""
+    from pipeline.site_figures import AUTHOR
+
+    prefix = f"{AUTHOR['repo']}/blob/main/"
+    for href in hrefs(surface):
+        if not href.startswith(prefix):
+            continue
+        target = urlsplit(href[len(prefix):])
+        path = unquote(target.path)
+        assert (ROOT / path).is_file(), f"{surface}: missing source file in {href}"
+        if target.fragment:
+            assert unquote(target.fragment) in anchors(path), (
+                f"{surface}: missing source heading in {href}"
+            )
+
+
+@pytest.mark.parametrize("surface,region", [
+    ("index.html", "relatedwork"), ("methodology.html", "references"),
+])
+def test_bibliography_is_a_shared_list_of_direct_links(surface, region):
+    from html.parser import HTMLParser
+
+    from pipeline.build_fallbacks import RELATED_WORK, related_work_html
+
+    raw = (ROOT / surface).read_text()
+    block = re.search(
+        rf"<!-- fallback:{region} -->\s*(.*?)\s*<!-- /fallback:{region} -->", raw, re.S
+    ).group(1)
+    assert block == related_work_html().strip()
+
+    class References(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.links = []
+            self.in_link = False
+            self.unlinked = []
+
+        def handle_starttag(self, tag, attrs):
+            if tag == "a":
+                self.in_link = True
+                self.links.append(dict(attrs)["href"])
+
+        def handle_endtag(self, tag):
+            if tag == "a":
+                self.in_link = False
+
+        def handle_data(self, data):
+            if data.strip() and not self.in_link:
+                self.unlinked.append(data)
+
+    references = References()
+    references.feed(block)
+    assert references.links == [entry["url"] for entry in RELATED_WORK]
+    assert all(link.startswith("https://") for link in references.links)
+    assert not references.unlinked
+
+
+def test_inline_methodology_sources_are_links_not_parenthetical_notes():
+    raw = (ROOT / "methodology.html").read_text()
+    assert not re.search(r'<span\s+class="ref"', raw)
+    assert re.search(r'<a\s+class="ref"\s+href="', raw)
 
 
 # A publisher that refuses a scripted request has still been reached; a link

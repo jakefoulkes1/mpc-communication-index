@@ -29,6 +29,25 @@ def load(name):
     return json.loads((ROOT / "data" / name).read_text())
 
 
+def test_project_introduction_precedes_the_findings(page):
+    intro = page.get_by_role("region", name="Does central bank communication help predict interest rates?")
+    assert intro.is_visible()
+    assert "I'm Jake Foulkes, an MPhil in Economics student at the University of Oxford." in intro.inner_text()
+    assert "financial markets already expect" in intro.inner_text()
+    assert "Every call is scored afterwards" in intro.inner_text()
+    assert page.locator("#main > :first-child").get_attribute("id") == "about"
+    assert intro.bounding_box()["y"] < page.locator("#summary").bounding_box()["y"]
+
+
+def test_desktop_introduction_heading_uses_the_available_width(page):
+    for width in [1280, 1366, 1440, 1920]:
+        page.set_viewport_size({"width": width, "height": 900})
+        assert page.locator("#about-h").evaluate("""el =>
+            el.getBoundingClientRect().height <= parseFloat(getComputedStyle(el).lineHeight) + 1
+        """), f"Introduction heading wraps unnecessarily at {width}px"
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+
+
 def test_meeting_selection_uses_the_selected_observation_and_following_decision(page):
     documents = load("index.json")["documents"]
     first = documents[0]
@@ -108,3 +127,86 @@ def test_failed_fetch_keeps_the_published_table_and_reading(page, site_url):
     assert page.locator("#ladder-tbody").is_visible()
     assert page.locator("#ladder-tbody tr").count() == 5
     assert page.locator("#score").is_visible()
+
+
+def test_every_meeting_including_missing_vote_can_be_selected(page):
+    errors = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    for doc in load("index.json")["documents"]:
+        page.locator("#meeting-select").select_option(doc["doc_id"])
+        assert page.locator("#content").get_attribute("data-doc-id") == doc["doc_id"]
+        assert page.locator("#score > span").first.inner_text() == f"{doc['abg_net_index']:.3f}"
+        if doc["vote"] is None:
+            assert "Not recorded" in page.locator("#meeting-facts").inner_text()
+    assert not errors
+
+
+@pytest.mark.parametrize("period", ["recent", "post"])
+def test_filtered_overlays_stay_within_plot(page, period):
+    page.locator("#period-select").select_option(period)
+    for width in [1280, 390, 320]:
+        page.set_viewport_size({"width": width, "height": 900})
+        page.wait_for_timeout(250)
+        geometry = page.locator("#chart").evaluate("""svg => {
+          const bounds = svg.querySelector('#chart-plot-clip rect');
+          const left = Number(bounds.getAttribute('x'));
+          const right = left + Number(bounds.getAttribute('width'));
+          const line = svg.querySelector('#layer-bankrate polyline');
+          const xs = line.getAttribute('points').trim().split(/\\s+/).map(p => Number(p.split(',')[0]));
+          return {left, right, xs, clipped: line.getAttribute('clip-path'),
+            bandCount: svg.querySelectorAll('#layer-overlays rect').length};
+        }""")
+        assert all(geometry["left"] - 0.1 <= x <= geometry["right"] + 0.1 for x in geometry["xs"])
+        assert geometry["clipped"] == "url(#chart-plot-clip)"
+        assert geometry["bandCount"] == 0
+        legend = page.locator("#chart-legend").inner_text()
+        assert "Shaded band" not in legend and "Dashed rule" not in legend
+
+
+def test_chart_describes_contemporaneous_not_following_decisions(page):
+    description = page.locator("#chart-desc").text_content()
+    assert "meetings announcing a hike" in description
+    assert "followed by a hike" not in description
+    page.locator("#toggle-decisions").uncheck()
+    assert "Decision markers are hidden" in page.locator("#chart-desc").text_content()
+    assert "Decision with these minutes" not in page.locator("#chart-legend").inner_text()
+
+
+@pytest.mark.parametrize("target", ["index.html", "methodology.html", "episodes.html"])
+def test_disclosures_remain_readable_when_theme_script_fails(page, site_url, target):
+    page.route("**/site/theme.js", lambda route: route.abort())
+    page.goto(f"{site_url}/{target}", wait_until="networkidle")
+    for detail in page.locator("details").all():
+        detail.evaluate("el => { el.open = false; }")
+        detail.locator("summary").click()
+        assert detail.locator(".disclosure-body").is_visible()
+
+
+def test_archive_is_labelled_without_opening_more_detail(page):
+    assert page.locator("#context-snapshot").is_visible()
+    stamp = page.locator("#context-snapshot").inner_text()
+    assert "Archived snapshot" in stamp and "not current pricing" in stamp
+    assert "next" not in page.locator("#ois-h").text_content()
+
+
+def test_hypothetical_example_matches_pipeline_scoring(page):
+    from pipeline.predict.score_outcomes import brier_score
+
+    assert page.locator("#how-it-works #scoring-lab").is_visible()
+    for percent in [0, 20, 80, 100]:
+        page.locator("#example-hold").fill(str(percent))
+        for outcome in ["hold", "hike", "cut"]:
+            page.locator(f'input[name="example-outcome"][value="{outcome}"]').check()
+            probs = {"p_cut": 0, "p_hold": percent / 100, "p_hike": 1 - percent / 100}
+            assert page.locator("#example-score").inner_text() == f"{brier_score(probs, outcome):.4f}"
+
+
+@pytest.mark.parametrize("target", ["index.html", "methodology.html", "episodes.html"])
+def test_shared_navigation_and_main_landmark(page, site_url, target):
+    page.goto(f"{site_url}/{target}", wait_until="networkidle")
+    assert page.locator("main#main").count() == 1
+    current = page.get_by_role("navigation", name="Research pages").locator('[aria-current="page"]')
+    assert current.get_attribute("href") == target
+    assert page.locator('head link[href="site/dashboard.css"]').count() == 1
+    if target == "methodology.html":
+        assert page.locator("header .lede a").evaluate("el => getComputedStyle(el).color") == "rgb(255, 255, 255)"

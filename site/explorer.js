@@ -3,15 +3,15 @@
 
   const descriptions = {
     L0: { name: 'Always hold', text: 'Predicts no change at every meeting. A simple reference for how much the market already knows.' },
-    L1: { name: 'Market pricing', text: 'Uses the OIS curve and SONIA directly, with the documented move-size assumption. This is the benchmark to beat.' },
-    L2: { name: 'Market model', text: 'Fits an ordered-logit model using market pricing alone. This checks whether modelling the market improves on using it directly.' },
+    L1: { name: 'Market pricing', text: 'An OIS-based proxy using a fixed move-size assumption. Historical reads clip to the first one-month node; archive dates do not verify public release timing. This is the v1 benchmark to beat.' },
+    L2: { name: 'Market model', text: 'Learns from earlier market pricing and decisions to assign cut, hold and hike probabilities. This checks whether a fitted model improves on the market proxy itself.' },
     L3: { name: 'Market + tone', text: 'Adds the previous minutes\' tone index and vote skew to market pricing. Both communication measures are available before the forecast decision.' },
-    L4: { name: 'Member votes', text: 'Blends market pricing with patterns in members\' previous votes, then simulates the committee decision. It does not use the tone index.' },
+    L4: { name: 'Member votes', text: 'Blends market pricing with patterns in members\' previous votes, then simulates the committee decision. It uses no tone. Its majority-to-hold mapping and historical roster availability are limitations, described in the methodology.' },
   };
   const metrics = {
-    brier: { field: 'mean_brier', label: 'Mean Brier score', key: 'Lower is better. Teal marks the market benchmark; all bars share the same scale.' },
+    brier: { field: 'mean_brier', label: 'Mean Brier score', key: 'Average squared probability error across cut, hold and hike. Lower is better.' },
     log: { field: 'mean_log_score', label: 'Mean log score', key: 'Lower is better. Confident mistakes are penalised especially heavily.' },
-    skill: { field: 'skill_vs_l1', label: 'Skill versus market', key: 'Zero is a tie with the market. Bars extend left from zero for negative skill; closer to zero is better here.' },
+    skill: { field: 'skill_vs_l1', label: 'Skill versus market', key: 'Improvement in Brier score relative to the market: zero is a tie, positive is better, negative is worse.' },
   };
 
   ladderPromise.then(data => {
@@ -66,7 +66,7 @@
       insight.querySelector('.eyebrow').textContent = selected === 'L1' ? 'The benchmark' : 'Selected model';
       insight.querySelector('h3').textContent = definition.name;
       insight.querySelector('.insight-description').textContent = definition.text;
-      insight.querySelector('.insight-value').textContent = score == null ? (selected === 'L1' && metric === 'skill' ? 'Benchmark' : 'Not defined') : fmtScore(score);
+      insight.querySelector('.insight-value').textContent = score == null ? (selected === 'L1' && metric === 'skill' ? 'Benchmark' : 'Not reported') : fmtScore(score);
       insight.querySelector('.insight-label').textContent = spec.label;
       insight.querySelector('.insight-sample').textContent = `${scores[selected].n} scheduled decisions; trained only on earlier meetings.`;
     }
@@ -113,7 +113,7 @@
       const next = data.documents[data.documents.indexOf(selected) + 1];
       const items = [
         ['Dictionary matches', String(selected.abg_hawk + selected.abg_dove), `${selected.abg_hawk} hawkish / ${selected.abg_dove} dovish`],
-        ['Vote at this meeting', selected.vote.replace('-', '\u2013'), 'Decision published with these minutes'],
+        ['Vote at this meeting', formatVote(selected.vote), selected.vote ? 'Decision published with these minutes' : 'Vote split not parsed; see the source document'],
         ['Decision that followed', next ? classifyDecision(next.decision) : 'Not yet observed', next ? fmtDate(next.published) : 'Latest published minutes'],
       ];
       facts.replaceChildren();
@@ -181,9 +181,9 @@
     const frag = data.fragility_check_subsample;
     const discrete = data.full_sample.spec2_ordered_logit_lr_test;
     const tests = [
-      ['Full sample: surprise', full.coefficients.lagged_index.p, 'A weak association in the full sample.'],
-      ['Later sample: surprise', frag.results.spec3_surprise_on_lagged_index.coefficients.lagged_index.p, 'The association does not replicate after the hiking cycle.'],
-      ['Discrete decision', discrete.p_value, 'Adding tone does not improve the cut / hold / hike model.'],
+      ['Rate surprises: full history', full.coefficients.lagged_index.p, 'Evidence of an association in the historical sample; not evidence of better forecasts.'],
+      ['Rate surprises: later period', frag.results.spec3_surprise_on_lagged_index.coefficients.lagged_index.p, 'Same direction, greater uncertainty. This smaller sample cannot rule out no relationship.'],
+      ['Cut, hold or hike', discrete.p_value, 'Adding tone does not significantly improve the model\'s historical fit.'],
     ];
     const container = document.getElementById('evidence-tests');
     for (const [title, p, note] of tests) {
@@ -203,6 +203,22 @@
   }).catch(() => {});
 
   const steps = document.querySelector('#how-it-works .mechanism-list');
+  const example = document.getElementById('scoring-lab');
+  const probability = document.getElementById('example-hold');
+  function scoreExample() {
+    const hold = Number(probability.value) / 100;
+    const forecast = { cut: 0, hold, hike: 1 - hold };
+    const outcome = example.querySelector('input[name="example-outcome"]:checked').value;
+    const errors = Object.entries(forecast).map(([label, p]) => (p - Number(label === outcome)) ** 2);
+    document.getElementById('example-probability').textContent = `${probability.value}%`;
+    probability.setAttribute('aria-valuetext', `${probability.value}% hold`);
+    document.getElementById('example-score').textContent = errors.reduce((sum, value) => sum + value, 0).toFixed(4);
+    document.getElementById('example-breakdown').textContent =
+      `Cut ${errors[0].toFixed(4)} + hold ${errors[1].toFixed(4)} + hike ${errors[2].toFixed(4)}`;
+  }
+  example.addEventListener('input', scoreExample);
+  example.hidden = false;
+  scoreExample();
   const tabs = document.createElement('div');
   tabs.className = 'segmented method-tabs';
   tabs.setAttribute('role', 'tablist');

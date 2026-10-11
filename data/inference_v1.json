@@ -102,5 +102,5 @@
       }
     }
   },
-  "notes": "Small and careful, per instruction: this is a handful of specifications on 91 scheduled meetings (full sample) / 23 (post-hiking-cycle subsample), not a search over many. Lagged features (index_level, skew) use the PREVIOUS meeting's value, same convention as the benchmark ladder's L3 - see DECISIONS.md, 2026-07-11 (ladder and headline-inference entries). The fragility-check subsample is small (n=23) and its ordered-logit fit did not converge - reported anyway, clearly caveated, not hidden. NOT published to the site - for review first."
+  "notes": "Published specifications on 93 scheduled meetings (full sample) / 25 (later subsample). Lagged index and skew use the previous meeting, as in ladder L3. The later subsample overlaps the full sample and is not an independent replication. Its ordered-logit fit did not converge; its LR test is not computed. See DECISIONS.md 2026-07-11 and the interpretation correction dated 2026-10-10."
 }

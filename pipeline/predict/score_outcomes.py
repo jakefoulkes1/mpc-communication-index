@@ -20,11 +20,23 @@ ALWAYS_HOLD = {"p_hike": 0.0, "p_hold": 1.0, "p_cut": 0.0}
 LOG_SCORE_EPSILON = 1e-9
 
 
+def validate_forecast(probs: dict, outcome: str) -> None:
+    if outcome not in OUTCOMES:
+        raise ValueError(f"outcome must be one of {OUTCOMES}, got {outcome!r}")
+    values = [probs[f"p_{label}"] for label in OUTCOMES]
+    if any(not math.isfinite(value) or not 0 <= value <= 1 for value in values):
+        raise ValueError("HARD STOP: probabilities must be finite and in [0, 1]")
+    if not math.isclose(sum(values), 1, rel_tol=0, abs_tol=1e-4):
+        raise ValueError("HARD STOP: probabilities must sum to one")
+
+
 def brier_score(probs: dict, outcome: str) -> float:
+    validate_forecast(probs, outcome)
     return sum((probs[f"p_{o}"] - (1.0 if o == outcome else 0.0)) ** 2 for o in OUTCOMES)
 
 
 def log_score(probs: dict, outcome: str) -> float:
+    validate_forecast(probs, outcome)
     p = max(probs[f"p_{outcome}"], LOG_SCORE_EPSILON)
     return -math.log(p)
 
@@ -40,11 +52,16 @@ def fill_outcome(payload: dict, outcome: str) -> dict:
     if outcome not in OUTCOMES:
         raise ValueError(f"outcome must be one of {OUTCOMES}, got {outcome!r}")
     m0_probs = {k: payload["m0_market_only"][k] for k in ("p_hike", "p_hold", "p_cut")}
-    payload["outcome"] = outcome
-    payload["scores"] = {
+    scores = {
         "m0_market_only": score_forecast(m0_probs, outcome),
         "always_hold_reference": score_forecast(ALWAYS_HOLD, outcome),
     }
+    if payload.get("outcome") is not None or payload.get("scores") is not None:
+        if payload.get("outcome") != outcome or payload.get("scores") != scores:
+            raise ValueError("HARD STOP: existing outcome or scores differ; append an erratum, do not overwrite")
+        return payload
+    payload["outcome"] = outcome
+    payload["scores"] = scores
     return payload
 
 
@@ -53,7 +70,12 @@ def main() -> None:
         print("usage: python -m pipeline.predict.score_outcomes <prediction-file.json> <outcome: hike|hold|cut>")
         sys.exit(1)
     path = Path(sys.argv[1])
-    payload = fill_outcome(json.loads(path.read_text()), sys.argv[2])
+    original = json.loads(path.read_text())
+    already_scored = original.get("outcome") is not None and original.get("scores") is not None
+    payload = fill_outcome(original, sys.argv[2])
+    if already_scored:
+        print(f"already scored; unchanged: {path}")
+        return
     path.write_text(json.dumps(payload, indent=2) + "\n")
     print(f"updated {path}")
     print(json.dumps(payload["scores"], indent=2))

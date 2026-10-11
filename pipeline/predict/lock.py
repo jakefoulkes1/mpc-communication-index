@@ -12,6 +12,7 @@ Run:  python -m pipeline.predict.lock <meeting_date YYYY-MM-DD> <output-name>
 import datetime as dt
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -31,8 +32,8 @@ def business_days_between(start: dt.date, end: dt.date) -> int:
     holiday calendar (same limitation as pipeline/market/ois_history.py's
     walk-back, which relies on the data itself being absent on holidays
     rather than a calendar) - a holiday inside the window is silently
-    counted as a business day here, making this an UNDERcount of true
-    staleness, never an overcount."""
+    counted as a business day here. This conservatively overcounts elapsed
+    London business days; it does not establish an input's release time."""
     if end < start:
         return -business_days_between(end, start)
     days = 0
@@ -52,6 +53,8 @@ def assert_curve_is_fresh(curve_as_of: str, today: dt.date | None = None) -> Non
     curve date without needing to fake "today" too."""
     today = today or dt.date.today()
     as_of = dt.date.fromisoformat(curve_as_of)
+    if as_of > today:
+        raise ValueError("HARD STOP: OIS curve date is in the future")
     stale_days = business_days_between(as_of, today)
     if stale_days > MAX_CURVE_STALENESS_BUSINESS_DAYS:
         raise ValueError(
@@ -117,13 +120,21 @@ def main() -> None:
         sys.exit(1)
     meeting_date = dt.date.fromisoformat(sys.argv[1])
     name = sys.argv[2]
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", name):
+        raise ValueError("HARD STOP: output name must be a plain filename stem")
+    out_path = OUT_DIR / f"{name}.json"
+    if out_path.exists():
+        raise FileExistsError(f"HARD STOP: prediction already exists: {out_path}")
+    if meeting_date <= dt.date.today():
+        raise ValueError("HARD STOP: a new prediction must precede the meeting date")
 
     payload = build_prediction(meeting_date)
     assert_curve_is_fresh(payload["m0_market_only"]["curve_as_of"])
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = OUT_DIR / f"{name}.json"
-    out_path.write_text(json.dumps(payload, indent=2) + "\n")
+    # Exclusive creation also protects against another writer after the check.
+    with out_path.open("x", encoding="utf-8") as handle:
+        handle.write(json.dumps(payload, indent=2) + "\n")
     print(f"wrote {out_path}")
     print(json.dumps(payload, indent=2))
 

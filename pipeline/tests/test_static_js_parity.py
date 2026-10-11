@@ -16,8 +16,8 @@ how a date-only string can render a day early - the fmtDate() fix of
 2026-09-02.
 
 Needs Playwright with Chromium (pip install playwright; playwright install
-chromium). Skips cleanly when either is absent - CI does not install a
-browser, so this is a local guard; run it before every publish. Serves the
+chromium). Skips cleanly when either is absent locally; CI installs both.
+Run it before every publish. Serves the
 repository from an ephemeral localhost port; no live network calls.
 
 See DECISIONS.md, 2026-09-02.
@@ -37,7 +37,7 @@ IDS = [
     "call-card", "content", "ladder-tbody", "ladder-meta", "ladder-schema",
     "spec3-line", "track-tbody", "ois-h", "ois-sub", "ois-rows",
     "rate-latest", "rate-asof", "gilt-h", "gilt-latest", "gilt-asof",
-    "context-note", "episodes-list", "build-note", "gen-note", "build-stamp",
+    "context-note", "context-snapshot", "episodes-list", "build-note", "gen-note", "build-stamp",
 ]
 STATUS_IDS = [
     "call-status", "status", "chart-status", "context-status",

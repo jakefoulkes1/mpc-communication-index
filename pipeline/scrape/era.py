@@ -1,4 +1,7 @@
-"""Scrape the full Aug 2015-Jun 2026 minutes era.
+"""Fetch missing regular-meeting HTML from August 2015 to the current month.
+
+Existing raw texts are preserved. This is not a complete reconstruction:
+PDF backfill and the separately sourced emergency documents are also needed.
 
 The MPC met monthly through 2015, then moved to 8 meetings/year ("Super
 Thursday") from 2016 onward. Rather than hardcode which months have a
@@ -61,8 +64,7 @@ def main() -> None:
                 print(f"{year}-{month}: no meeting (404)")
                 missing.append((year, month))
             else:
-                print(f"{year}-{month}: HTTP error {status}, skipping")
-                missing.append((year, month))
+                raise
             continue
         word_count = len(path.read_text().split())
         scraped.append((year, month, word_count))
@@ -72,10 +74,12 @@ def main() -> None:
 
     print("\n--- era scrape summary ---")
     print(f"scraped: {len(scraped)}")
-    print(f"no meeting / error: {len(missing)}")
+    print(f"no regular meeting (404): {len(missing)}")
     print(f"suspect parses (<{MIN_WORDS} words): {len(suspect)}")
     for year, month, wc in suspect:
         print(f"  {year}-{month}: {wc} words")
+    if suspect:
+        raise ValueError("HARD STOP: inspect short extracts and run PDF backfill before building the index")
 
 
 if __name__ == "__main__":

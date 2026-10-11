@@ -5,6 +5,18 @@ import pytest
 from pipeline.inference import lagged_features_by_doc_id, ols_newey_west, spec2_ordered_logit_lr_test
 
 
+def test_published_notes_follow_actual_sample_counts_and_convergence():
+    import json
+    from pathlib import Path
+    from pipeline.build_inference import result_notes
+
+    data = json.loads((Path(__file__).resolve().parents[2] / "data/inference_v1.json").read_text())
+    assert data["notes"] == result_notes(data["full_sample"], data["fragility_check_subsample"]["results"])
+    note = result_notes({"n": 100}, {"n": 30, "spec2_ordered_logit_lr_test": {"converged": True}})
+    assert "100 scheduled meetings" in note and "30 (later subsample)" in note
+    assert "did not converge" not in note
+
+
 def test_lagged_features_by_doc_id_uses_previous_record():
     records = [
         {"doc_id": "m1", "index_level": 1.0, "skew": 0.001},

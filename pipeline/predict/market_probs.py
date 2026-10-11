@@ -1,4 +1,4 @@
-"""Market-implied probabilities of {cut, hold, hike} for a given MPC meeting
+"""V1 OIS-based proxy probabilities of {cut, hold, hike} for an MPC meeting
 date, from the OIS forward curve and current SONIA (pipeline/market/ois.py).
 
 Method - a documented modelling ASSUMPTION, not derived from the A&BG paper
@@ -8,21 +8,13 @@ or any external model, and not the only reasonable choice:
    date, linearly interpolated between the curve's adjacent whole-month
    maturity buckets) - (current SONIA), in basis points.
 
-   KNOWN LIMITATION (quantified and the offset chosen specifically to
-   reduce it - see DECISIONS.md, 2026-08-01): the Bank's published forward
-   curve is a smoothed spline fitted across maturities, which blurs the
-   discrete jump in Bank Rate that actually happens on a meeting date. The
-   curve's value AT the meeting date itself understates the priced move
-   and biases probabilities toward hold. Evaluating a few days after
-   (rather than exactly at) the meeting recovers most of this - quantified
-   on live data as a ~0.3-1bp difference under the current fairly flat
-   curve, growing under more sloped curves. A 2-week-average alternative
-   was also quantified and rejected: it recovers slightly more of the
-   bias, but during the Aug 2015-2016 monthly-meeting era a 2-week window
-   is roughly half the inter-meeting gap, risking contamination from the
-   NEXT meeting's expectations - a bigger problem for a benchmark that
-   must run across that era than the small extra bias correction is worth.
-   +3 days is safely inside even the shortest historical gap.
+   Outside the available maturity range, use the first/last node. Every
+   published historical row requests five days from its curve valuation
+   date, below the first one-month node. Thus the historical benchmark uses
+   that node, NOT an interpolated meeting-specific forward. The +3-day
+   offset has no effect on those rows and does not correct spline smoothing.
+   See the forward-only correction in DECISIONS.md 2026-10-10; numerical
+   v1 behaviour is preserved. Smoothed curves may mix neighbouring meetings.
 
 2. Two-state mapping: the implied change is assumed to price a SINGLE
    possible move, in ONE direction only (never a simultaneous hike
@@ -40,11 +32,11 @@ partial moves in both directions at once, or moves of other sizes (50bp,
 """
 import bisect
 import datetime as dt
+import math
 
 ASSUMED_MOVE_BP = 25.0
 AVG_DAYS_PER_MONTH = 365.2425 / 12
-# See the module docstring and DECISIONS.md (2026-08-01) for why 3 days,
-# not 0 (at the meeting) or a 2-week average.
+# Frozen v1 convention; endpoint clipping limits its interpretation.
 LOCK_OFFSET_DAYS = 3
 
 
@@ -58,6 +50,12 @@ def interpolated_forward_rate(maturities_months: list[float], forward_rates_pct:
     interpolated between the curve's adjacent whole-month buckets. Clipped
     to the first/last available bucket if target_months is outside the
     curve's range."""
+    if not maturities_months or len(maturities_months) != len(forward_rates_pct):
+        raise ValueError("HARD STOP: curve nodes and rates must be nonempty and aligned")
+    if not all(math.isfinite(value) for value in [*maturities_months, *forward_rates_pct, target_months]):
+        raise ValueError("HARD STOP: curve contains a non-finite value")
+    if maturities_months[0] < 0 or any(right <= left for left, right in zip(maturities_months, maturities_months[1:])):
+        raise ValueError("HARD STOP: curve maturities must be nonnegative and strictly increasing")
     if target_months <= maturities_months[0]:
         return forward_rates_pct[0]
     if target_months >= maturities_months[-1]:
@@ -71,8 +69,8 @@ def interpolated_forward_rate(maturities_months: list[float], forward_rates_pct:
 
 def forward_rate_for_date(maturities_months: list[float], forward_rates_pct: list[float],
                            today: dt.date, meeting_date: dt.date) -> float:
-    """Forward rate LOCK_OFFSET_DAYS after the meeting date (interpolated -
-    see module docstring for why not exactly at the meeting)."""
+    """Read at meeting + offset, interpolating inside the range and clipping
+    outside it. The requested date is not necessarily the node's maturity."""
     target_date = meeting_date + dt.timedelta(days=LOCK_OFFSET_DAYS)
     target_months = months_between(today, target_date)
     if target_months <= 0:
@@ -81,6 +79,8 @@ def forward_rate_for_date(maturities_months: list[float], forward_rates_pct: lis
 
 
 def implied_probs(forward_rate_pct: float, sonia_pct: float) -> dict:
+    if not math.isfinite(forward_rate_pct) or not math.isfinite(sonia_pct):
+        raise ValueError("HARD STOP: forward and SONIA rates must be finite")
     implied_change_bp = (forward_rate_pct - sonia_pct) * 100
     if implied_change_bp > 0:
         p_hike = max(0.0, min(1.0, implied_change_bp / ASSUMED_MOVE_BP))

@@ -187,6 +187,20 @@ def parse_entry(path: Path, source_kind: dict) -> dict | None:
     return entry
 
 
+def assert_existing_corpus_preserved(documents: list[dict], existing: list[dict]) -> None:
+    """Routine ingest may add documents, not silently replace the scored corpus."""
+    by_id = {doc["doc_id"]: doc for doc in documents}
+    if len(by_id) != len(documents):
+        raise ValueError("HARD STOP: duplicate document identifiers")
+    for old in existing:
+        new = by_id.get(old["doc_id"])
+        if new is None or any(new.get(field) != old.get(field) for field in ("sha256", "source_kind")):
+            raise ValueError(
+                f"HARD STOP: cached corpus changed or incomplete at {old['doc_id']}; "
+                "restore the cache or review a separately versioned reconstruction"
+            )
+
+
 def main() -> None:
     abg_lexicon = load_abg_lexicon()
     source_kind = json.loads(SOURCE_KIND_PATH.read_text()) if SOURCE_KIND_PATH.exists() else {}
@@ -206,6 +220,11 @@ def main() -> None:
                 "abg_net_index": entry["abg_net_index"],
                 "doc_id": entry["doc_id"],
             })
+
+    if not documents:
+        raise ValueError("HARD STOP: no scored documents; published index left untouched")
+    if OUT.exists():
+        assert_existing_corpus_preserved(documents, json.loads(OUT.read_text())["documents"])
 
     payload = {
         "schema": "index-v1",

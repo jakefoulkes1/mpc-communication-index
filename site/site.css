@@ -135,7 +135,7 @@ h3, .subhead { font: italic 400 var(--fs-md)/1.3 var(--serif); margin: var(--sp-
    pipeline/tests/test_substantive_blocks.py. (DECISIONS.md 2026-09-02.) */
 .fine.substantive { color: var(--ink); }
 .fine code { color: var(--ink); }
-.ref { font-size: var(--fs-xs); color: var(--ink-2); }
+.ref { font-size: inherit; }
 .divider { border: 0; border-top: 1px solid var(--rule); margin: var(--sp-5) 0; }
 .section ul, .section ol { margin: 0 0 var(--sp-3); padding-left: 1.5em; }
 .section li { margin: 0 0 var(--sp-2); }
@@ -180,7 +180,6 @@ h3, .subhead { font: italic 400 var(--fs-md)/1.3 var(--serif); margin: var(--sp-
 .disclosure[open] > summary .caret { transform: rotate(45deg); margin-bottom: 3px; }
 .disclosure[open] > summary { margin-bottom: var(--sp-3); }
 .disclosure-body > :last-child { margin-bottom: 0; }
-html.js .disclosure:not(.ready) > .disclosure-body { display: none; }
 
 /* ---------- the locked call: one stamped, dated record ---------- */
 .call-card {
@@ -306,15 +305,13 @@ tr.kind-dryrun, tr.kind-rehearsal, tr.kind-pending { color: var(--ink-2); }
 
 /* ---------- glossary, related work ---------- */
 .glossary-list, .refs { margin: 0; font-size: var(--fs-sm); }
-/* the list follows a one-line note, so it needs the gap the note has no room for */
 .refs { margin-top: var(--sp-4); }
+ul.refs { list-style: none; padding: 0; }
+ul.refs li { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+ul.refs li:first-child { padding-top: 0; }
 .glossary-list dt { font-weight: 600; margin-top: var(--sp-3); }
-.refs dt { margin-top: var(--sp-3); }
-.glossary-list dt:first-child, .refs dt:first-child { margin-top: 0; }
-/* a gloss shares its citation's column: capping it in ch at the smaller size
-   wrapped it short of the line above and read as a mistake */
-.glossary-list dd, .refs dd { margin: 2px 0 0; color: var(--ink-2); }
-.glossary-list dd { max-width: var(--measure); }
+.glossary-list dt:first-child { margin-top: 0; }
+.glossary-list dd { margin: 2px 0 0; color: var(--ink-2); max-width: var(--measure); }
 
 /* ---------- episodes ----------
    The notes themselves are on episodes.html, where each is an <h2> and its

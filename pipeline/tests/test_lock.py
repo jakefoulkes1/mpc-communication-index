@@ -77,3 +77,59 @@ def test_assert_curve_is_fresh_hard_stops_when_stale():
     # checked well into July.
     with pytest.raises(ValueError, match="HARD STOP"):
         assert_curve_is_fresh("2026-06-30", today=dt.date(2026, 7, 11))
+
+
+def test_future_curve_is_rejected():
+    with pytest.raises(ValueError, match="future"):
+        assert_curve_is_fresh("2026-07-10", today=dt.date(2026, 7, 9))
+
+
+@pytest.mark.parametrize("name", ["../lock-2026-07", "/tmp/lock", "a.json", "", ".hidden", "a/b"])
+def test_lock_rejects_unsafe_names_before_fetch(tmp_path, monkeypatch, name):
+    from pipeline.predict import lock
+
+    monkeypatch.setattr(lock, "OUT_DIR", tmp_path)
+    monkeypatch.setattr(lock.sys, "argv", ["lock", "2099-01-01", name])
+    monkeypatch.setattr(lock, "build_prediction", lambda _: pytest.fail("must not fetch"))
+    with pytest.raises(ValueError, match="filename"):
+        lock.main()
+    assert not list(tmp_path.iterdir())
+
+
+def test_lock_never_overwrites_existing_file(tmp_path, monkeypatch):
+    from pipeline.predict import lock
+
+    existing = tmp_path / "lock-2099-01.json"
+    existing.write_bytes(b"permanent forecast\n")
+    monkeypatch.setattr(lock, "OUT_DIR", tmp_path)
+    monkeypatch.setattr(lock.sys, "argv", ["lock", "2099-01-01", "lock-2099-01"])
+    monkeypatch.setattr(lock, "build_prediction", lambda _: pytest.fail("must not fetch"))
+    with pytest.raises(FileExistsError):
+        lock.main()
+    assert existing.read_bytes() == b"permanent forecast\n"
+
+
+def test_lock_exclusive_creation_handles_race(tmp_path, monkeypatch):
+    from pipeline.predict import lock
+
+    target = tmp_path / "rehearsal.json"
+    def concurrent_writer(_):
+        target.write_bytes(b"another writer's forecast")
+        return {"m0_market_only": {"curve_as_of": dt.date.today().isoformat()}}
+
+    monkeypatch.setattr(lock, "OUT_DIR", tmp_path)
+    monkeypatch.setattr(lock.sys, "argv", ["lock", "2099-01-01", "rehearsal"])
+    monkeypatch.setattr(lock, "build_prediction", concurrent_writer)
+    with pytest.raises(FileExistsError):
+        lock.main()
+    assert target.read_bytes() == b"another writer's forecast"
+
+
+def test_lock_refuses_past_meeting_before_fetch(tmp_path, monkeypatch):
+    from pipeline.predict import lock
+
+    monkeypatch.setattr(lock, "OUT_DIR", tmp_path)
+    monkeypatch.setattr(lock.sys, "argv", ["lock", "2000-01-01", "rehearsal"])
+    monkeypatch.setattr(lock, "build_prediction", lambda _: pytest.fail("must not fetch"))
+    with pytest.raises(ValueError, match="precede"):
+        lock.main()

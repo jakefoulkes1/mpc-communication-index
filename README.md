@@ -14,14 +14,22 @@ financial markets already price into the OIS/SONIA curve? Every MPC minutes
 document from <!-- fig:corpus_start_month -->August 2015<!-- /fig:corpus_start_month --> to
 <!-- fig:corpus_end_month -->September 2026<!-- /fig:corpus_end_month -->
 (<!-- fig:corpus_n -->96<!-- /fig:corpus_n --> documents) is scored with the
-Apel & Blix Grimaldi (2012) hawkish/dovish dictionary index, exactly as
-described in that paper. The benchmark is the market itself: probabilities
-implied by the Bank's own published OIS forward curve. Models that add the
+Apel & Blix Grimaldi (2012) hawkish/dovish dictionary, adapting its method
+to English-language Bank of England minutes. The benchmark is an OIS-based
+proxy: a two-state probability mapping of the Bank's published forward curve.
+Models that add the
 tone index are evaluated against that benchmark in an expanding-window
 backtest, and — going forward — in pre-registered probabilistic calls locked
 and timestamped before each announcement and scored after it, including the
-misses. A null result (the market already prices everything the tone says)
-is a finding about market efficiency, not a failure of the project.
+misses. Failure to beat this proxy is a result about these models, this
+dictionary and this sample. It does not establish that markets already
+price all communication or that communication has no value.
+
+**Benchmark caveats:** historical reads clip to the first one-month node;
+the requested post-meeting offset has no effect on those rows. The backtest
+uses valuation-dated archives, not verified point-in-time public releases.
+Numerical v1 results are preserved. See the methodology and the forward-only
+correction in DECISIONS.md dated 2026-10-10.
 
 ## How it works
 
@@ -83,10 +91,10 @@ score is better; positive skill vs L1 would mean beating the market.
 No model that adds the tone index beats the market-only benchmark (L1) in
 this backtest.
 
-**Spec 3** — <!-- fallback:readme_spec3 -->Regressing each meeting's market surprise on the *previous* meeting's index (OLS, Newey–West standard errors, 4 lags, n=93 scheduled meetings): coefficient **−2.08** (t = −2.08, **p = 0.0375**). On the post-hiking-cycle subsample (from 1 September 2023, n=25) the result does not replicate: coefficient −2.97 (t = −1.35, p = 0.1777). Spec 2, an ordered-logit likelihood-ratio test on the discrete decision, finds nothing: LR = 0.4556, p = 0.4997. Coefficients and t-statistics are rounded to 2 decimal places and p-values to 4; full precision is in `data/inference_v1.json`.<!-- /fallback:readme_spec3 -->
+**Spec 3** — <!-- fallback:readme_spec3 -->Regressing each meeting's market surprise on the *previous* meeting's index (OLS, Newey–West standard errors, 4 lags, n=93 scheduled meetings): coefficient **−2.08** (t = −2.08, **p = 0.0375**). On the post-hiking-cycle subsample (from 1 September 2023, n=25) the estimate has the same sign but is not statistically distinguishable from zero: coefficient −2.97 (t = −1.35, p = 0.1777). Spec 2, an ordered-logit likelihood-ratio test on the discrete decision, finds no statistically significant improvement: LR = 0.4556, p = 0.4997. Coefficients and t-statistics are rounded to 2 decimal places and p-values to 4; full precision is in `data/inference_v1.json`.<!-- /fallback:readme_spec3 -->
 The two specifications disagree; both are reported.
 
-<!-- fallback:readme_lock -->**First pre-registered lock: 16 September 2026, 17:20:49 UTC, for the 17 September 2026 announcement** (tag `lock-2026-09`). Locked calls so far: 2. Next lock: 3 November 2026, for the 5 November 2026 announcement.<!-- /fallback:readme_lock -->
+<!-- fallback:readme_lock -->**Latest pre-registered lock: 16 September 2026, 17:20:49 UTC, for the 17 September 2026 announcement** (tag `lock-2026-09`). Locked calls so far: 2. Next lock: 3 November 2026, for the 5 November 2026 announcement.<!-- /fallback:readme_lock -->
 Files under `data/predictions/lock-*` are permanent once written, misses
 included.
 

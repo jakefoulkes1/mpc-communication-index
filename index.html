@@ -42,10 +42,7 @@
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="wrap">
   <header class="masthead">
-    <div class="brand-row">
-      <a class="research-brand" href="index.html"><span class="brand-mark">MPC</span> Independent monetary policy research</a>
-      <nav aria-label="Research links"><a href="methodology.html">Methodology</a><a href="episodes.html">Meeting notes</a><a href="https://github.com/jakefoulkes1/mpc-index">Source</a></nav>
-    </div>
+    <!-- fallback:researchnav --><div class="brand-row"><a class="research-brand" href="index.html"><span class="brand-mark">MPC</span><span>MPC Communication Index<br><span class="brand-subtitle">Independent monetary policy research</span></span></a><nav aria-label="Research pages"><a href="index.html" aria-current="page">Overview</a><a href="methodology.html">Methodology</a><a href="episodes.html">Meeting notes</a><a href="https://github.com/jakefoulkes1/mpc-index">Source</a></nav></div><!-- /fallback:researchnav -->
     <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark</button>
     <h1>MPC Communication Index</h1>
     <p class="thesis">The language of Bank of England minutes, measured and tested
@@ -58,6 +55,16 @@
 
   <main id="main">
 
+  <section class="section project-intro" id="about" aria-labelledby="about-h">
+    <h2 id="about-h">Does central bank communication help predict interest rates?</h2>
+    <p>I'm Jake Foulkes, an MPhil in Economics student at the University of Oxford.
+    I test whether the tone of Bank of England minutes adds
+    useful information beyond what financial markets already expect.</p>
+    <p>I score the language with a fixed dictionary, compare forecasts with a market
+    benchmark, and publish calls before announcements. Every call is scored afterwards
+    and remains on the record.</p>
+  </section>
+
   <nav class="reader-nav" aria-label="On this page">
     <a href="#summary">Overview</a>
     <a href="#call-card">Latest call</a>
@@ -68,20 +75,20 @@
     <a href="methodology.html">Full methodology</a>
   </nav>
 
-  <!-- Summary: question, answer, limits, and what is new. First thing on
-       the page, deliberately. Every figure is a generated region. -->
+  <!-- Findings follow the project introduction. Every figure is generated. -->
   <section class="section" id="summary" aria-labelledby="summary-h">
     <span class="eyebrow">The finding so far</span>
-    <h2 id="summary-h">Market pricing wins. Tone has not added an edge.</h2>
+    <h2 id="summary-h">Adding minutes' tone has not improved this forecast.</h2>
     <ul class="takeaways">
-      <li>The tone model performs worse on decisions it has not seen before.</li>
+      <li>The model adding tone and vote skew performs worse than the OIS-based proxy
+      on decisions it has not seen before. This is not a verdict on all communication.</li>
     </ul>
     <div class="summary-facts">
       <p><strong>Historical test</strong>
       <!-- fig:n_scheduled -->62<!-- /fig:n_scheduled --> scheduled meetings from
       <!-- fig:eval_start -->1 January 2019<!-- /fig:eval_start -->.</p>
-      <p><strong>Limits of the evidence</strong>A weak statistical link fails in the
-      later period. The live record is too small to assess calibration.</p>
+      <p><strong>Limits of the evidence</strong>The later-sample estimate is uncertain.
+      The live record is too small to assess calibration.</p>
     </div>
 
   </section>
@@ -121,7 +128,7 @@
     <code>data/index.json</code>.</p>
     <!-- /fallback:chart -->
     <div class="chart-controls" id="chart-controls" style="display:none">
-      <label><input type="checkbox" id="toggle-decisions" checked> Decision markers</label>
+      <label><input type="checkbox" id="toggle-decisions" checked> Decision with these minutes</label>
       <label><input type="checkbox" id="toggle-bankrate" checked>
         <span class="swatch"></span> Bank Rate</label>
     </div>
@@ -175,7 +182,7 @@
 
     <div class="call-probs" id="call-probs"><div class="call-prob"><span class="n">0%</span><span class="l">cut</span></div><div class="call-prob is-lead is-call"><span class="n">71%</span><span class="l">hold</span></div><div class="call-prob"><span class="n">29%</span><span class="l">hike</span></div></div>
     <div class="call-probbar" id="call-probbar" aria-hidden="true"><span class="seg-cut" style="width:0.0%"></span><span class="seg-hold" style="width:71.1%"></span><span class="seg-hike" style="width:28.9%"></span></div>
-    <p class="call-probsrc" id="call-probsrc"><strong>m0</strong> <span class="prob-gloss">market pricing only</span> &mdash; assumes a single 25bp move or hold.</p>
+    <p class="call-probsrc" id="call-probsrc"><strong>m0</strong> <span class="prob-gloss">OIS-based proxy, not the author's forecast</span> &mdash; assumes a single 25bp move or hold.</p>
     <p class="fine call-index-line" id="call-index-line">A&amp;BG index (minutes-2026-07): <strong>0.667</strong> vs trailing 4-document mean <strong>1.220</strong> (0.554 below)</p>
     <div class="call-rationale" id="call-rationale">
       <p class="call-rationale-h" id="call-rationale-h">Point call <span class="pt-call">hold</span></p>
@@ -209,7 +216,7 @@
     <div id="ladder-status" style="display:none"></div>
     <div id="ladder-content">
       <p class="plain-summary" id="ladder-caption">L1 is the market benchmark.
-      Adding tone (L3) or members' voting histories (L4) performs worse.
+      Adding tone and vote skew together (L3), or member-vote histories (L4), performs worse.
       <strong>Lower forecast errors are better.</strong></p>
       <p class="results-framing">
         The best model using tone, L3, has skill
@@ -300,7 +307,7 @@
           <p class="fine">
             Every modelling choice is in the <a href="methodology.html#evaluation">methodology</a>
             and the decisions log; the full per-meeting breakdown is in
-            <code>data/ladder_v1.json</code>.
+            <a href="data/ladder_v1.json">the full forecast results</a>.
           </p>
           <p class="fine substantive">
             <strong>Not yet tested: whether the skill differential is distinguishable from
@@ -333,38 +340,55 @@
     </div>
 
     <hr class="divider">
-    <h3 class="subhead">Does tone explain a market surprise?</h3>
+    <h3 class="subhead">Is tone linked to the unexpected part of a decision?</h3>
     <!-- The plain-English summary is static and always visible: it is a
          sentence, not a figure, so it should survive a failed fetch. Only
          the numeric line below it waits on data/inference_v1.json. -->
     <p class="plain-summary" id="spec3-caption">A market surprise is the actual rate change
-    minus the change implied by market pricing. One test, Spec 3, finds a weak link between
-    that surprise and the previous minutes' tone. It does not hold after
+    minus the change implied by the market proxy. The full-history test finds an association
+    with the previous minutes' tone. The estimate has the same sign but
+    is more uncertain in the smaller sample from
     <!-- fig:frag_start -->1 September 2023<!-- /fig:frag_start -->.
-    A separate test of cut, hold or hike, Spec 2, finds no added information.</p>
+    A separate test finds no statistically significant improvement in explaining cut, hold or hike.</p>
+    <p class="prose"><strong>A relationship is not a better forecast.</strong>
+    These tests look for patterns in the historical sample. The forecast comparison above
+    asks a harder question: did the models improve predictions for meetings they were not
+    trained on? They did not. Neither exercise establishes that tone causes a rate decision.</p>
     <div id="inference-status" style="display:none"></div>
     <div id="inference-content">
       <div class="evidence-tests" id="evidence-tests" hidden></div>
       <details class="disclosure" open>
         <summary><span class="caret" aria-hidden="true"></span>Read more: the regression, p-values and robustness checks</summary>
         <div class="disclosure-body">
-          <p class="prose">Spec 3 fits a line relating the market surprise to the previous
-          meeting's index. Its coefficient measures how the surprise changes as the index
-          rises. Newey&ndash;West standard errors allow for changing error variance and
-          correlation across nearby meetings.</p>
-          <p class="prose">A p-value describes how unusual a test statistic at least this extreme
-          would be under the null hypothesis of no relationship, given the model's
-          assumptions. It is not the probability that the hypothesis is true. A result
-          that crosses a conventional threshold in the full sample can still be fragile
-          when it fails in a later period.</p>
+          <dl class="glossary-list">
+            <dt>Regression (Spec 3)</dt>
+            <dd>Fits a line through previous tone readings and subsequent rate surprises.
+            The coefficient is the line's slope: how much the surprise changes, in basis
+            points, for a unit increase in tone. A negative slope means a more hawkish
+            reading is associated with a lower surprise.</dd>
+            <dt>Decision model (Spec 2)</dt>
+            <dd>Ordered logit assigns probabilities to the ordered outcomes cut, hold and
+            hike. A likelihood-ratio test asks whether adding tone improves the fit over
+            market pricing alone. This is a test of historical fit, not forecast accuracy.</dd>
+            <dt>p-value</dt>
+            <dd>If there were no relationship, how often would a test statistic at
+            least this extreme arise, given the model's assumptions? A smaller value is stronger
+            evidence against no relationship, not the probability that the finding is true.</dd>
+            <dt>Newey&ndash;West standard errors</dt>
+            <dd>Allow for unexplained movements that vary in size or persist across nearby
+            meetings. They adjust the uncertainty around the slope, not the slope itself.</dd>
+          </dl>
+          <p class="prose">The later sample is smaller and overlaps the full sample.
+          Its greater uncertainty does not establish that the relationship changed,
+          and it is not an independent replication.</p>
         <!-- fallback:spec3 - generated from data/inference_v1.json, replaced by
              renderInference() on success, asserted by test_static_fallback.py. -->
-          <p id="spec3-line" class="prose" style="margin:0">Regressing each meeting's market surprise on the <em>previous</em> meeting's index (OLS, Newey&ndash;West standard errors, 4 lags, n=93 scheduled meetings): coefficient <strong>&minus;2.08</strong> (t = &minus;2.08, <strong>p = 0.0375</strong>). On the post-hiking-cycle subsample (from 1 September 2023, n=25) the result does not replicate: coefficient &minus;2.97 (t = &minus;1.35, p = 0.1777). Spec 2, an ordered-logit likelihood-ratio test on the discrete decision, finds nothing: LR = 0.4556, p = 0.4997. Coefficients and t-statistics are rounded to 2 decimal places and p-values to 4; full precision is in <code>data/inference_v1.json</code>.</p>
+          <p id="spec3-line" class="prose" style="margin:0">Regressing each meeting's market surprise on the <em>previous</em> meeting's index (OLS, Newey&ndash;West standard errors, 4 lags, n=93 scheduled meetings): coefficient <strong>&minus;2.08</strong> (t = &minus;2.08, <strong>p = 0.0375</strong>). On the post-hiking-cycle subsample (from 1 September 2023, n=25) the estimate has the same sign but is not statistically distinguishable from zero: coefficient &minus;2.97 (t = &minus;1.35, p = 0.1777). Spec 2, an ordered-logit likelihood-ratio test on the discrete decision, finds no statistically significant improvement: LR = 0.4556, p = 0.4997. Coefficients and t-statistics are rounded to 2 decimal places and p-values to 4; full precision is in <a href="data/inference_v1.json">the full statistical results</a>.</p>
         <!-- /fallback:spec3 -->
           <p class="fine substantive"><strong>No standard errors are published.</strong>
-          <code>data/inference_v1.json</code> carries each coefficient's estimate, t-statistic
-          and p-value but not its standard error; adding it is a science-layer change deferred
-          to the next cycle. See <a href="methodology.html#limitations">Limitations</a>.</p>
+          <a href="data/inference_v1.json">The statistical results</a> carry each coefficient's estimate, t-statistic
+          and p-value but not its standard error. They are not reconstructed from rounded
+          figures here. See <a href="methodology.html#limitations">Limitations</a>.</p>
         </div>
       </details>
     </div>
@@ -377,8 +401,9 @@
       Hawkish language points towards tighter policy, such as higher rates;
       dovish language points towards easier policy, such as lower rates.</li>
       <li><strong>Start with the market.</strong> The overnight index swap (OIS) curve
-      reflects pricing of future overnight interest rates. Compare it with today's
-      overnight rate, SONIA, to estimate the chances of a cut, hold or hike.</li>
+      reflects pricing of future overnight interest rates. Compare a forward with
+      SONIA to construct a simplified cut, hold or hike proxy. Historical reads use
+      the first one-month node, not a meeting-specific price.</li>
       <li><strong>Ask whether tone adds anything.</strong> For each historical forecast,
       fit the models on earlier meetings only. Add the previous meeting's tone and
       voting balance, then compare their forecasts with the market benchmark.</li>
@@ -409,8 +434,9 @@
     <details class="disclosure" open>
       <summary><span class="caret" aria-hidden="true"></span>Read more: turning the OIS curve into probabilities</summary>
       <div class="disclosure-body">
-        <p class="prose">Subtract current SONIA from the OIS forward rate shortly after
-        the meeting. Express that difference in basis points. A basis point is one
+        <p class="prose">Subtract SONIA from the selected OIS forward. The requested
+        post-meeting date lies below the first one-month node in every historical row,
+        so the code uses that node. Express the difference in basis points. A basis point is one
         hundredth of a percentage point. Assume the possible move is
         <!-- fig:move_bp -->25<!-- /fig:move_bp --> basis points in the direction of the difference:</p>
         <p class="formula">Probability of a move = |implied change| / assumed move size</p>
@@ -419,8 +445,10 @@
         difference gives cut-or-hold. This assumption cannot represent simultaneous
         chances of a cut and a hike, or several possible move sizes.</p>
         <p class="prose">The curve is smoothed and can blur pricing across neighbouring
-        meetings. It can also include compensation for risk, so these are approximate
-        market-implied probabilities. <a href="methodology.html#market-benchmark">Market benchmark and assumptions</a>.</p>
+        meetings. It can also include compensation for risk. Historical archives do
+        not establish public availability at the stated lock date. These are proxy
+        probabilities, not an exact reconstruction of tradable meeting pricing.
+        <a href="methodology.html#market-benchmark">Market benchmark and assumptions</a>.</p>
       </div>
     </details>
   <details class="disclosure" open>
@@ -435,6 +463,27 @@
         and misses, including conditional language about future inflation risks.</p>
       </div>
     </details>
+    <div class="scoring-lab" id="scoring-lab" hidden>
+      <div>
+        <span class="eyebrow">Hypothetical example, not a published forecast</span>
+        <h3>Scoring a probability forecast</h3>
+        <label for="example-hold">Probability of hold <output id="example-probability" for="example-hold"></output></label>
+        <input type="range" id="example-hold" min="0" max="100" value="80" step="1">
+        <p class="fine">The remaining probability goes to hike; cut has no probability.</p>
+        <fieldset><legend>Realised decision</legend><div class="segmented">
+          <label><input type="radio" name="example-outcome" value="hold" checked> Hold</label>
+          <label><input type="radio" name="example-outcome" value="hike"> Hike</label>
+          <label><input type="radio" name="example-outcome" value="cut"> Cut</label>
+        </div></fieldset>
+      </div>
+      <div class="scoring-result" aria-live="polite" aria-atomic="true">
+        <span class="eyebrow">Three-class Brier score</span>
+        <output id="example-score" for="example-hold"></output>
+        <p id="example-breakdown"></p>
+        <p class="fine">Lower is better. Sum the squared probability error for cut,
+        hold and hike. Being more confident helps only when the forecast is right.</p>
+      </div>
+    </div>
 </section>
 
   <!-- 7. Verification, consolidated: the tag, the git command and the
@@ -462,9 +511,9 @@
     <div id="context-content">
 
       <!-- The same "In plain English" device the Results section uses. -->
-      <p class="plain-summary" id="context-caption"><em>In plain English: where the rate market
-      and the gilt curve stood around the latest reading. Background only; nothing here feeds
-      the index, the benchmark or a locked call.</em></p>
+      <p class="plain-summary" id="context-caption">An archived view of rate pricing and
+      gilt yields. This panel is not refreshed with every site build and feeds no model.</p>
+      <!-- fallback:contextstamp --><p class="archive-stamp" id="context-snapshot">Archived snapshot generated 10 August 2026. Market observations as of 7 August 2026; not current pricing.</p><!-- /fallback:contextstamp -->
 
       <details class="disclosure" open>
         <summary><span class="caret" aria-hidden="true"></span>More detail</summary>
@@ -476,7 +525,7 @@
            drawn by JavaScript and stay empty without it; the numbers they
            illustrate are here in full. -->
       <div class="ctx-block">
-        <h3 class="ctx-h" id="ois-h">OIS-implied path &middot; next 3 scheduled meetings</h3>
+        <h3 class="ctx-h" id="ois-h">OIS-based path &middot; 3 meetings in this snapshot</h3>
         <p class="ctx-sub" id="ois-sub">Curve as of <b>7 August 2026</b> vs SONIA 3.732% (6 August 2026) &middot; two-state &plusmn;25bp assumption.</p>
         <div class="ois-legend">
           <span class="key"><span class="box cut"></span> cut</span>
@@ -583,6 +632,12 @@
     afterwards. The Brier column scores the market probabilities, labelled m0;
     the author's point call is judged by whether it matched the decision.
     The small number of live calls cannot establish calibration or forecasting skill.</p>
+    <p class="prose">The probabilities above are the <strong>m0 market reference</strong>,
+    not the author's judgmental probability forecast. The author's shaded decision
+    distribution and vote-split distribution are recorded separately in the
+    <a href="https://github.com/jakefoulkes1/mpc-index/blob/lock-2026-09/DECISIONS.md#pre-registration-the-vote-split-as-a-scored-distribution">original pre-registration</a>.
+    Their <a href="https://github.com/jakefoulkes1/mpc-index/blob/main/DECISIONS.md#scores-brier-summed-over-outcome-bins-lower-is-better">hand-scored outcomes</a>
+    remain beside the pipeline scores in the log; they are not folded into this table.</p>
     <div id="track-status" style="display:none"></div>
     <div id="track-content">
       <label class="row-toggle" id="track-toggle-wrap" style="display:none">
@@ -641,29 +696,20 @@
   <!-- Related work: one list, shared with methodology.html's References and
        generated by pipeline/build_fallbacks.py from RELATED_WORK. -->
   <section class="section" id="related-work">
-    <h2>Where this sits in the literature</h2>
-    <p class="fine" style="margin-top:-6px">Where this sits. Each entry was checked against a
-    primary source.</p>
+    <h2>References</h2>
     <details class="disclosure" open>
       <summary><span class="caret" aria-hidden="true"></span>Sources and related research</summary>
       <div class="disclosure-body">
     <!-- fallback:relatedwork -->
-    <dl class="refs">
-      <dt>Apel, M. and Blix Grimaldi, M. (2012). The Information Content of Central Bank Minutes. Sveriges Riksbank Working Paper Series No. 261.</dt>
-      <dd>the dictionary this index implements verbatim, from a retrieved copy of the paper</dd>
-      <dt>Gerlach-Kristen, P. (2004). Is the MPC's Voting Record Informative about Future UK Monetary Policy? <a href="https://www.jstor.org/stable/3440935" rel="noopener">Scandinavian Journal of Economics, 106(2), 299&ndash;313</a>.</dt>
-      <dd>source of the vote-skew construction (via Apel and Blix Grimaldi 2012, p.13); finds skew predicts rate changes even controlling for market expectations over 1997&ndash;2003, a result this project's 2019&ndash;2026 ladder does not reproduce</dd>
-      <dt>Hansen, S. and McMahon, M. (2016). Shocking language: Understanding the macroeconomic effects of central bank communication. <a href="https://doi.org/10.1016/j.jinteco.2015.12.008" rel="noopener">Journal of International Economics, 99(S1), S114&ndash;S133</a>.</dt>
-      <dd>FOMC communication as text, its market and real effects measured in a FAVAR</dd>
-      <dt>Bholat, D., Hansen, S., Santos, P. and Schonhardt-Bailey, C. (2015). Text mining for central banks. <a href="https://www.bankofengland.co.uk/-/media/boe/files/ccbs/resources/text-mining-for-central-banks.pdf" rel="noopener">Centre for Central Banking Studies Handbook No. 33, Bank of England</a>.</dt>
-      <dd>the Bank's own primer, dictionary methods included</dd>
-      <dt>Lloyd, S. P. (2018). Overnight index swap market-based measures of monetary policy expectations. <a href="https://www.bankofengland.co.uk/working-paper/2018/overnight-index-swap-market-based-measures-of-monetary-policy-expectations" rel="noopener">Bank of England Staff Working Paper No. 709</a>.</dt>
-      <dd>evidence that UK OIS rates at one to 18 months track expected policy rates closely, which is what makes L1 a fair benchmark; the residual premium is the first limitation</dd>
-      <dt>Gneiting, T. and Raftery, A. E. (2007). Strictly Proper Scoring Rules, Prediction, and Estimation. <a href="https://doi.org/10.1198/016214506000001437" rel="noopener">Journal of the American Statistical Association, 102(477), 359&ndash;378</a>.</dt>
-      <dd>Brier and log score as strictly proper rules</dd>
-      <dt>Diebold, F. X. and Mariano, R. S. (1995). Comparing Predictive Accuracy. <a href="https://doi.org/10.1080/07350015.1995.10524599" rel="noopener">Journal of Business &amp; Economic Statistics, 13(3), 253&ndash;263</a>.</dt>
-      <dd>the test on the loss differential scheduled for the September cycle</dd>
-    </dl>
+    <ul class="refs">
+      <li><a href="https://archive.riksbank.se/Documents/Rapporter/Working_papers/2012/rap_wp261_120426.pdf" rel="noopener">Apel, M. and Blix Grimaldi, M. (2012). The Information Content of Central Bank Minutes.</a></li>
+      <li><a href="https://www.jstor.org/stable/3440935" rel="noopener">Gerlach-Kristen, P. (2004). Is the MPC's Voting Record Informative about Future UK Monetary Policy?</a></li>
+      <li><a href="https://doi.org/10.1016/j.jinteco.2015.12.008" rel="noopener">Hansen, S. and McMahon, M. (2016). Shocking language: Understanding the macroeconomic effects of central bank communication.</a></li>
+      <li><a href="https://www.bankofengland.co.uk/-/media/boe/files/ccbs/resources/text-mining-for-central-banks.pdf" rel="noopener">Bholat, D., Hansen, S., Santos, P. and Schonhardt-Bailey, C. (2015). Text mining for central banks.</a></li>
+      <li><a href="https://www.bankofengland.co.uk/working-paper/2018/overnight-index-swap-market-based-measures-of-monetary-policy-expectations" rel="noopener">Lloyd, S. P. (2018). Overnight index swap market-based measures of monetary policy expectations.</a></li>
+      <li><a href="https://doi.org/10.1198/016214506000001437" rel="noopener">Gneiting, T. and Raftery, A. E. (2007). Strictly Proper Scoring Rules, Prediction, and Estimation.</a></li>
+      <li><a href="https://doi.org/10.1080/07350015.1995.10524599" rel="noopener">Diebold, F. X. and Mariano, R. S. (1995). Comparing Predictive Accuracy.</a></li>
+    </ul>
     <!-- /fallback:relatedwork -->
       </div>
     </details>
@@ -865,12 +911,12 @@ function renderInference(d) {
     `(OLS, Newey&ndash;West standard errors, ${full.newey_west_maxlags} lags, n=${full.n} ` +
     `scheduled meetings): coefficient <strong>${sig(li.coef, 2)}</strong> ` +
     `(t = ${sig(li.t, 2)}, <strong>p = ${li.p.toFixed(4)}</strong>). On the post-hiking-cycle ` +
-    `subsample (from ${fmtDate(frag.start_date)}, n=${frag.results.n}) the result does not ` +
-    `replicate: coefficient ${sig(fragLi.coef, 2)} (t = ${sig(fragLi.t, 2)}, ` +
+    `subsample (from ${fmtDate(frag.start_date)}, n=${frag.results.n}) the estimate has the same sign ` +
+    `but is not statistically distinguishable from zero: coefficient ${sig(fragLi.coef, 2)} (t = ${sig(fragLi.t, 2)}, ` +
     `p = ${fragLi.p.toFixed(4)}). Spec 2, an ordered-logit likelihood-ratio ` +
-    `test on the discrete decision, finds nothing: LR = ${lr.lr_statistic.toFixed(4)}, ` +
+    `test on the discrete decision, finds no statistically significant improvement: LR = ${lr.lr_statistic.toFixed(4)}, ` +
     `p = ${lr.p_value.toFixed(4)}. Coefficients and t-statistics are rounded to 2 decimal ` +
-    `places and p-values to 4; full precision is in <code>data/inference_v1.json</code>.`;
+    `places and p-values to 4; full precision is in <a href="data/inference_v1.json">the full statistical results</a>.`;
   document.getElementById('inference-status').style.display = 'none';
   document.getElementById('inference-content').style.display = 'block';
 }
@@ -1084,7 +1130,7 @@ function renderCallCard(p) {
   document.getElementById('call-probbar').innerHTML = probs.map(([label, v]) =>
     `<span class="seg-${label}" style="width:${(v * 100).toFixed(1)}%"></span>`).join('');
   document.getElementById('call-probsrc').innerHTML =
-    `<strong>m0</strong> <span class="prob-gloss">market pricing only</span> &mdash; ` +
+    `<strong>m0</strong> <span class="prob-gloss">OIS-based proxy, not the author's forecast</span> &mdash; ` +
     `assumes a single ${m0.assumed_move_bp}bp move or hold.`;
 
   const vsTrailing = p.index_current - p.index_trailing_mean;
@@ -1143,6 +1189,10 @@ function renderCallCard(p) {
   card.style.display = 'block';
 }
 
+function formatVote(vote) {
+  return typeof vote === 'string' && vote.trim() ? vote.replaceAll('-', '\u2013') : 'Not recorded';
+}
+
 function renderLatest(data, selectedDocument) {
   const doc = selectedDocument || data.documents[data.documents.length - 1];
   const neutral = data.neutral_value;
@@ -1151,7 +1201,7 @@ function renderLatest(data, selectedDocument) {
   const word = net > 0 ? 'net hawkish' : (net < 0 ? 'net dovish' : 'neutral');
   document.getElementById('docline').innerHTML =
     `MPC minutes for the meeting ending <strong>${fmtDate(doc.meeting_end)}</strong>, ` +
-    `published ${fmtDate(doc.published)}. Decision: ${doc.decision}; vote ${doc.vote.replace('-', '\u2013')}.`;
+    `published ${fmtDate(doc.published)}. Decision: ${doc.decision}; vote ${formatVote(doc.vote)}.`;
   document.getElementById('score').innerHTML =
     `<span class="${cls}">${fmtIndex(doc.abg_net_index)}</span>` +
     ` <span class="score-word">${word} (A&amp;BG Net Index, 0&ndash;2 scale, ${fmtNeutral(neutral)} = neutral)</span>`;
@@ -1164,6 +1214,7 @@ function renderLatest(data, selectedDocument) {
     `<a href="${doc.source_url}">source document</a>.`;
   document.getElementById('status').style.display = 'none';
   document.getElementById('content').style.display = 'block';
+  document.getElementById('content').dataset.docId = doc.doc_id;
 
   const gen = document.getElementById('gen-note');
   if (gen && data.generated_utc) {
@@ -1176,6 +1227,7 @@ function renderLatest(data, selectedDocument) {
 // labels render at their true point size on a phone instead of being scaled
 // down to illegibility by a fixed 700-unit viewBox.
 let chartPayload = null;
+let chartSourceDocuments = null;
 
 function chartMetrics() {
   const wrap = document.getElementById('chart-wrap');
@@ -1216,6 +1268,7 @@ function hikingCycle(points) {
 
 function renderChart(data, context) {
   chartPayload = { data, context };
+  if (!chartSourceDocuments) chartSourceDocuments = data.documents;
   const docs = data.documents
     .filter(d => d.published)
     .slice()
@@ -1247,6 +1300,13 @@ function renderChart(data, context) {
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   const el = svgNode;
   const first = docs[0], latest = docs[docs.length - 1];
+  const defs = el('defs', {});
+  const clip = el('clipPath', { id: 'chart-plot-clip' });
+  clip.appendChild(el('rect', { x: PAD_L, y: PAD_T, width: W - PAD_L - PAD_R, height: H - PAD_T - PAD_B }));
+  defs.appendChild(clip);
+  svg.appendChild(defs);
+  const overlayLayer = el('g', { id: 'layer-overlays', 'clip-path': 'url(#chart-plot-clip)' });
+  svg.appendChild(overlayLayer);
 
   // Clearing the SVG removes its <title>/<desc>, so the accessible name and
   // description are rebuilt here on every draw.
@@ -1255,26 +1315,29 @@ function renderChart(data, context) {
   svg.appendChild(el('desc', { id: 'chart-desc' }));
 
   // ---- overlay 1: the hiking cycle, a shaded band ----
-  const band = hikingCycle(ratePoints);
+  const cycle = hikingCycle(ratePoints);
+  const band = cycle && cycle.end >= first.published && cycle.start <= latest.published ? cycle : null;
   if (band) {
-    const bx0 = x(band.start), bx1 = x(band.end);
-    svg.appendChild(el('rect', {
+    const bx0 = x(band.start < first.published ? first.published : band.start);
+    const bx1 = x(band.end > latest.published ? latest.published : band.end);
+    overlayLayer.appendChild(el('rect', {
       x: bx0.toFixed(1), y: PAD_T, width: (bx1 - bx0).toFixed(1), height: (H - PAD_T - PAD_B),
       fill: 'var(--rule)', 'fill-opacity': 0.5,
     }));
-    svg.appendChild(el('text', {
+    overlayLayer.appendChild(el('text', {
       x: (bx0 + 4).toFixed(1), y: H - PAD_B - 6, fill: 'var(--ink-2)', 'font-size': FS - 1,
       'font-style': 'italic',
     })).textContent = 'hiking cycle';
   }
   // ---- overlay 2: the fragility sub-sample boundary, a labelled rule ----
-  if (fragStart) {
+  const showFrag = fragStart && fragStart >= first.published && fragStart <= latest.published;
+  if (showFrag) {
     const fx = x(fragStart);
-    svg.appendChild(el('line', {
+    overlayLayer.appendChild(el('line', {
       x1: fx.toFixed(1), x2: fx.toFixed(1), y1: PAD_T, y2: H - PAD_B,
       stroke: 'var(--ink-2)', 'stroke-width': 1, 'stroke-dasharray': '2,3',
     }));
-    svg.appendChild(el('text', {
+    overlayLayer.appendChild(el('text', {
       x: (fx + 4).toFixed(1), y: H - PAD_B - 6, fill: 'var(--ink-2)', 'font-size': FS - 1,
       'font-style': 'italic',
     })).textContent = M.narrow ? 'fragility sub-sample' : fragLabel;
@@ -1293,16 +1356,22 @@ function renderChart(data, context) {
         x: W - PAD_R + 5, y: yRate(r) + FS / 3, fill: 'var(--rate)', 'font-size': FS - 1,
       })).textContent = r + '%';
     });
+    const rateEnd = [latest.published, context.generated_utc.slice(0, 10)].sort()[0];
+    const visibleRates = ratePoints.filter(p => p.date > first.published && p.date <= rateEnd);
+    const prior = ratePoints.filter(p => p.date <= first.published).at(-1);
+    if (prior) visibleRates.unshift({ date: first.published, rate_pct: prior.rate_pct });
     const pts = [];
-    ratePoints.forEach((p, i) => {
+    visibleRates.forEach((p, i) => {
       const px = x(p.date);
-      if (i > 0) pts.push(`${px.toFixed(1)},${yRate(ratePoints[i - 1].rate_pct).toFixed(1)}`);
+      if (i > 0) pts.push(`${px.toFixed(1)},${yRate(visibleRates[i - 1].rate_pct).toFixed(1)}`);
       pts.push(`${px.toFixed(1)},${yRate(p.rate_pct).toFixed(1)}`);
     });
-    pts.push(`${(W - PAD_R).toFixed(1)},${yRate(ratePoints[ratePoints.length - 1].rate_pct).toFixed(1)}`);
+    if (visibleRates.length && rateEnd >= first.published) {
+      pts.push(`${x(rateEnd).toFixed(1)},${yRate(visibleRates.at(-1).rate_pct).toFixed(1)}`);
+    }
     rateLayer.appendChild(el('polyline', {
       points: pts.join(' '), fill: 'none', stroke: 'var(--rate)',
-      'stroke-width': 1.2, 'stroke-dasharray': '4,3',
+      'stroke-width': 1.2, 'stroke-dasharray': '4,3', 'clip-path': 'url(#chart-plot-clip)',
     }));
     svg.appendChild(rateLayer);
   }
@@ -1338,11 +1407,12 @@ function renderChart(data, context) {
 
   // ---- decision markers: shape and colour, never colour alone ----
   // hike: a filled triangle pointing up; cut: an open triangle pointing down.
-  const decisionLayer = el('g', { id: 'layer-decisions' });
+  const decisionLayer = el('g', { id: 'layer-decisions', 'clip-path': 'url(#chart-plot-clip)' });
   docs.forEach(d => {
     const cls = classifyDecision(d.decision);
     if (cls !== 'hike' && cls !== 'cut') return;
-    const cx = x(d.published), cy = y(d.abg_net_index);
+    const cx = Math.max(PAD_L + 4, Math.min(W - PAD_R - 4, x(d.published)));
+    const cy = Math.max(PAD_T + 14, Math.min(H - PAD_B - 14, y(d.abg_net_index)));
     const hawk = cls === 'hike';
     // apex away from the point: up for a hike, down for a cut
     const base = hawk ? cy - 6 : cy + 6;
@@ -1360,10 +1430,8 @@ function renderChart(data, context) {
 
   // ---- the locked call: the one accent mark on the chart ----
   let lockedDoc = null;
-  if (lockedMeeting) {
-    lockedDoc = docs.find(d => d.published === lockedMeeting) ||
-      docs.reduce((a, b) => (Math.abs(new Date(b.published) - new Date(lockedMeeting)) <
-        Math.abs(new Date(a.published) - new Date(lockedMeeting)) ? b : a));
+  if (lockedMeeting) lockedDoc = docs.find(d => d.published === lockedMeeting) || null;
+  if (lockedDoc) {
     const cx = x(lockedDoc.published), cy = y(lockedDoc.abg_net_index);
     const diamond = el('polygon', {
       points: `${cx},${cy - 6} ${cx + 5},${cy} ${cx},${cy + 6} ${cx - 5},${cy}`,
@@ -1377,7 +1445,7 @@ function renderChart(data, context) {
 
   // x-axis year labels, skipping any that would collide with the last one
   const years = [...new Set(docs.map(d => d.published.slice(0, 4)))];
-  const minGap = FS * 2.6;
+  const minGap = FS * 4.5;
   let lastLabelX = -Infinity;
   years.forEach(yr => {
     const firstOfYear = docs.find(d => d.published.startsWith(yr));
@@ -1407,13 +1475,13 @@ function renderChart(data, context) {
       const dist = Math.abs(x(d.published) - vbX);
       if (dist < bestDist) { bestDist = dist; best = d; }
     }
-    const i = docs.indexOf(best);
     const cx = x(best.published), cy = y(best.abg_net_index);
     guide.setAttribute('x1', cx); guide.setAttribute('x2', cx);
     dot.setAttribute('cx', cx); dot.setAttribute('cy', cy);
     hoverLayer.style.display = 'block';
 
-    const next = docs[i + 1];
+    const allDocs = chartSourceDocuments || docs;
+    const next = allDocs[allDocs.findIndex(d => d.doc_id === best.doc_id) + 1];
     let followed;
     if (next) {
       const cls = classifyDecision(next.decision);
@@ -1427,6 +1495,7 @@ function renderChart(data, context) {
       `<div class="tt-doc">${best.doc_id}</div>` +
       `<div class="tt-row">Published <b>${fmtDate(best.published)}</b></div>` +
       `<div class="tt-row">Index <b>${fmtIndex(best.abg_net_index)}</b></div>` +
+      `<div class="tt-row">Decision with these minutes: <b>${classifyDecision(best.decision)}</b></div>` +
       `<div class="tt-row" style="margin-top:4px">Decision that followed:<br>${followed}</div>`;
 
     const pxX = cx / W * rect.width;
@@ -1486,38 +1555,42 @@ function renderChart(data, context) {
   // overlays, from the same arrays the picture is drawn from.
   const hi = docs.reduce((a, b) => (b.abg_net_index > a.abg_net_index ? b : a));
   const lo = docs.reduce((a, b) => (b.abg_net_index < a.abg_net_index ? b : a));
+  const toggleDec = document.getElementById('toggle-decisions');
+  const toggleRate = document.getElementById('toggle-bankrate');
+  function describeChart() {
   document.getElementById('chart-desc').textContent =
     `Line chart of the A&BG net index for ${docs.length} MPC documents, ` +
     `${fmtDate(first.published)} to ${fmtDate(latest.published)}, on a 0 to 2 scale where ` +
     `${fmtNeutral(neutral)} is neutral. Latest reading ${fmtIndex(latest.abg_net_index)}. ` +
     `Highest ${fmtIndex(hi.abg_net_index)} (${hi.doc_id}), lowest ${fmtIndex(lo.abg_net_index)} ` +
-    `(${lo.doc_id}). Filled upward triangles mark meetings followed by a hike, open downward ` +
-    `triangles a cut` +
+    `(${lo.doc_id}). ` +
+    (toggleDec.checked ? 'Filled upward triangles mark meetings announcing a hike, open downward triangles a cut' : 'Decision markers are hidden') +
     (lockedDoc ? `; a diamond marks the locked call for ${fmtDate(lockedMeeting)}` : '') +
     (band ? `; a shaded band marks the hiking cycle, ${fmtDate(band.start)} to ${fmtDate(band.end)}` : '') +
-    (fragStart ? `; a dashed rule marks where the fragility sub-sample begins, ${fmtDate(fragStart)}` : '') +
-    (ratePoints ? '; a dashed line shows Bank Rate on the right-hand axis.' : '.');
+    (showFrag ? `; a dashed rule marks where the fragility sub-sample begins, ${fmtDate(fragStart)}` : '') +
+    (ratePoints && toggleRate.checked ? `; a dashed line shows archived Bank Rate on the right-hand axis, available through ${fmtDate(context.generated_utc)}.` : '.');
+
+  document.getElementById('chart-legend').innerHTML =
+    `Line: A&amp;BG net index.` +
+    (toggleDec.checked ? ` Decision with these minutes: <span class="lg-hawk">&#9650;</span> hike, <span class="lg-dove">&#9661;</span> cut.` : '') +
+    (lockedDoc ? ` <span class="lg-accent">&#9670;</span> locked call.` : '') +
+    (band ? ` Shaded band: hiking cycle, ${fmtDate(band.start)} to ${fmtDate(band.end)}.` : '') +
+    (showFrag ? ` Dashed rule: ${fragLabel}, ${fmtDate(fragStart)}.` : '') +
+    (ratePoints && toggleRate.checked ? ` <span class="lg-rate">&#8212; &#8212;</span> Bank Rate (right axis; archive through ${fmtDate(context.generated_utc)}).` : '');
+  }
 
   // ---- toggles ----
-  const toggleDec = document.getElementById('toggle-decisions');
   decisionLayer.style.display = toggleDec.checked ? 'block' : 'none';
-  toggleDec.onchange = () => { decisionLayer.style.display = toggleDec.checked ? 'block' : 'none'; };
+  toggleDec.onchange = () => { decisionLayer.style.display = toggleDec.checked ? 'block' : 'none'; describeChart(); };
   const bankLabel = document.querySelector('label:has(#toggle-bankrate)');
-  const toggleRate = document.getElementById('toggle-bankrate');
   if (ratePoints) {
     rateLayer.style.display = toggleRate.checked ? 'block' : 'none';
-    toggleRate.onchange = () => { rateLayer.style.display = toggleRate.checked ? 'block' : 'none'; };
+    toggleRate.onchange = () => { rateLayer.style.display = toggleRate.checked ? 'block' : 'none'; describeChart(); };
   } else if (bankLabel) {
     bankLabel.style.display = 'none';
   }
 
-  document.getElementById('chart-legend').innerHTML =
-    `Line: A&amp;BG net index. <span class="lg-hawk">&#9650;</span> hike, ` +
-    `<span class="lg-dove">&#9661;</span> cut` +
-    (lockedDoc ? `, <span class="lg-accent">&#9670;</span> locked call` : '') + `.` +
-    (band ? ` Shaded band: hiking cycle, ${fmtDate(band.start)} to ${fmtDate(band.end)}.` : '') +
-    (fragStart ? ` Dashed rule: ${fragLabel}, ${fmtDate(fragStart)}.` : '') +
-    (ratePoints ? ` <span class="lg-rate">&#8212; &#8212;</span> Bank Rate (right axis).` : '');
+  describeChart();
   document.getElementById('chart-status').style.display = 'none';
   const chartFallback = document.getElementById('chart-fallback');
   if (chartFallback) chartFallback.style.display = 'none';
@@ -1549,8 +1622,10 @@ function renderContext(ctx) {
   const oisH = document.getElementById('ois-h');
   if (oisH) {
     const n = (op.meetings || []).length;
-    oisH.innerHTML = `OIS-implied path &middot; next ${n} scheduled meeting${n === 1 ? '' : 's'}`;
+    oisH.innerHTML = `OIS-based path &middot; ${n} meeting${n === 1 ? '' : 's'} in this snapshot`;
   }
+  document.getElementById('context-snapshot').textContent =
+    `Archived snapshot generated ${fmtDate(ctx.generated_utc)}. Market observations as of ${fmtDate(op.curve_as_of)}; not current pricing.`;
   document.getElementById('ois-sub').innerHTML =
     `Curve as of <b>${fmtDate(op.curve_as_of)}</b> vs SONIA ${op.sonia_pct.toFixed(3)}% ` +
     `(${fmtDate(op.sonia_as_of)}) &middot; two-state &plusmn;${op.assumed_move_bp}bp assumption.`;
