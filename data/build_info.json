@@ -1,9 +1,9 @@
 {
   "schema": "build-info-v1",
-  "last_commit_sha": "72bdee6399f720f50b984c7da0487dd0fe0025e0",
-  "last_commit_short_sha": "72bdee6",
-  "last_commit_iso": "2026-10-10T15:02:55+01:00",
-  "last_commit_subject": "Redesign homepage as interactive research dashboard",
-  "generated_utc": "2026-10-10T14:02:56+00:00",
+  "last_commit_sha": "d38862cc9ce7be217fb35f6d8954767f4329051e",
+  "last_commit_short_sha": "d38862c",
+  "last_commit_iso": "2026-10-11T19:45:49+01:00",
+  "last_commit_subject": "Improve research site readability and guard prediction workflows",
+  "generated_utc": "2026-10-11T18:45:53+00:00",
   "note": "Written by pipeline/build_build_info.py from git log -1 at the time it ran. Not a claim about the data's vintage - data/index.json carries its own generated_utc."
 }
