@@ -48,6 +48,22 @@ def test_desktop_introduction_heading_uses_the_available_width(page):
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
 
 
+def test_typography_remains_readable_and_headings_do_not_overlap(page):
+    for width, heading_size in [(320, 24), (390, 24), (768, 28), (1024, 32), (1440, 32), (1920, 32)]:
+        page.set_viewport_size({"width": width, "height": 900})
+        heading = page.locator("#about-h")
+        assert heading.evaluate("el => parseFloat(getComputedStyle(el).fontSize)") == heading_size
+        paragraph = page.locator("#about p").first
+        assert paragraph.evaluate("el => parseFloat(getComputedStyle(el).fontSize)") >= 16
+        assert paragraph.bounding_box()["y"] >= heading.bounding_box()["y"] + heading.bounding_box()["height"] + 10
+        for selector in ["#call-plain", "#call-rationale-body", "#ladder-caption", ".ep-standfirst", ".model-insight p"]:
+            assert page.locator(selector).first.evaluate("el => parseFloat(getComputedStyle(el).fontSize)") >= 16
+        for selector in ["footer", ".disclosure > summary", ".model-bar", ".segmented button", "#meeting-select"]:
+            assert page.locator(selector).first.evaluate("el => parseFloat(getComputedStyle(el).fontSize)") >= 14
+        assert page.locator("#meeting-select").evaluate("el => parseFloat(getComputedStyle(el).fontSize)") >= 16
+        assert page.locator("#meeting-select").bounding_box()["height"] >= 44
+
+
 @pytest.mark.parametrize("path", ["index.html", "methodology.html", "episodes.html"])
 def test_page_and_footer_remain_contained_across_screen_sizes(page, site_url, path):
     page.goto(f"{site_url}/{path}", wait_until="networkidle")
