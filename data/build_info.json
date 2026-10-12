@@ -1,9 +1,9 @@
 {
   "schema": "build-info-v1",
-  "last_commit_sha": "d38862cc9ce7be217fb35f6d8954767f4329051e",
-  "last_commit_short_sha": "d38862c",
-  "last_commit_iso": "2026-10-11T19:45:49+01:00",
-  "last_commit_subject": "Improve research site readability and guard prediction workflows",
-  "generated_utc": "2026-10-11T18:45:53+00:00",
+  "last_commit_sha": "47e5fccb29ba380c26e2d97731118b325acf9edd",
+  "last_commit_short_sha": "47e5fcc",
+  "last_commit_iso": "2026-10-12T10:08:18+01:00",
+  "last_commit_subject": "Migrate public links to mpc-communication-index",
+  "generated_utc": "2026-10-12T09:08:34+00:00",
   "note": "Written by pipeline/build_build_info.py from git log -1 at the time it ran. Not a claim about the data's vintage - data/index.json carries its own generated_utc."
 }
