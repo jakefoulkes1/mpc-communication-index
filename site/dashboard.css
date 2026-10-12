@@ -2,7 +2,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .dashboard { font-family: var(--sans); font-size: 16px; line-height: 1.55; border-top: 6px solid #62284d; }
 .dashboard * { letter-spacing: 0; }
-.dashboard .wrap { max-width: 1280px; padding: 0 40px 48px; }
+.dashboard .wrap { max-width: 1200px; padding: 0 40px 48px; }
 .dashboard h1, .dashboard h2, .dashboard h3 { font-family: var(--sans); font-style: normal; font-weight: 600; }
 .dashboard h1 { font-size: 36px; line-height: 1.2; margin-bottom: 12px; }
 .dashboard h2 { font-size: 26px; line-height: 1.25; }
@@ -35,9 +35,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .dashboard .section + .section { padding-top: 38px; }
 .dashboard .project-intro { padding-block: 28px; }
 .dashboard .project-intro h2 { font-size: 24px; margin-bottom: 12px; }
-.dashboard .project-intro p { max-width: 78ch; font-size: 16px; margin: 0 0 10px; }
+.dashboard .project-intro p { max-width: 72ch; font-size: 16px; margin: 0 0 10px; }
 .dashboard .project-intro p:last-child { margin-bottom: 0; }
-.dashboard #summary { display: grid; grid-template-columns: minmax(0, 1fr) 340px; column-gap: 56px; padding: 24px 0; }
+.dashboard #summary { display: grid; grid-template-columns: minmax(0, 1fr) 280px; column-gap: 40px; padding: 24px 0; }
 .dashboard #summary .eyebrow, .dashboard #summary h2, .dashboard #summary .takeaways, .dashboard #summary .disclosure { grid-column: 1; }
 .dashboard #summary h2 { font-size: 27px; margin-bottom: 8px; }
 .dashboard #summary .takeaways { margin: 0; }
@@ -108,7 +108,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .dashboard #results > h2 { margin-bottom: 10px; }
 .dashboard #results > .subhead:has(#ladder-schema) { display: none; }
 .dashboard #ladder-caption { font-size: 14px; max-width: 85ch; margin-bottom: 14px; }
-.dashboard .results-framing { font-size: 12px; color: var(--ink-2); border: 0; padding: 0; max-width: 100ch; margin-bottom: 22px; }
+.dashboard .results-framing { font-size: 12px; color: var(--ink-2); border: 0; padding: 0; max-width: 76ch; margin-bottom: 22px; }
 .comparison-toolbar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center; }
 .segmented { display: flex; border-bottom: 1px solid var(--rule); gap: 4px; }
 .segmented button { font: 600 13px var(--sans); background: transparent; color: var(--ink-2); border: 0; border-bottom: 3px solid transparent; padding: 11px 14px; cursor: pointer; }
@@ -146,7 +146,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .mechanism-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; list-style: none; max-width: none; padding: 0 !important; }
 .mechanism-list li { border-top: 3px solid var(--rate); padding-top: 14px; font-size: 13px; }
 .mechanism-list strong { display: block; font-size: 16px; margin-bottom: 8px; }
-.dashboard #how-it-works > .plain-summary { font-size: 13px; max-width: 100ch; margin-top: 18px; }
+.dashboard #how-it-works > .plain-summary { font-size: 13px; max-width: 76ch; margin-top: 18px; }
 .dashboard #how-it-works { background: var(--stamp); margin-inline: -40px; padding-inline: 40px; }
 .dashboard #context-caption { font-size: 13px; }
 .dashboard .context-badge { font-size: 11px; }
@@ -160,8 +160,14 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .dashboard .ep-title { font-size: 20px; margin-bottom: 10px; }
 .dashboard .ep-standfirst { font-size: 14px; }
 .dashboard .ep-date, .dashboard .ep-more { font-size: 12px; }
-.dashboard #related-work .refs { font-size: 13px; max-width: 100ch; }
-.dashboard footer { margin-top: 24px; padding-top: 28px; border-top: 3px solid var(--accent); font-size: 12px; }
+.dashboard #related-work .refs { font-size: 13px; max-width: 76ch; }
+.dashboard .methodology { margin: 28px 0 0; padding: 20px 0; }
+.dashboard footer { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 12px 48px; margin-top: 0; padding-top: 24px; border-top: 3px solid var(--accent); font-size: 13px; }
+.dashboard footer p { min-width: 0; max-width: none; margin: 0; overflow-wrap: anywhere; }
+.dashboard footer .byline { grid-column: 2; grid-row: 1 / span 2; }
+.dashboard footer .byline strong { display: block; font-size: 15px; margin-bottom: 4px; }
+.dashboard footer .affiliation { display: block; margin-bottom: 6px; }
+.dashboard footer > p:last-child { grid-column: 1 / -1; padding-top: 12px; border-top: 1px solid var(--rule); }
 .dashboard .status-line, .dashboard .statstrip dt, .dashboard .stat-sub,
 .summary-facts p, .summary-facts strong, .explorer-toolbar label,
 .dashboard .docline, .dashboard .score-word, .dashboard .chart-controls,
@@ -176,9 +182,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .model-insight p, .mechanism-list li, .dashboard #how-it-works > .plain-summary { font-size: 15px; }
 .dashboard .chart-controls { flex-wrap: wrap; gap: 10px 20px; }
 .archive-stamp { padding: 10px 14px; border-left: 3px solid var(--rate); background: var(--stamp); font-size: 14px; max-width: 85ch; }
-.document-page .wrap { max-width: 1120px; }
 .document-page .masthead .lede { max-width: 75ch; font: 16px/1.65 var(--sans); }
-.document-page .section, .document-page .toc { max-width: 840px; margin-inline: auto; }
+.document-page .section, .document-page .toc, .document-page #episodes-list, .document-page .methodology { max-width: 760px; margin-inline: auto; }
 .document-page .section { font-size: 16px; line-height: 1.7; }
 .document-page .plain-summary { font-size: 17px; line-height: 1.6; }
 .document-page .disclosure-body { font-size: 16px; }
@@ -186,11 +191,11 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .document-page .toc-date { display: block; font-size: 13px; margin-top: 3px; }
 .document-page .toc ol { display: flex; flex-wrap: wrap; gap: 10px 24px; padding: 0; list-style: none; }
 .document-page .toc a { font-size: 14px; }
-.document-page .ep-body { font: 17px/1.75 var(--sans); max-width: none; }
+.document-page .ep-body { font: 17px/1.75 var(--sans); max-width: 72ch; }
 .document-page .ep-title { font-size: 28px; line-height: 1.3; }
 .document-page .ep-standfirst { font: 18px/1.6 var(--sans); }
 .document-page .ep-date { font: 14px/1.5 var(--sans); }
-.document-page footer { max-width: 840px; margin-inline: auto; }
+.document-page footer .byline { grid-row: 1; }
 .scoring-lab { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(240px, 1fr); gap: 40px; margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--rule); }
 .scoring-lab h3 { margin: 8px 0 18px; }
 .scoring-lab label { font-size: 15px; }
@@ -216,6 +221,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 @media (max-width: 760px) {
   html { scroll-padding-top: 110px; }
   .dashboard .wrap { padding-inline: 18px; }
+  .dashboard footer { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .dashboard footer .byline { grid-column: auto; grid-row: auto; }
   .dashboard #how-it-works { margin-inline: -18px; padding-inline: 18px; }
   .dashboard .masthead { padding-top: 16px; }
   .brand-row { padding-right: 60px; margin-bottom: 22px; }
@@ -272,6 +279,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 @media print {
   .dashboard { border: 0; font-family: var(--serif); }
   .dashboard .wrap { max-width: none; padding: 0; }
+  .dashboard footer { display: block; }
+  .dashboard footer p { margin-bottom: 8px; }
   .brand-row, .reader-nav, .explorer-toolbar, .comparison-tool, .meeting-facts, .evidence-tests { display: none !important; }
   .method-tabs { display: none !important; }
   .scoring-lab { display: none !important; }
@@ -283,5 +292,5 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   .dashboard .masthead, .dashboard .masthead .thesis, .dashboard .masthead .lede,
   .dashboard .masthead .status-line, .dashboard .masthead .lede a { color: #111111; }
   .dashboard .masthead::before { display: none; }
-  .document-page .section, .document-page .toc { max-width: none; }
+  .document-page .section, .document-page .toc, .document-page #episodes-list, .document-page .ep-body, .document-page .methodology { max-width: none; }
 }

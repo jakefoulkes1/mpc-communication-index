@@ -231,7 +231,8 @@ def write_figures(text: str, where: str, catalogue: dict[str, str] | None = None
 def build_byline(html: str, where: str) -> str:
     """The footer byline, from the one AUTHOR record."""
     body = (
-        f'\n    <p class="byline"><strong>{AUTHOR["name"]}</strong>, {AUTHOR["affiliation"]}<br>'
+        f'\n    <p class="byline"><strong>{AUTHOR["name"]}</strong> '
+        f'<span class="affiliation">{AUTHOR["affiliation"]}</span> '
         f'<a href="mailto:{AUTHOR["email"]}">{AUTHOR["email"]}</a></p>\n    '
     )
     return replace_region(html, "byline", body, where=where)

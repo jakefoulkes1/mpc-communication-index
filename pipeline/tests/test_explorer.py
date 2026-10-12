@@ -48,6 +48,34 @@ def test_desktop_introduction_heading_uses_the_available_width(page):
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
 
 
+@pytest.mark.parametrize("path", ["index.html", "methodology.html", "episodes.html"])
+def test_page_and_footer_remain_contained_across_screen_sizes(page, site_url, path):
+    page.goto(f"{site_url}/{path}", wait_until="networkidle")
+    for width in [320, 390, 768, 1024, 1366, 1920, 2560]:
+        page.set_viewport_size({"width": width, "height": 900})
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+        wrap = page.locator(".wrap").bounding_box()
+        assert wrap["width"] <= 1200
+        footer = page.locator("footer")
+        notes = footer.locator("p").evaluate_all("""items => items.map(el => {
+            const {x, y, width, height} = el.getBoundingClientRect();
+            return {x, y, width, height};
+        })""")
+        author = footer.locator(".byline").bounding_box()
+        if width > 760:
+            assert author["x"] >= notes[0]["x"] + notes[0]["width"] + 20
+            assert abs(author["y"] - notes[0]["y"]) <= 1
+        else:
+            assert abs(author["x"] - notes[0]["x"]) <= 1
+            assert author["y"] >= notes[0]["y"] + notes[0]["height"]
+        assert notes[-1]["y"] >= max(note["y"] + note["height"] for note in notes[:-1]) + 10
+        if path != "index.html":
+            reading = page.locator("#episodes-list" if path == "episodes.html" else ".section").first.bounding_box()
+            contents = page.locator(".toc").bounding_box()
+            assert reading["width"] <= 760
+            assert abs(reading["x"] - contents["x"]) <= 1
+
+
 def test_meeting_selection_uses_the_selected_observation_and_following_decision(page):
     documents = load("index.json")["documents"]
     first = documents[0]
