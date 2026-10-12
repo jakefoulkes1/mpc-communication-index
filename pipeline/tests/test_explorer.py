@@ -48,6 +48,21 @@ def test_desktop_introduction_heading_uses_the_available_width(page):
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
 
 
+def test_introduction_paragraphs_use_the_available_width_without_overflow(page):
+    for width in [320, 390, 768, 1024, 1280, 1440, 1920, 2560]:
+        page.set_viewport_size({"width": width, "height": 900})
+        heading = page.locator("#about-h").bounding_box()
+        previous_bottom = heading["y"] + heading["height"]
+        for paragraph in page.locator("#about p").all():
+            bounds = paragraph.bounding_box()
+            assert abs(bounds["x"] - heading["x"]) <= 1
+            assert abs(bounds["width"] - heading["width"]) <= 1
+            assert bounds["y"] >= previous_bottom
+            assert paragraph.evaluate("el => el.scrollWidth <= el.clientWidth")
+            previous_bottom = bounds["y"] + bounds["height"]
+        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+
+
 def test_typography_remains_readable_and_headings_do_not_overlap(page):
     for width, heading_size in [(320, 24), (390, 24), (768, 28), (1024, 32), (1440, 32), (1920, 32)]:
         page.set_viewport_size({"width": width, "height": 900})
