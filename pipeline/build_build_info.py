@@ -29,7 +29,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "build_info.json"
 PAGES = (ROOT / "index.html", ROOT / "methodology.html", ROOT / "episodes.html")
-COMMIT_URL = "https://github.com/jakefoulkes1/mpc-index/commit/"
+COMMIT_URL = "https://github.com/jakefoulkes1/mpc-communication-index/commit/"
 
 
 def _git(*args: str) -> str:

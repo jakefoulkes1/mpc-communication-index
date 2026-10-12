@@ -173,6 +173,25 @@ def test_inline_methodology_sources_are_links_not_parenthetical_notes():
     assert re.search(r'<a\s+class="ref"\s+href="', raw)
 
 
+def test_current_public_links_follow_the_repository_name():
+    from pipeline.site_figures import AUTHOR
+
+    assert AUTHOR["site"] == "https://jakefoulkes1.github.io/mpc-communication-index/"
+    assert AUTHOR["repo"] == "https://github.com/jakefoulkes1/mpc-communication-index"
+    for surface in (*SURFACES, "CITATION.cff", "LOCKDAY.md"):
+        raw = (ROOT / surface).read_text()
+        assert "https://jakefoulkes1.github.io/mpc-index/" not in raw, surface
+        assert "https://github.com/jakefoulkes1/mpc-index" not in raw, surface
+    for surface in SURFACES:
+        if not surface.endswith(".html"):
+            continue
+        raw = (ROOT / surface).read_text()
+        page = "" if surface == "index.html" else surface
+        assert f'property="og:url" content="{AUTHOR["site"]}{page}"' in raw
+        assert f'property="og:image" content="{AUTHOR["site"]}og-image.png"' in raw
+        assert f'name="twitter:image" content="{AUTHOR["site"]}og-image.png"' in raw
+
+
 # A publisher that refuses a scripted request has still been reached; a link
 # that 404s has not. 403 and 429 are therefore reported and not counted as
 # failures - both DOIs in the reference list redirect to a publisher that

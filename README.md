@@ -1,9 +1,9 @@
 # MPC Communication Index
 
-[![tests](https://github.com/jakefoulkes1/mpc-index/actions/workflows/tests.yml/badge.svg)](https://github.com/jakefoulkes1/mpc-index/actions/workflows/tests.yml)
+[![tests](https://github.com/jakefoulkes1/mpc-communication-index/actions/workflows/tests.yml/badge.svg)](https://github.com/jakefoulkes1/mpc-communication-index/actions/workflows/tests.yml)
 
-**Live site:** <https://jakefoulkes1.github.io/mpc-index/> ·
-**Methodology:** <https://jakefoulkes1.github.io/mpc-index/methodology.html> ·
+**Live site:** <https://jakefoulkes1.github.io/mpc-communication-index/> ·
+**Methodology:** <https://jakefoulkes1.github.io/mpc-communication-index/methodology.html> ·
 **Decision log:** [DECISIONS.md](DECISIONS.md)
 
 ## The question
@@ -150,7 +150,7 @@ DECISIONS.md     dated log of every methodological choice (append-only)
 Documented limitations — risk premia embedded in OIS forwards, sparse
 lexicon hits per document, the lexicon's 2012 vintage, small n, and the
 disagreement between Spec 2 and Spec 3 — are listed factually on the
-[methodology page](https://jakefoulkes1.github.io/mpc-index/methodology.html#limitations),
+[methodology page](https://jakefoulkes1.github.io/mpc-communication-index/methodology.html#limitations),
 each traceable to a dated entry in [DECISIONS.md](DECISIONS.md).
 
 ## Notes

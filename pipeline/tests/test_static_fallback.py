@@ -19,7 +19,7 @@ from pathlib import Path
 import pytest
 
 from pipeline.site_context import UPCOMING_MEETINGS
-from pipeline.site_figures import clip, score
+from pipeline.site_figures import AUTHOR, clip, score
 
 ROOT = Path(__file__).resolve().parents[2]
 INDEX_HTML = ROOT / "index.html"
@@ -215,10 +215,10 @@ def test_verify_box_links_to_the_tag(index_html):
     git command that reads the call as it stood when it was locked."""
     block = region(index_html, "verify")
     tag = LOCK.stem
-    assert f"https://github.com/jakefoulkes1/mpc-index/releases/tag/{tag}" in block
+    assert f"{AUTHOR['repo']}/releases/tag/{tag}" in block
     assert f"git show {tag}:data/predictions/{LOCK.name}" in block
-    assert "https://github.com/jakefoulkes1/mpc-index<" in block or \
-        'href="https://github.com/jakefoulkes1/mpc-index"' in block, \
+    assert f"{AUTHOR['repo']}<" in block or \
+        f'href="{AUTHOR["repo"]}"' in block, \
         "the verification box should also link the repository itself"
 
 

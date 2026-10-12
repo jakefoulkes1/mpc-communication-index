@@ -224,7 +224,7 @@ git push origin main --follow-tags
 ### 13. Two checks on GitHub, after the push
 
 **Check A — the tag pre-dates the announcement.** Open
-<https://github.com/jakefoulkes1/mpc-index/tags>, click `lock-2026-07`, and read
+<https://github.com/jakefoulkes1/mpc-communication-index/tags>, click `lock-2026-07`, and read
 the timestamp. It must be Tuesday 28 July 2026, roughly two days before the
 Thursday 30 July 12:00 announcement. This is the public evidence the call was
 made in advance. To see the same thing locally:
@@ -234,7 +234,7 @@ git log -1 --format=%cI lock-2026-07
 ```
 
 **Check B — the site card flipped.** Open
-<https://jakefoulkes1.github.io/mpc-index/> and hard-refresh (**Cmd+Shift+R**).
+<https://jakefoulkes1.github.io/mpc-communication-index/> and hard-refresh (**Cmd+Shift+R**).
 GitHub Pages usually takes a minute or two to redeploy. The call card should now
 show:
 
@@ -351,7 +351,7 @@ and give it a minute or two before hard-refreshing the site.
 
 ### 7. What to verify on the live site
 
-Hard-refresh <https://jakefoulkes1.github.io/mpc-index/> (**Cmd+Shift+R**) and
+Hard-refresh <https://jakefoulkes1.github.io/mpc-communication-index/> (**Cmd+Shift+R**) and
 check the **Track record** table's 30 July 2026 row:
 
 - the badge still reads **Locked**

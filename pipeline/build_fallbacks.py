@@ -180,7 +180,7 @@ def build_research_nav(html: str, where: str) -> str:
         '<span class="brand-mark">MPC</span><span>MPC Communication Index<br>'
         '<span class="brand-subtitle">Independent monetary policy research</span></span></a>'
         '<nav aria-label="Research pages">' + ''.join(links) +
-        '<a href="https://github.com/jakefoulkes1/mpc-index">Source</a></nav></div>'
+        f'<a href="{REPO_URL}">Source</a></nav></div>'
     ), where=where)
 
 

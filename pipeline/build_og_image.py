@@ -182,7 +182,7 @@ def build() -> Image.Image:
     )
     byline = f"{AUTHOR['name']}, {AUTHOR['affiliation']}"
     d.text((pad, H - 34), byline, font=f_small, fill=INK_2)
-    url = "jakefoulkes1.github.io/mpc-index"
+    url = AUTHOR["site"].removeprefix("https://").rstrip("/")
     d.text(
         (W - pad - d.textlength(url, font=f_small), H - 34),
         url,

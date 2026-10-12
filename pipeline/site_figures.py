@@ -63,8 +63,8 @@ AUTHOR = {
     "name": "Jake Foulkes",
     "email": "jakefoulkes@aol.com",
     "affiliation": "BSc Economics, Loughborough University",
-    "site": "https://jakefoulkes1.github.io/mpc-index/",
-    "repo": "https://github.com/jakefoulkes1/mpc-index",
+    "site": "https://jakefoulkes1.github.io/mpc-communication-index/",
+    "repo": "https://github.com/jakefoulkes1/mpc-communication-index",
 }
 
 MINUS = "&minus;"          # for HTML surfaces

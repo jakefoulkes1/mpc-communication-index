@@ -3616,3 +3616,15 @@ At the author's request, a short introduction now precedes the findings and
 in-page navigation. It names the research question, the author, the fixed
 dictionary, the market comparison and the prospective lock-and-score record.
 This is explanatory copy only; no methodology, result or locked call changes.
+
+## 2026-10-12 - Repository and public address renamed
+
+At the author's request, the repository name changes from `mpc-index` to
+`mpc-communication-index` for sharing the research. The public website moves
+to https://jakefoulkes1.github.io/mpc-communication-index/ and its source to
+https://github.com/jakefoulkes1/mpc-communication-index. Current navigation,
+share metadata, citation metadata and operational documentation use the new
+addresses. Historical log entries, annotations, locked calls, tags and all
+research results remain unchanged. The local working-directory name stays
+`mpc-index`; renaming a remote repository does not require moving local files.
+The previous GitHub Pages project address is not assumed to redirect.
