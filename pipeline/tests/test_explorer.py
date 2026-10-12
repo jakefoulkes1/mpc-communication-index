@@ -220,17 +220,29 @@ def test_chart_describes_contemporaneous_not_following_decisions(page):
 def test_disclosures_remain_readable_when_theme_script_fails(page, site_url, target):
     page.route("**/site/theme.js", lambda route: route.abort())
     page.goto(f"{site_url}/{target}", wait_until="networkidle")
-    for detail in page.locator("details").all():
+    for detail in page.locator("details:visible").all():
         detail.evaluate("el => { el.open = false; }")
         detail.locator("summary").click()
         assert detail.locator(".disclosure-body").is_visible()
 
 
-def test_archive_is_labelled_without_opening_more_detail(page):
-    assert page.locator("#context-snapshot").is_visible()
+def test_stale_context_is_not_displayed_as_a_live_panel(page):
+    assert page.locator("#market-context").is_hidden()
+    assert page.locator("#market-context").get_attribute("hidden") is not None
     stamp = page.locator("#context-snapshot").inner_text()
     assert "Archived snapshot" in stamp and "not current pricing" in stamp
     assert "next" not in page.locator("#ois-h").text_content()
+
+
+def test_stale_context_stays_hidden_without_javascript(page, site_url):
+    context = page.context.browser.new_context(java_script_enabled=False)
+    try:
+        static_page = context.new_page()
+        static_page.goto(site_url, wait_until="networkidle")
+        assert static_page.locator("#market-context").is_hidden()
+        assert static_page.locator("#results").is_visible()
+    finally:
+        context.close()
 
 
 def test_hypothetical_example_matches_pipeline_scoring(page):

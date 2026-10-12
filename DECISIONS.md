@@ -3628,3 +3628,34 @@ addresses. Historical log entries, annotations, locked calls, tags and all
 research results remain unchanged. The local working-directory name stays
 `mpc-index`; renaming a remote repository does not require moving local files.
 The previous GitHub Pages project address is not assumed to redirect.
+
+## 2026-10-12 - Old address restored, stale context withdrawn, analysis plans drafted
+
+At the author's request, a separate public `mpc-index` repository restores the
+old CV/application website address with a single HTML meta-refresh and a visible
+fallback link to `mpc-communication-index`. GitHub Pages serves its main branch.
+The research repository, history and tags remain under the new name. Reclaiming
+the old repository name ends GitHub's old-name source redirect; historical
+source links in this log remain as written, and the new research repository is
+the canonical source. No claim is made that old deep website paths redirect.
+
+The August market-context panel is withdrawn from the live page using the
+native HTML hidden attribute. Its archived data and generated markup remain
+for reproducibility, and chart history retains its dated archive label. The
+panel must not return merely because November arrives: it needs a verified,
+dated refresh. No market observations are fabricated or substituted.
+
+`preregistration/` now distinguishes drafts, registrations and results. The
+Diebold-Mariano forecast-comparison plan fixes a frozen historical input,
+paired summed Brier losses, three two-sided comparisons, proposed HAC inference
+and multiplicity handling before any new calculations. It is a DRAFT awaiting
+author approval, not a registered or completed analysis. A public immutable tag
+and a further dated registration entry are required before running it.
+
+The existing historical forecast performance is already known. This planned
+test is a retrospective robustness analysis, not untouched prospective
+confirmation. The risk-management series remains unspecified and unregistered;
+its construction and evaluation need a separate approved brief before the
+3 November 2026 lock. If not ready, retain v1 and record a deferral, never a
+last-minute retrospective specification. Earlier entries and all locked calls,
+annotations and numerical research results remain unchanged.
