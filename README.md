@@ -159,4 +159,4 @@ Not investment advice. Source documents © Bank of England, linked, not
 republished; raw texts stay in a local gitignored cache and only derived
 scores and hashes are published.
 
-<!-- fallback:byline -->Built and maintained by Jake Foulkes, BSc Economics, Loughborough University. Contact: <jakefoulkes@aol.com>.<!-- /fallback:byline -->
+<!-- fallback:byline -->Built and maintained by Jake Foulkes, MPhil Economics, University of Oxford. Contact: <jakefoulkes@aol.com>.<!-- /fallback:byline -->

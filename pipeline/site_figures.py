@@ -62,7 +62,7 @@ ROOT = Path(__file__).resolve().parents[1]
 AUTHOR = {
     "name": "Jake Foulkes",
     "email": "jakefoulkes@aol.com",
-    "affiliation": "BSc Economics, Loughborough University",
+    "affiliation": "MPhil Economics, University of Oxford",
     "site": "https://jakefoulkes1.github.io/mpc-communication-index/",
     "repo": "https://github.com/jakefoulkes1/mpc-communication-index",
 }
