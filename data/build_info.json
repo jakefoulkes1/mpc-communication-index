@@ -1,9 +1,9 @@
 {
   "schema": "build-info-v1",
-  "last_commit_sha": "5b6355b31c0206d94b4f30d763261ba9cdaa3cdd",
-  "last_commit_short_sha": "5b6355b",
-  "last_commit_iso": "2026-10-12T10:12:31+01:00",
-  "last_commit_subject": "Update author byline to Oxford MPhil Economics",
-  "generated_utc": "2026-10-12T09:12:31+00:00",
+  "last_commit_sha": "3a770064445311685de658c7c9c9e8700936fa24",
+  "last_commit_short_sha": "3a77006",
+  "last_commit_iso": "2026-10-12T10:18:38+01:00",
+  "last_commit_subject": "Tighten desktop layout and balance shared footers",
+  "generated_utc": "2026-10-12T09:18:38+00:00",
   "note": "Written by pipeline/build_build_info.py from git log -1 at the time it ran. Not a claim about the data's vintage - data/index.json carries its own generated_utc."
 }
