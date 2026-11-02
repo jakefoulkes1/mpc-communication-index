@@ -1,0 +1,31 @@
+{
+  "schema": "prediction-v1",
+  "meeting_announcement": "2026-11-05",
+  "lock_timestamp": "2026-11-02T15:16:33+00:00",
+  "code_version": "0a20839fcd2295320398bc1af5d274706dea7106",
+  "input_hashes": {
+    "corpus_index_json_sha256": "78c8779319d068259816cc2120f2fc102a94e3d87e6f5cf7865d755fe5515f6f",
+    "ois_snapshot_sha256": "cedf0f21172351039f7a449ced5179eb7be19af9bde838fad5c9820219f1749e"
+  },
+  "m0_market_only": {
+    "meeting_date": "2026-11-05",
+    "curve_as_of": "2026-10-30",
+    "sonia_as_of": "2026-10-29",
+    "forward_rate_pct": 3.9587,
+    "sonia_pct": 3.7352,
+    "assumed_move_bp": 25.0,
+    "lock_offset_days": 3,
+    "implied_change_bp": 22.35,
+    "p_hike": 0.8939,
+    "p_hold": 0.1061,
+    "p_cut": 0.0
+  },
+  "index_current": 1.3333,
+  "index_current_doc_id": "minutes-2026-09",
+  "index_trailing_mean": 1.1786,
+  "index_trailing_n": 4,
+  "point_call": null,
+  "rationale": "TODO(Jake) - written by me before lock",
+  "outcome": null,
+  "scores": null
+}

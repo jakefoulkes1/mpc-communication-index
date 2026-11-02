@@ -85,6 +85,20 @@
       },
       "outcome": null,
       "brier_m0": null
+    },
+    {
+      "filename": "rehearsal-2026-11-02.json",
+      "kind": "rehearsal",
+      "meeting_announcement": "2026-11-05",
+      "lock_timestamp": "2026-11-02T15:16:33+00:00",
+      "point_call": null,
+      "m0_market_only": {
+        "p_cut": 0.0,
+        "p_hold": 0.1061,
+        "p_hike": 0.8939
+      },
+      "outcome": null,
+      "brier_m0": null
     }
   ]
 }

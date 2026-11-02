@@ -1,38 +1,38 @@
 {
   "schema": "site-context-v1",
-  "generated_utc": "2026-08-10T11:35:27+00:00",
+  "generated_utc": "2026-11-02T15:16:58+00:00",
   "context_not_model_inputs": true,
-  "disclaimer": "Context - not model inputs. These series are shown for orientation only; none of them feed the A&BG communication index, the market benchmark, or any locked call.",
+  "disclaimer": "Context, not model inputs. These series are shown for orientation only; none of them feed the A&BG communication index, the market benchmark, or any locked call.",
   "ois_path": {
-    "curve_as_of": "2026-08-07",
-    "sonia_as_of": "2026-08-06",
-    "sonia_pct": 3.7323,
+    "curve_as_of": "2026-10-30",
+    "sonia_as_of": "2026-10-29",
+    "sonia_pct": 3.7352,
     "assumed_move_bp": 25.0,
     "lock_offset_days": 3,
     "meetings": [
       {
-        "meeting_date": "2026-09-17",
-        "forward_rate_pct": 3.7524,
-        "implied_change_bp": 2.01,
-        "p_cut": 0.0,
-        "p_hold": 0.9195,
-        "p_hike": 0.0805
-      },
-      {
         "meeting_date": "2026-11-05",
-        "forward_rate_pct": 3.8426,
-        "implied_change_bp": 11.03,
+        "forward_rate_pct": 3.9587,
+        "implied_change_bp": 22.35,
         "p_cut": 0.0,
-        "p_hold": 0.5589,
-        "p_hike": 0.4411
+        "p_hold": 0.1061,
+        "p_hike": 0.8939
       },
       {
         "meeting_date": "2026-12-17",
-        "forward_rate_pct": 3.9303,
-        "implied_change_bp": 19.8,
+        "forward_rate_pct": 4.0179,
+        "implied_change_bp": 28.27,
         "p_cut": 0.0,
-        "p_hold": 0.2081,
-        "p_hike": 0.7919
+        "p_hold": 0.0,
+        "p_hike": 1.0
+      },
+      {
+        "meeting_date": "2027-02-04",
+        "forward_rate_pct": 4.1833,
+        "implied_change_bp": 44.81,
+        "p_cut": 0.0,
+        "p_hold": 0.0,
+        "p_hike": 1.0
       }
     ]
   },
@@ -418,252 +418,20 @@
       {
         "date": "2026-07-30",
         "rate_pct": 3.75
+      },
+      {
+        "date": "2026-09-17",
+        "rate_pct": 3.75
       }
     ]
   },
   "gilt_2y": {
     "label": "2-year nominal gilt yield",
     "source": "Bank of England GLC Nominal curve, '3. spot, short end', 24-month point",
-    "as_of": "2026-08-07",
-    "latest_pct": 4.1858,
+    "as_of": "2026-10-30",
+    "latest_pct": 4.6775,
     "window_months": 12,
     "sparkline": [
-      {
-        "date": "2025-08-07",
-        "yield_pct": 3.7212
-      },
-      {
-        "date": "2025-08-08",
-        "yield_pct": 3.7381
-      },
-      {
-        "date": "2025-08-11",
-        "yield_pct": 3.7044
-      },
-      {
-        "date": "2025-08-12",
-        "yield_pct": 3.7369
-      },
-      {
-        "date": "2025-08-13",
-        "yield_pct": 3.7038
-      },
-      {
-        "date": "2025-08-14",
-        "yield_pct": 3.7491
-      },
-      {
-        "date": "2025-08-15",
-        "yield_pct": 3.7634
-      },
-      {
-        "date": "2025-08-18",
-        "yield_pct": 3.8139
-      },
-      {
-        "date": "2025-08-19",
-        "yield_pct": 3.8173
-      },
-      {
-        "date": "2025-08-20",
-        "yield_pct": 3.769
-      },
-      {
-        "date": "2025-08-21",
-        "yield_pct": 3.8162
-      },
-      {
-        "date": "2025-08-22",
-        "yield_pct": 3.7826
-      },
-      {
-        "date": "2025-08-26",
-        "yield_pct": 3.8166
-      },
-      {
-        "date": "2025-08-27",
-        "yield_pct": 3.7993
-      },
-      {
-        "date": "2025-08-28",
-        "yield_pct": 3.7844
-      },
-      {
-        "date": "2025-08-29",
-        "yield_pct": 3.7893
-      },
-      {
-        "date": "2025-09-01",
-        "yield_pct": 3.8105
-      },
-      {
-        "date": "2025-09-02",
-        "yield_pct": 3.8344
-      },
-      {
-        "date": "2025-09-03",
-        "yield_pct": 3.8027
-      },
-      {
-        "date": "2025-09-04",
-        "yield_pct": 3.8067
-      },
-      {
-        "date": "2025-09-05",
-        "yield_pct": 3.7583
-      },
-      {
-        "date": "2025-09-08",
-        "yield_pct": 3.7444
-      },
-      {
-        "date": "2025-09-09",
-        "yield_pct": 3.7622
-      },
-      {
-        "date": "2025-09-10",
-        "yield_pct": 3.7852
-      },
-      {
-        "date": "2025-09-11",
-        "yield_pct": 3.7778
-      },
-      {
-        "date": "2025-09-12",
-        "yield_pct": 3.8104
-      },
-      {
-        "date": "2025-09-15",
-        "yield_pct": 3.7924
-      },
-      {
-        "date": "2025-09-16",
-        "yield_pct": 3.8096
-      },
-      {
-        "date": "2025-09-17",
-        "yield_pct": 3.8017
-      },
-      {
-        "date": "2025-09-18",
-        "yield_pct": 3.7975
-      },
-      {
-        "date": "2025-09-19",
-        "yield_pct": 3.8242
-      },
-      {
-        "date": "2025-09-22",
-        "yield_pct": 3.8165
-      },
-      {
-        "date": "2025-09-23",
-        "yield_pct": 3.813
-      },
-      {
-        "date": "2025-09-24",
-        "yield_pct": 3.8002
-      },
-      {
-        "date": "2025-09-25",
-        "yield_pct": 3.8523
-      },
-      {
-        "date": "2025-09-26",
-        "yield_pct": 3.8673
-      },
-      {
-        "date": "2025-09-29",
-        "yield_pct": 3.8405
-      },
-      {
-        "date": "2025-09-30",
-        "yield_pct": 3.8458
-      },
-      {
-        "date": "2025-10-01",
-        "yield_pct": 3.8182
-      },
-      {
-        "date": "2025-10-02",
-        "yield_pct": 3.8397
-      },
-      {
-        "date": "2025-10-03",
-        "yield_pct": 3.8227
-      },
-      {
-        "date": "2025-10-06",
-        "yield_pct": 3.8391
-      },
-      {
-        "date": "2025-10-07",
-        "yield_pct": 3.8507
-      },
-      {
-        "date": "2025-10-08",
-        "yield_pct": 3.8531
-      },
-      {
-        "date": "2025-10-09",
-        "yield_pct": 3.8667
-      },
-      {
-        "date": "2025-10-10",
-        "yield_pct": 3.8177
-      },
-      {
-        "date": "2025-10-13",
-        "yield_pct": 3.8055
-      },
-      {
-        "date": "2025-10-14",
-        "yield_pct": 3.7477
-      },
-      {
-        "date": "2025-10-15",
-        "yield_pct": 3.7227
-      },
-      {
-        "date": "2025-10-16",
-        "yield_pct": 3.705
-      },
-      {
-        "date": "2025-10-17",
-        "yield_pct": 3.722
-      },
-      {
-        "date": "2025-10-20",
-        "yield_pct": 3.7
-      },
-      {
-        "date": "2025-10-21",
-        "yield_pct": 3.7033
-      },
-      {
-        "date": "2025-10-22",
-        "yield_pct": 3.6124
-      },
-      {
-        "date": "2025-10-23",
-        "yield_pct": 3.6212
-      },
-      {
-        "date": "2025-10-24",
-        "yield_pct": 3.6426
-      },
-      {
-        "date": "2025-10-27",
-        "yield_pct": 3.6355
-      },
-      {
-        "date": "2025-10-28",
-        "yield_pct": 3.6251
-      },
-      {
-        "date": "2025-10-29",
-        "yield_pct": 3.6249
-      },
       {
         "date": "2025-10-30",
         "yield_pct": 3.6446
@@ -1443,6 +1211,242 @@
       {
         "date": "2026-08-07",
         "yield_pct": 4.1858
+      },
+      {
+        "date": "2026-08-10",
+        "yield_pct": 4.2412
+      },
+      {
+        "date": "2026-08-11",
+        "yield_pct": 4.2074
+      },
+      {
+        "date": "2026-08-12",
+        "yield_pct": 4.2215
+      },
+      {
+        "date": "2026-08-13",
+        "yield_pct": 4.215
+      },
+      {
+        "date": "2026-08-14",
+        "yield_pct": 4.25
+      },
+      {
+        "date": "2026-08-17",
+        "yield_pct": 4.2707
+      },
+      {
+        "date": "2026-08-18",
+        "yield_pct": 4.2882
+      },
+      {
+        "date": "2026-08-19",
+        "yield_pct": 4.2762
+      },
+      {
+        "date": "2026-08-20",
+        "yield_pct": 4.2822
+      },
+      {
+        "date": "2026-08-21",
+        "yield_pct": 4.2707
+      },
+      {
+        "date": "2026-08-24",
+        "yield_pct": 4.2929
+      },
+      {
+        "date": "2026-08-25",
+        "yield_pct": 4.2366
+      },
+      {
+        "date": "2026-08-26",
+        "yield_pct": 4.2501
+      },
+      {
+        "date": "2026-08-27",
+        "yield_pct": 4.2701
+      },
+      {
+        "date": "2026-08-28",
+        "yield_pct": 4.3191
+      },
+      {
+        "date": "2026-09-01",
+        "yield_pct": 4.3859
+      },
+      {
+        "date": "2026-09-02",
+        "yield_pct": 4.4218
+      },
+      {
+        "date": "2026-09-03",
+        "yield_pct": 4.337
+      },
+      {
+        "date": "2026-09-04",
+        "yield_pct": 4.3401
+      },
+      {
+        "date": "2026-09-07",
+        "yield_pct": 4.3733
+      },
+      {
+        "date": "2026-09-08",
+        "yield_pct": 4.3823
+      },
+      {
+        "date": "2026-09-09",
+        "yield_pct": 4.4821
+      },
+      {
+        "date": "2026-09-10",
+        "yield_pct": 4.6509
+      },
+      {
+        "date": "2026-09-11",
+        "yield_pct": 4.6238
+      },
+      {
+        "date": "2026-09-14",
+        "yield_pct": 4.7154
+      },
+      {
+        "date": "2026-09-15",
+        "yield_pct": 4.6933
+      },
+      {
+        "date": "2026-09-16",
+        "yield_pct": 4.5476
+      },
+      {
+        "date": "2026-09-17",
+        "yield_pct": 4.5359
+      },
+      {
+        "date": "2026-09-18",
+        "yield_pct": 4.6582
+      },
+      {
+        "date": "2026-09-21",
+        "yield_pct": 4.5611
+      },
+      {
+        "date": "2026-09-22",
+        "yield_pct": 4.5737
+      },
+      {
+        "date": "2026-09-23",
+        "yield_pct": 4.6699
+      },
+      {
+        "date": "2026-09-24",
+        "yield_pct": 4.6939
+      },
+      {
+        "date": "2026-09-25",
+        "yield_pct": 4.6395
+      },
+      {
+        "date": "2026-09-28",
+        "yield_pct": 4.713
+      },
+      {
+        "date": "2026-09-29",
+        "yield_pct": 4.6848
+      },
+      {
+        "date": "2026-09-30",
+        "yield_pct": 4.6625
+      },
+      {
+        "date": "2026-10-01",
+        "yield_pct": 4.6008
+      },
+      {
+        "date": "2026-10-02",
+        "yield_pct": 4.6025
+      },
+      {
+        "date": "2026-10-05",
+        "yield_pct": 4.6373
+      },
+      {
+        "date": "2026-10-06",
+        "yield_pct": 4.6125
+      },
+      {
+        "date": "2026-10-07",
+        "yield_pct": 4.6342
+      },
+      {
+        "date": "2026-10-08",
+        "yield_pct": 4.6955
+      },
+      {
+        "date": "2026-10-09",
+        "yield_pct": 4.687
+      },
+      {
+        "date": "2026-10-12",
+        "yield_pct": 4.6948
+      },
+      {
+        "date": "2026-10-13",
+        "yield_pct": 4.7183
+      },
+      {
+        "date": "2026-10-14",
+        "yield_pct": 4.6997
+      },
+      {
+        "date": "2026-10-15",
+        "yield_pct": 4.6691
+      },
+      {
+        "date": "2026-10-16",
+        "yield_pct": 4.6429
+      },
+      {
+        "date": "2026-10-19",
+        "yield_pct": 4.7079
+      },
+      {
+        "date": "2026-10-20",
+        "yield_pct": 4.7203
+      },
+      {
+        "date": "2026-10-21",
+        "yield_pct": 4.7108
+      },
+      {
+        "date": "2026-10-22",
+        "yield_pct": 4.6759
+      },
+      {
+        "date": "2026-10-23",
+        "yield_pct": 4.7074
+      },
+      {
+        "date": "2026-10-26",
+        "yield_pct": 4.7316
+      },
+      {
+        "date": "2026-10-27",
+        "yield_pct": 4.7382
+      },
+      {
+        "date": "2026-10-28",
+        "yield_pct": 4.7697
+      },
+      {
+        "date": "2026-10-29",
+        "yield_pct": 4.7047
+      },
+      {
+        "date": "2026-10-30",
+        "yield_pct": 4.6775
       }
     ]
   },

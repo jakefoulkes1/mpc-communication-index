@@ -3659,3 +3659,41 @@ its construction and evaluation need a separate approved brief before the
 3 November 2026 lock. If not ready, retain v1 and record a deferral, never a
 last-minute retrospective specification. Earlier entries and all locked calls,
 annotations and numerical research results remain unchanged.
+
+## 2026-11-02 — November preparation; risk-management series deferred to February 2027
+
+The risk-management series was specified as a requirement in the September
+episode but was not written in time. Specifying it the day before the
+3 November lock would defeat the purpose of pre-registration. Defer it to
+the February 2027 cycle; November retains frozen v1. This supersedes the
+November target, not the September episode or any existing result.
+
+The February specification must inherit all three September requirements:
+
+1. Identify forward-risk reasoning by construction rather than vocabulary:
+   conditionals, modals attached to risk, pre-emption, insurance and arguments
+   about how long to wait for evidence.
+2. State in advance how a sentence scoring in both series is treated;
+   undefined overlap could manufacture or cancel the divergence being tested.
+3. Decide in advance whether collective paragraphs and members' statements
+   are scored separately, since forward-risk language can migrate between them.
+
+Retain the episode's protocol: pre-register before the February-cycle lock,
+run over the full sample from January 2019 under the expanding window, and
+fit nothing to September. The brief still requires approval before execution.
+No science module, schema, historical result or existing lock is changed.
+
+Operational preparation follows September in LOCKDAY-2026-11.md, with the
+minus-two 3 November date, GMT, generated prediction path, three-page stamp
+and stamped Pages-trigger fallback explicitly distinguished. The rehearsal
+is non-lock working material, not a call or a tag; tomorrow requires fresh
+inputs and Jake's own rationale and distributions.
+
+The context exporter rebuilt successfully on 2 November from the live Bank
+files: OIS curve and two-year gilt dated 30 October, SONIA dated 29 October;
+upcoming rows are 5 November, 17 December and 4 February. Generated HTML was
+rebuilt too. The panel retains its archived label and hidden state. The
+non-lock rehearsal records m0 cut 0 / hold 0.1061 / hike 0.8939, index 1.3333
+and trailing-four mean 1.1786 including September. These are dated rehearsal
+observations, not tomorrow's rationale or a registered call. The old root URL
+was verified serving a meta-refresh and visible link to the new site.
