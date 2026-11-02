@@ -1,9 +1,9 @@
 {
   "schema": "build-info-v1",
-  "last_commit_sha": "430443a15933df536bb9a55ab96bde0808efdca4",
-  "last_commit_short_sha": "430443a",
-  "last_commit_iso": "2026-10-12T14:48:43+01:00",
-  "last_commit_subject": "Let the homepage introduction use the available width",
-  "generated_utc": "2026-10-12T13:48:43+00:00",
+  "last_commit_sha": "f9bca5b6d8d7c514f35c5194789b785a59dc3e96",
+  "last_commit_short_sha": "f9bca5b",
+  "last_commit_iso": "2026-11-02T15:19:07Z",
+  "last_commit_subject": "Prepare November lock and defer risk series to February",
+  "generated_utc": "2026-11-02T15:19:07+00:00",
   "note": "Written by pipeline/build_build_info.py from git log -1 at the time it ran. Not a claim about the data's vintage - data/index.json carries its own generated_utc."
 }
