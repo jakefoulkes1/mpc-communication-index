@@ -1,9 +1,9 @@
 {
   "schema": "build-info-v1",
-  "last_commit_sha": "f9bca5b6d8d7c514f35c5194789b785a59dc3e96",
-  "last_commit_short_sha": "f9bca5b",
-  "last_commit_iso": "2026-11-02T15:19:07Z",
-  "last_commit_subject": "Prepare November lock and defer risk series to February",
-  "generated_utc": "2026-11-02T15:19:07+00:00",
+  "last_commit_sha": "e7ad13a90dc1210fb8cee627e60ef8dac48ccf97",
+  "last_commit_short_sha": "e7ad13a",
+  "last_commit_iso": "2026-11-03T09:36:40Z",
+  "last_commit_subject": "Register November vote probabilities and verify lock sources",
+  "generated_utc": "2026-11-03T09:36:40+00:00",
   "note": "Written by pipeline/build_build_info.py from git log -1 at the time it ran. Not a claim about the data's vintage - data/index.json carries its own generated_utc."
 }
