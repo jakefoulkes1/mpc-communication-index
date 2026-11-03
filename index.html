@@ -10,8 +10,7 @@
 <!-- /fallback:metaauthor -->
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#131b19">
-<!-- Applies a remembered theme before first paint and marks scripting as
-     available; everything else is in site/theme.js. -->
+
 <script>(function(){var r=document.documentElement;r.classList.add('js');try{var t=localStorage.getItem('mpc-index-theme');if(t)r.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="preload" href="site/fonts/SourceSerif4-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="site/fonts/SourceSerif4Display-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -23,8 +22,7 @@
 <meta property="og:url" content="https://jakefoulkes1.github.io/mpc-communication-index/">
 <meta property="og:title" content="MPC Communication Index">
 <meta property="og:description" content="Does the tone of Bank of England MPC communication predict the next Bank Rate decision beyond what markets already price? Calls locked before each announcement, scored after — including the misses.">
-<!-- Share card: built at build time by pipeline/build_og_image.py from
-     data/index.json, so the picture is the real series, not an illustration. -->
+
 <meta property="og:image" content="https://jakefoulkes1.github.io/mpc-communication-index/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -47,41 +45,54 @@
     <h1>MPC Communication Index</h1>
     <p class="thesis">The language of Bank of England minutes, measured and tested
     against what markets already expect.</p>
-    <!-- Status line, generated: counts and the next lock date by
-         pipeline/build_fallbacks.py, the build stamp by
-         pipeline/build_build_info.py (the same source as the footer). -->
-    <p class="status-line" id="status-line"><!-- fallback:status --><a href="#call-card">3 locked calls</a> <span class="sep" aria-hidden="true">&middot;</span> next lock 15 December 2026 <span class="sep" aria-hidden="true">&middot;</span> 96 documents<!-- /fallback:status --> <span class="sep" aria-hidden="true">&middot;</span> <span id="build-stamp"><!-- fallback:buildstamp -->site built 3 November 2026 (<a href="https://github.com/jakefoulkes1/mpc-communication-index/commit/b3f5516d837ab14dfe742941aa861adbdc7bbb76"><code>b3f5516</code></a>)<!-- /fallback:buildstamp --></span></p>
+    
+    <p class="status-line" id="status-line"><!-- fallback:status --><a href="#call-card">3 forecasts published</a> <span class="sep" aria-hidden="true">&middot;</span> next forecast 15 December 2026 <span class="sep" aria-hidden="true">&middot;</span> 96 sets of minutes analysed<!-- /fallback:status --> <span class="sep" aria-hidden="true">&middot;</span> <span id="build-stamp"><!-- fallback:buildstamp -->site built 3 November 2026 (<a href="https://github.com/jakefoulkes1/mpc-communication-index/commit/b3f5516d837ab14dfe742941aa861adbdc7bbb76"><code>b3f5516</code></a>)<!-- /fallback:buildstamp --></span></p>
   </header>
 
   <main id="main">
 
   <section class="section project-intro" id="about" aria-labelledby="about-h">
-    <h2 id="about-h">Does central bank communication help predict interest rates?</h2>
+    <h2 id="about-h">About this project</h2>
     <p>I'm Jake Foulkes, an MPhil in Economics student at the University of Oxford.
-    I test whether the tone of Bank of England minutes adds
-    useful information beyond what financial markets already expect.</p>
-    <p>I score the language with a fixed dictionary, compare forecasts with a market
-    benchmark, and publish calls before announcements. Every call is scored afterwards
-    and remains on the record.</p>
+    Before each Bank of England rate decision I publish a forecast with a timestamp, and I
+    score it afterwards, misses included.</p>
+    <p>The project also asks whether the language of the Monetary Policy Committee's minutes
+    adds anything to what financial markets already expect.</p>
   </section>
 
   <nav class="reader-nav" aria-label="On this page">
-    <a href="#summary">Overview</a>
-    <a href="#call-card">Latest call</a>
-    <a href="#index-history">Explore minutes</a>
-    <a href="#results">Forecast test</a>
-    <a href="#track-record">Track record</a>
-    <a href="#how-it-works">How it works</a>
+    <a href="#current-view">My view</a>
+    <a href="#summary">Evidence</a>
+    <a href="#track-record">Forecast record</a>
+    <a href="#episodes">Meeting notes</a>
+    <a href="#how-it-works">Methods</a>
     <a href="methodology.html">Full methodology</a>
   </nav>
 
-  <!-- Findings follow the project introduction. Every figure is generated. -->
+  <!-- fallback:view -->
+  <section class="section current-view" id="current-view" aria-labelledby="view-h">
+    <span class="eyebrow">My current view</span>
+    <h2 id="view-h">5 November: I expect Bank Rate to rise to 4.00%.</h2>
+    <dl class="view-facts">
+      <div><dt>Probability of a hike</dt><dd>89.55%</dd></div>
+      <div><dt>Vote forecast</dt><dd>7–2</dd></div>
+      <div><dt>Published</dt><dd class="when"><time datetime="2026-11-03T09:37:31+00:00">3 November 2026, 09:37:31 UTC</time>, before the decision</dd></div>
+    </dl>
+    <p class="view-risk"><strong>Main risk.</strong> The central bloc waits for stronger wage evidence.</p>
+    <h3 class="subhead">Why</h3>
+    <ol class="view-reasons"><li>Inflation has moved up on every measure I watch: September CPI rose to 3.5% from 3.1%, core to 2.8% from 2.6%, and services to 3.7% from 3.4%.</li><li>The argument for waiting is weaker than in September. 68% of firms now expect to raise prices, eleven percentage points more than then, although expected wage growth stayed at 3.4%.</li><li>The market already prices a hike at 89.55%, so I did not shade it. The language index is not part of the call.</li></ol>
+    <p class="fine">These three points summarise the original rationale, which is unchanged since it was
+    published: <a href="#call-card">read the original locked rationale</a>.</p>
+  </section>
+  <!-- /fallback:view -->
+
   <section class="section" id="summary" aria-labelledby="summary-h">
-    <span class="eyebrow">The finding so far</span>
-    <h2 id="summary-h">Adding minutes' tone has not improved this forecast.</h2>
+    <span class="eyebrow">Evidence and risks</span>
+    <h2 id="summary-h">What the evidence shows</h2>
     <ul class="takeaways">
-      <li>The model adding tone and vote skew performs worse than the OIS-based proxy
-      on decisions it has not seen before. This is not a verdict on all communication.</li>
+      <li>Adding language and voting patterns to market pricing did not improve these forecasts.
+      The model that used them scored worse than market pricing alone on decisions it had not seen.
+      That is a result about these models and this sample, not a verdict on all central bank communication.</li>
     </ul>
     <div class="summary-facts">
       <p><strong>Historical test</strong>
@@ -93,137 +104,21 @@
 
   </section>
 
-  <!-- Figures generated from the catalogue by pipeline/build_fallbacks.py. -->
   <!-- fallback:statstrip -->
-  <dl class="statstrip"><div class="stat"><dt>Bank Rate</dt><dd class="stat-n">3.75%</dd><dd class="stat-sub">next decision 17 December 2026</dd></div><div class="stat"><dt>Locked calls</dt><dd class="stat-n">3</dd><dd class="stat-sub">2 correct of 2 scored</dd></div><div class="stat"><dt>Best tone model vs market</dt><dd class="stat-n">&minus;0.6250</dd><dd class="stat-sub">below zero: worse than the curve</dd></div><div class="stat"><dt>Corpus</dt><dd class="stat-n">96</dd><dd class="stat-sub">documents</dd></div></dl>
+  <dl class="statstrip"><div class="stat"><dt>Bank Rate</dt><dd class="stat-n">3.75%</dd><dd class="stat-sub">next decision 5 November 2026</dd></div><div class="stat"><dt>Forecasts published</dt><dd class="stat-n">3</dd><dd class="stat-sub">2 of 2 decided calls correct</dd></div><div class="stat"><dt>Language and voting patterns</dt><dd class="stat-n">No gain</dd><dd class="stat-sub">added to market pricing, forecasts scored worse than the market reference (skill score &minus;0.6250)</dd></div><div class="stat"><dt>Minutes analysed</dt><dd class="stat-n">96</dd><dd class="stat-sub">Bank of England MPC minutes</dd></div></dl>
   <!-- /fallback:statstrip -->
 
-  <div class="dashboard-grid">
-<section class="section" id="index-history">
-    <div class="section-heading"><div><span class="eyebrow">The communication index</span>
-    <h2>Explore the minutes</h2></div><a href="methodology.html#index-construction">Methodology &rarr;</a></div>
-    <p class="plain-summary">Hawkish language favours tighter policy; dovish language favours easier policy.</p>
-    <div class="explorer-toolbar" id="explorer-toolbar" hidden>
-      <label>Meeting<select id="meeting-select" aria-label="Meeting"></select></label>
-      <label>Chart period<select id="period-select" aria-label="Chart period"><option value="all">Full history</option><option value="recent">Recent meetings</option><option value="post">Post-hiking cycle</option></select></label>
-    </div>
-
-    <div id="status" style="display:none"></div>
-
-
-
-
-    <h3 class="subhead">A&amp;BG index, <!-- fig:corpus_start_month -->August 2015<!-- /fig:corpus_start_month --> to present</h3>
-    <div id="chart-status" class="fine" style="display:none"></div>
-    <!-- fallback:chart - the chart needs JavaScript to draw; this is the same
-         series described in words, generated from data/index.json and hidden
-         by renderChart() once the real chart is on screen. -->
-    <p class="fine" id="chart-fallback">The chart is drawn by JavaScript. In words:
-    <strong>96</strong> readings from 6 August 2015 to
-    17 September 2026 on the A&amp;BG 0&ndash;2 scale, where 1.0
-    is neutral. Latest <strong>1.333</strong> (minutes-2026-09); series low
-    0.000 (minutes-2015-12), high 2.000 (minutes-2015-08). A shaded band marks the hiking cycle, 16 December 2021 to 3 August 2023, derived from the Bank Rate history;
-    a dashed rule marks where the fragility sub-sample begins, 1 September 2023; a diamond marks
-    the locked call for 5 November 2026. Every point is in
-    <code>data/index.json</code>.</p>
-    <!-- /fallback:chart -->
-    <div class="chart-controls" id="chart-controls" style="display:none">
-      <label><input type="checkbox" id="toggle-decisions" checked> Decision with these minutes</label>
-      <label><input type="checkbox" id="toggle-bankrate" checked>
-        <span class="swatch"></span> Bank Rate</label>
-    </div>
-    <!-- fallback:chartmeta - the overlays' dates, generated by
-         pipeline/build_fallbacks.py from data/inference_v1.json (the
-         fragility sub-sample start) and the prediction file on display
-         (the locked call's meeting); the hiking-cycle band is derived by
-         the chart itself from the Bank Rate history in site_context.json. -->
-    <div class="chart-wrap" id="chart-wrap" data-fragility-start="2023-09-01"
-         data-fragility-label="fragility sub-sample begins"
-         data-locked-meeting="2026-11-05">
-      <svg id="chart" viewBox="0 0 700 260" style="display:none"
-           role="img" aria-labelledby="chart-title chart-desc" tabindex="0"></svg>
-      <div class="chart-tip" id="chart-tip" style="display:none" role="status" aria-live="polite"></div>
-    </div>
-    <!-- /fallback:chartmeta -->
-    <div class="fine" id="chart-legend"></div>
-  <hr class="divider">
-<!-- fallback:latest - the latest reading, generated from data/index.json
-         by pipeline/build_fallbacks.py and overwritten by renderLatest() on
-         success. Shown by default so a failed fetch leaves a reading, not a
-         blank. -->
-    <div class="reading" id="content">
-      <p class="docline" id="docline">MPC minutes for the meeting ending <strong>16 September 2026</strong>, published 17 September 2026. Decision: maintain Bank Rate at 3.75%; vote 6&ndash;3.</p>
-      <p class="score" id="score"><span class="sign-hawk">1.333</span> <span class="score-word">net hawkish (A&amp;BG Net Index, 0&ndash;2 scale, 1.0 = neutral)</span></p>
-      <div class="scale"><div class="marker" id="marker" style="left:66.6650%"></div></div>
-      <div class="scale-labels"><span>&larr; dovish</span><span>neutral</span><span>hawkish &rarr;</span></div>
-      <p class="fine" id="detail">4 hawkish and 2 dovish noun+adjective hits; lexicon <code>abg_2012</code>; sha256 <code>0c3764be868cbee3&hellip;</code>; <a href="https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2026/september-2026">source document</a>.</p>
-    </div>
-    <!-- /fallback:latest -->
-<dl class="meeting-facts" id="meeting-facts" hidden aria-live="polite"></dl>
-</section>
-<!-- fallback:call -->
-  <section class="section call-card locked" id="call-card" aria-labelledby="call-badge"
-           data-prediction-file="data/predictions/lock-2026-11.json">
-    <div class="call-badge locked" id="call-badge">LOCKED CALL</div>
-    <p class="call-heading" id="call-heading">Call for <strong>5 November 2026</strong></p>
-    <p class="call-stamp" id="call-stamp"><span class="stamp-label">Locked</span><time
-      datetime="2026-11-03T09:37:31+00:00">3 November 2026, 09:37:31 UTC</time> <span
-      aria-hidden="true">&middot;</span> <a
-      href="https://github.com/jakefoulkes1/mpc-communication-index/releases/tag/lock-2026-11" rel="noopener">tag lock-2026-11</a></p>
-    <!-- Every number in this card is the locked file's own, and the locked
-         file is never edited. Where a figure elsewhere on the site has since
-         been recomputed on a larger corpus, the two will differ; this line
-         says which one a reader is looking at. -->
-    <p class="call-asat" id="call-asat">Figures as at the lock date (3 November 2026).</p>
-
-    <p class="plain-summary" id="call-plain">The percentages below come from market
-    pricing. The point call and reasoning are mine, published and locked before
-    the announcement.</p>
-
-    <div class="call-probs" id="call-probs"><div class="call-prob"><span class="n">0%</span><span class="l">cut</span></div><div class="call-prob"><span class="n">10%</span><span class="l">hold</span></div><div class="call-prob is-lead is-call"><span class="n">90%</span><span class="l">hike</span></div></div>
-    <div class="call-probbar" id="call-probbar" aria-hidden="true"><span class="seg-cut" style="width:0.0%"></span><span class="seg-hold" style="width:10.4%"></span><span class="seg-hike" style="width:89.5%"></span></div>
-    <p class="call-probsrc" id="call-probsrc"><strong>m0</strong> <span class="prob-gloss">OIS-based proxy, not the author's forecast</span> &mdash; assumes a single 25bp move or hold.</p>
-    <p class="fine call-index-line" id="call-index-line">A&amp;BG index (minutes-2026-09): <strong>1.333</strong> vs trailing 4-document mean <strong>1.179</strong> (0.155 above)</p>
-    <div class="call-rationale" id="call-rationale">
-      <p class="call-rationale-h" id="call-rationale-h">Point call <span class="pt-call">hike</span></p>
-      <p class="call-rationale-body" id="call-rationale-body">Raise Bank Rate by 25bp to 4.00%.</p>
-      <details class="disclosure rationale-more" open>
-        <summary><span class="caret" aria-hidden="true"></span>Read the full locked rationale</summary>
-        <div class="disclosure-body"><p class="call-rationale-body" id="call-rationale-rest">My probability of a hike is 89.55%, the same as m0, with 10.45% on hold and zero on a cut. This is the first call where I have not shaded the market probability. The communication index stays out of the call: L3 scores &minus;0.6250 against the market-only benchmark and Spec 2 returns p = 0.4997. The index reads 1.333 against a trailing four-document mean of 1.179, hawkish and pointing the same way as the curve, but the project has not shown that using it improves the forecast.
-
-September’s reason for shading down does not carry over. The meeting-plus-three read still clips to the first one-month node, but that node now falls around 29 November, after this decision and before December’s. A November hike belongs in that price. The first four forwards are 3.9587%, 4.0463%, 4.1504% and 4.2657%. Smoothing may still pull some later pricing into the first point, but I cannot use those nodes to put a number on the effect. September’s correct hold did not validate the mechanism. I have no sufficiently well-supported reason to replace the curve’s probability with my own.
-
-The data since September gives the four conditional hawks more reason to move. September CPI rose to 3.5% from 3.1%, led by motor fuels, but core also rose to 2.8% from 2.6% and services to 3.7% from 3.4%. In September I argued that the headline had moved while the measures the majority was waiting for had stayed still. That is harder to argue now. The October pay release put regular earnings growth at 3.7%, with private-sector growth edging up to 3.0% after three periods at 2.9%, though those figures cover June–August and predate the September meeting. The more recent business survey found 68% of firms expecting to raise prices in response to the energy shock, eleven percentage points more than in September. Expected wage growth, however, remained at 3.4%. The evidence is stronger on prices than on wages. My judgement is that the four will now regard the risk of waiting as greater than the risk of moving before the wage evidence is conclusive.
-
-The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join Greene, Mann and Pill, with Dhingra and Taylor holding. Against that, vacancies fell by 21,000 to 691,000 and firms’ wage expectations have not risen. There is still a case for waiting, and I would reconsider if the central bloc made clear that sustained wage acceleration remained a condition for a rise. My hold alternative is 5–4, with Lombardelli crossing first and Bailey, Breeden and Ramsden waiting. A hold would mean I had mistaken their willingness to discuss a rise for a willingness to vote for one. A 5–4 hike would get the decision right but show that I had expected too many of them to move together.</p></div>
-      </details>
-    </div>
-    <p class="fine" id="call-fine" style="display:none"></p>
-
-    <!-- Once the announcement has happened and score_outcomes has run, the
-         card stops being a forward-looking notice and becomes a result. Both
-         figures come from the locked file's own outcome/scores fields. -->
-    <div class="call-outcome" id="call-outcome" hidden>
-      <div class="call-outcome-row"></div>
-    </div>
-
-    <p class="call-next" id="call-next">Next announcement:
-      <strong>17 December 2026</strong> &mdash; the next call locks before it.</p>
-  </section>
-  <!-- /fallback:call -->
-  </div>
-
 <section class="section" id="results">
-    <span class="eyebrow">The forecasting test</span>
-    <h2 id="ladder-heading">Does adding tone improve the forecast?</h2>
-    <h3 class="subhead">Benchmark ladder <span class="count" id="ladder-schema">(ladder-v1)</span></h3>
+    <span class="eyebrow">The test</span>
+    <h2 id="ladder-heading">Does adding information improve the forecast?</h2>
+    <h3 class="subhead">Forecast comparison <span class="count" id="ladder-schema">(ladder-v1)</span></h3>
     <div id="ladder-status" style="display:none"></div>
     <div id="ladder-content">
-      <p class="plain-summary" id="ladder-caption">L1 is the market benchmark.
-      Adding tone and vote skew together (L3), or member-vote histories (L4), performs worse.
+      <p class="plain-summary" id="ladder-caption">The market reference is the benchmark.
+      Adding language and voting patterns, or members' earlier votes, makes the forecast worse.
       <strong>Lower forecast errors are better.</strong></p>
       <p class="results-framing">
-        The best model using tone, L3, has skill
+        The best model that reads the minutes (market pricing + language + voting patterns) has skill
         <!-- fig:l3_skill -->&minus;0.6250<!-- /fig:l3_skill -->, where zero would be a tie.
         The score measures relative Brier performance. Whether the difference from
         the market is distinguishable from zero has not yet been tested.
@@ -244,21 +139,20 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
       <details class="disclosure score-table" open>
         <summary><span class="caret" aria-hidden="true"></span>All scores and sample counts</summary>
         <div class="disclosure-body">
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Benchmark ladder scores, L0 to L4">
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Forecast comparison scores for the five models">
         <table id="ladder-table">
           <caption>Mean Brier score, mean log score, skill versus the
-          L1 market benchmark, and number of meetings, for models L0 to L4</caption>
+          market reference, and number of meetings, for the five models</caption>
           <thead>
-            <tr><th scope="col">Model</th><th scope="col">Mean Brier</th><th scope="col">Mean log score</th><th scope="col">Skill vs L1</th><th scope="col">n</th></tr>
+            <tr><th scope="col">Model</th><th scope="col">Mean Brier</th><th scope="col">Mean log score</th><th scope="col">Skill vs market reference</th><th scope="col">n</th></tr>
           </thead>
-          <!-- fallback:ladder - generated from data/ladder_v1.json, replaced by
-               renderLadder() on success, asserted by test_static_fallback.py. -->
+          <!-- fallback:ladder -->
           <tbody id="ladder-tbody">
-            <tr><td><strong>L0</strong><span class="model-gloss">always-hold</span></td><td>0.6452</td><td>6.6849</td><td>&mdash;</td><td>62</td></tr>
-            <tr class="model-l1"><td><strong>L1</strong><span class="model-gloss">market pricing</span></td><td>0.0904</td><td>0.1470</td><td>&mdash;</td><td>62</td></tr>
-            <tr><td><strong>L2</strong><span class="model-gloss">market modelled</span></td><td>0.0980</td><td>0.1660</td><td>&minus;0.0841</td><td>62</td></tr>
-            <tr><td><strong>L3</strong><span class="model-gloss">market + tone + skew</span></td><td>0.1469</td><td>0.2599</td><td>&minus;0.6250</td><td>62</td></tr>
-            <tr><td><strong>L4</strong><span class="model-gloss">member simulation</span></td><td>0.1592</td><td>0.2553</td><td>&minus;0.7611</td><td>62</td></tr>
+            <tr><td><strong>Always predict hold</strong><span class="model-gloss">Model L0</span></td><td>0.6452</td><td>6.6849</td><td>&mdash;</td><td>62</td></tr>
+            <tr class="model-l1"><td><strong>Market reference</strong><span class="model-gloss">Model L1</span></td><td>0.0904</td><td>0.1470</td><td>&mdash;</td><td>62</td></tr>
+            <tr><td><strong>Market pricing, refitted</strong><span class="model-gloss">Model L2</span></td><td>0.0980</td><td>0.1660</td><td>&minus;0.0841</td><td>62</td></tr>
+            <tr><td><strong>Market pricing + language + voting patterns</strong><span class="model-gloss">Model L3</span></td><td>0.1469</td><td>0.2599</td><td>&minus;0.6250</td><td>62</td></tr>
+            <tr><td><strong>Member-by-member voting simulation</strong><span class="model-gloss">Model L4</span></td><td>0.1592</td><td>0.2553</td><td>&minus;0.7611</td><td>62</td></tr>
           </tbody>
         <!-- /fallback:ladder -->
         </table>
@@ -266,9 +160,6 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
         </div>
       </details>
 
-      <!-- Why the n's differ. This is where a reader meets the first sample
-           size on the page, so the explanation sits here rather than in a
-           footnote. Canonical version: methodology.html#sample-sizes. -->
       <details class="disclosure" open>
         <summary><span class="caret" aria-hidden="true"></span>Read more: models, sample sizes and evaluation</summary>
         <div class="disclosure-body">
@@ -304,8 +195,7 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
       <!-- fig:frag_start -->1 September 2023<!-- /fig:frag_start -->. <a href="methodology.html#sample-sizes">Full note in the
       methodology</a>.</p>
 
-          <!-- fallback:laddermeta - generated from data/ladder_v1.json by
-               pipeline/build_fallbacks.py, replaced by renderLadder() on success. -->
+          <!-- fallback:laddermeta -->
           <p class="fine" id="ladder-meta" style="margin-top:0">Scheduled meetings only, evaluated from 1 January 2019 onwards (n&nbsp;=&nbsp;62); 2 special meetings reported separately, not blended in; log-score probability floor 1e&minus;9.</p>
           <!-- /fallback:laddermeta -->
           <p class="fine">
@@ -345,9 +235,7 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
 
     <hr class="divider">
     <h3 class="subhead">Is tone linked to the unexpected part of a decision?</h3>
-    <!-- The plain-English summary is static and always visible: it is a
-         sentence, not a figure, so it should survive a failed fetch. Only
-         the numeric line below it waits on data/inference_v1.json. -->
+    
     <p class="plain-summary" id="spec3-caption">A market surprise is the actual rate change
     minus the change implied by the market proxy. The full-history test finds an association
     with the previous minutes' tone. The estimate has the same sign but
@@ -385,8 +273,7 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
           <p class="prose">The later sample is smaller and overlaps the full sample.
           Its greater uncertainty does not establish that the relationship changed,
           and it is not an independent replication.</p>
-        <!-- fallback:spec3 - generated from data/inference_v1.json, replaced by
-             renderInference() on success, asserted by test_static_fallback.py. -->
+        <!-- fallback:spec3 -->
           <p id="spec3-line" class="prose" style="margin:0">Regressing each meeting's market surprise on the <em>previous</em> meeting's index (OLS, Newey&ndash;West standard errors, 4 lags, n=93 scheduled meetings): coefficient <strong>&minus;2.08</strong> (t = &minus;2.08, <strong>p = 0.0375</strong>). On the post-hiking-cycle subsample (from 1 September 2023, n=25) the estimate has the same sign but is not statistically distinguishable from zero: coefficient &minus;2.97 (t = &minus;1.35, p = 0.1777). Spec 2, an ordered-logit likelihood-ratio test on the discrete decision, finds no statistically significant improvement: LR = 0.4556, p = 0.4997. Coefficients and t-statistics are rounded to 2 decimal places and p-values to 4; full precision is in <a href="data/inference_v1.json">the full statistical results</a>.</p>
         <!-- /fallback:spec3 -->
           <p class="fine substantive"><strong>No standard errors are published.</strong>
@@ -397,6 +284,178 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
       </details>
     </div>
   </section>
+
+  <section class="section" id="track-record">
+    <span class="eyebrow">Forecast record</span>
+    <h2>My forecast, the market's, and what happened</h2>
+    <p class="plain-summary">Each forecast was published before its decision and scored afterwards.
+    Lower scores are better. Three forecasts are too few to show whether the forecasts are well
+    calibrated or skilful, so the record is here to be checked rather than to impress.</p>
+    <!-- fallback:record -->
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Market reference, my forecast and outcome for each decision">
+      <table class="record-table">
+        <caption>Each date links to the forecast as it was published. Scores are Brier scores: lower is better, and 0 is a perfect call.</caption>
+        <thead><tr><th scope="col">Decision</th><th scope="col">Market reference: chance of a hike</th><th scope="col">My chance of a hike</th><th scope="col">My vote forecast</th><th scope="col">What happened</th><th scope="col">Market reference score</th><th scope="col">My score</th><th scope="col">My vote forecast score</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><a href="https://github.com/jakefoulkes1/mpc-communication-index/releases/tag/lock-2026-07">30 July 2026</a></th><td>3.86%</td><td>not recorded</td><td>2 votes to hike (not scored)</td><td>Hold, 6–3</td><td>0.0030</td><td>&mdash;</td><td>&mdash;</td></tr>
+          <tr><th scope="row"><a href="https://github.com/jakefoulkes1/mpc-communication-index/releases/tag/lock-2026-09">17 September 2026</a></th><td>28.92%</td><td>20.00%</td><td>3 votes to hike (50%)</td><td>Hold, 6–3</td><td>0.1673</td><td>0.0800</td><td>0.3400</td></tr>
+          <tr><th scope="row"><a href="https://github.com/jakefoulkes1/mpc-communication-index/releases/tag/lock-2026-11">5 November 2026</a></th><td>89.55%</td><td>89.55%</td><td>7–2 for a hike</td><td>Due 5 November 2026</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- /fallback:record -->
+    <p class="fine">My probability is my own judgement, published with the forecast. Before September I did not
+    record one separately, and in November it equals the market reference because I chose not to shade it.
+    The September figures were scored by hand, as recorded in the
+    <a href="https://github.com/jakefoulkes1/mpc-communication-index/blob/main/DECISIONS.md#scores-brier-summed-over-outcome-bins-lower-is-better">decisions log</a>.
+    The pre-registration for each decision is on that decision's own release page, linked from its date.</p>
+    <h3 class="subhead">Market probabilities for every forecast</h3>
+    <div id="track-status" style="display:none"></div>
+    <div id="track-content">
+      <label class="row-toggle" id="track-toggle-wrap" style="display:none">
+        <input type="checkbox" id="toggle-rehearsals">
+        <span id="track-toggle-label">Show rehearsals and dry runs</span>
+      </label>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Market probabilities for every published forecast">
+        <table id="track-table">
+          <caption>Every published forecast: meeting date, status,
+          point call, market-implied probabilities, outcome and market reference score</caption>
+          <thead>
+            <tr><th scope="col">Meeting</th><th scope="col">Status</th><th scope="col">Point call</th><th scope="col">Cut</th><th scope="col">Hold</th><th scope="col">Hike</th><th scope="col">Outcome</th><th scope="col">Market reference score</th></tr>
+          </thead>
+          <!-- fallback:track -->
+          <tbody id="track-tbody">
+            <tr class="kind-locked"><td>30 July 2026</td><td><span class="track-badge locked">Locked</span></td><td>hold</td><td>0%</td><td>96%</td><td>4%</td><td>hold</td><td>0.0030</td></tr>
+            <tr class="kind-locked"><td>17 September 2026</td><td><span class="track-badge locked">Locked</span></td><td>hold</td><td>0%</td><td>71%</td><td>29%</td><td>hold</td><td>0.1673</td></tr>
+            <tr class="kind-locked"><td>5 November 2026</td><td><span class="track-badge locked">Locked</span></td><td>hike</td><td>0%</td><td>10%</td><td>90%</td><td>&mdash;</td><td>&mdash;</td></tr>
+            <tr class="kind-pending"><td>17 December 2026</td><td><span class="track-badge pending">Pending</span> <span class="track-lockdate">locks 15 December 2026</span></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+          </tbody>
+        <!-- /fallback:track -->
+        </table>
+      </div>
+      <p class="fine" id="track-empty-note" style="display:none"></p>
+
+      <p class="miss-note" id="july-miss">
+      <strong>July: right on the decision, wrong on the vote.</strong> The locked call, hold,
+      was correct and is scored above. The unscored side-call, that the hawkish minority would
+      stay at two, was wrong: it went to three.
+      <a href="episodes.html#episode-2026-07-30">Read the episode, &ldquo;The minority grew&rdquo;</a>.</p>
+    </div>
+  </section>
+
+<!-- fallback:call -->
+  <section class="section call-card locked" id="call-card" aria-labelledby="call-badge"
+           data-prediction-file="data/predictions/lock-2026-11.json">
+    <div class="call-badge locked" id="call-badge">Published before the decision</div>
+    <p class="call-heading" id="call-heading">Call for <strong>5 November 2026</strong></p>
+    <p class="call-stamp" id="call-stamp"><span class="stamp-label">Locked</span><time
+      datetime="2026-11-03T09:37:31+00:00">3 November 2026, 09:37:31 UTC</time> <span
+      aria-hidden="true">&middot;</span> <a
+      href="https://github.com/jakefoulkes1/mpc-communication-index/releases/tag/lock-2026-11" rel="noopener">tag lock-2026-11</a></p>
+    <!-- Every number in this card is the locked file's own, and the locked
+         file is never edited. Where a figure elsewhere on the site has since
+         been recomputed on a larger corpus, the two will differ; this line
+         says which one a reader is looking at. -->
+    <p class="call-asat" id="call-asat">Figures as at the lock date (3 November 2026).</p>
+
+    <p class="plain-summary" id="call-plain">The percentages below come from market
+    pricing. The point call and reasoning are mine, published and locked before
+    the announcement.</p>
+
+    <div class="call-probs" id="call-probs"><div class="call-prob"><span class="n">0%</span><span class="l">cut</span></div><div class="call-prob"><span class="n">10%</span><span class="l">hold</span></div><div class="call-prob is-lead is-call"><span class="n">90%</span><span class="l">hike</span></div></div>
+    <div class="call-probbar" id="call-probbar" aria-hidden="true"><span class="seg-cut" style="width:0.0%"></span><span class="seg-hold" style="width:10.4%"></span><span class="seg-hike" style="width:89.5%"></span></div>
+    <p class="call-probsrc" id="call-probsrc"><strong>Market reference</strong> <span class="prob-gloss">from OIS market pricing, not my forecast</span> &mdash; assumes a single 25bp move or hold.</p>
+    <p class="fine call-index-line" id="call-index-line">Minutes language score (minutes-2026-09): <strong>1.333</strong> vs trailing 4-document mean <strong>1.179</strong> (0.155 above)</p>
+    <div class="call-rationale" id="call-rationale">
+      <p class="call-rationale-h" id="call-rationale-h">Point call <span class="pt-call">hike</span></p>
+      <p class="call-rationale-body" id="call-rationale-body">Raise Bank Rate by 25bp to 4.00%.</p>
+      <details class="disclosure rationale-more" open>
+        <summary><span class="caret" aria-hidden="true"></span>Read the full locked rationale</summary>
+        <div class="disclosure-body"><p class="call-rationale-body" id="call-rationale-rest">My probability of a hike is 89.55%, the same as m0, with 10.45% on hold and zero on a cut. This is the first call where I have not shaded the market probability. The communication index stays out of the call: L3 scores &minus;0.6250 against the market-only benchmark and Spec 2 returns p = 0.4997. The index reads 1.333 against a trailing four-document mean of 1.179, hawkish and pointing the same way as the curve, but the project has not shown that using it improves the forecast.
+
+September’s reason for shading down does not carry over. The meeting-plus-three read still clips to the first one-month node, but that node now falls around 29 November, after this decision and before December’s. A November hike belongs in that price. The first four forwards are 3.9587%, 4.0463%, 4.1504% and 4.2657%. Smoothing may still pull some later pricing into the first point, but I cannot use those nodes to put a number on the effect. September’s correct hold did not validate the mechanism. I have no sufficiently well-supported reason to replace the curve’s probability with my own.
+
+The data since September gives the four conditional hawks more reason to move. September CPI rose to 3.5% from 3.1%, led by motor fuels, but core also rose to 2.8% from 2.6% and services to 3.7% from 3.4%. In September I argued that the headline had moved while the measures the majority was waiting for had stayed still. That is harder to argue now. The October pay release put regular earnings growth at 3.7%, with private-sector growth edging up to 3.0% after three periods at 2.9%, though those figures cover June–August and predate the September meeting. The more recent business survey found 68% of firms expecting to raise prices in response to the energy shock, eleven percentage points more than in September. Expected wage growth, however, remained at 3.4%. The evidence is stronger on prices than on wages. My judgement is that the four will now regard the risk of waiting as greater than the risk of moving before the wage evidence is conclusive.
+
+The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join Greene, Mann and Pill, with Dhingra and Taylor holding. Against that, vacancies fell by 21,000 to 691,000 and firms’ wage expectations have not risen. There is still a case for waiting, and I would reconsider if the central bloc made clear that sustained wage acceleration remained a condition for a rise. My hold alternative is 5–4, with Lombardelli crossing first and Bailey, Breeden and Ramsden waiting. A hold would mean I had mistaken their willingness to discuss a rise for a willingness to vote for one. A 5–4 hike would get the decision right but show that I had expected too many of them to move together.</p></div>
+      </details>
+    </div>
+    <p class="fine" id="call-fine" style="display:none"></p>
+
+    <!-- Once the announcement has happened and score_outcomes has run, the
+         card stops being a forward-looking notice and becomes a result. Both
+         figures come from the locked file's own outcome/scores fields. -->
+    <div class="call-outcome" id="call-outcome" hidden>
+      <div class="call-outcome-row"></div>
+    </div>
+
+    <p class="call-next" id="call-next">Decision due: <strong>5 November 2026</strong>. The forecast for the 17 December 2026 meeting will be published on 15 December 2026.</p>
+  </section>
+  <!-- /fallback:call -->
+
+  <section class="section" id="episodes">
+    <span class="eyebrow">Meeting notes</span>
+    <h2>Where the evidence contradicted my reading</h2>
+    <p class="plain-summary">After each decision I write up what I expected, what happened and what I
+    changed my mind about. <a href="episodes.html">Read all the notes</a>.</p>
+    <div id="episodes-status" class="fine" style="display:none"></div>
+    <!-- fallback:episodes -->
+    <ul id="episodes-list" class="episode-list">
+      <li class="ep-item"><h3 class="ep-title"><a href="episodes.html#episode-2026-10-05">The lexicon caught it anyway</a></h3><p class="ep-date">5 October 2026</p><p class="ep-standfirst">The September call scored cleanly. Bank Rate held at 3.75%, the locked probabilities beat the market, and the vote split, scored for the first time rather than carried as an ancillary, came in where I had put most of the weight.</p><p class="ep-more"><a href="episodes.html#episode-2026-10-05">Read the full note</a></p></li><li class="ep-item"><h3 class="ep-title"><a href="episodes.html#episode-2026-07-30">The minority grew</a></h3><p class="ep-date">30 July 2026</p><p class="ep-standfirst">The July call scored cleanly. Bank Rate held at 3.75% on 30 July; the locked probabilities returned a Brier of 0.003; nothing in the record moved between lock and score but the outcome field and the scores that follow from it.</p><p class="ep-more"><a href="episodes.html#episode-2026-07-30">Read the full note</a></p></li>
+    </ul>
+    <!-- /fallback:episodes -->
+  </section>
+
+<section class="section" id="index-history">
+    <div class="section-heading"><div><span class="eyebrow">The communication index</span>
+    <h2>Explore the minutes</h2></div><a href="methodology.html#index-construction">Methodology &rarr;</a></div>
+    <p class="plain-summary">Hawkish language favours tighter policy; dovish language favours easier policy.</p>
+    <div class="explorer-toolbar" id="explorer-toolbar" hidden>
+      <label>Meeting<select id="meeting-select" aria-label="Meeting"></select></label>
+      <label>Chart period<select id="period-select" aria-label="Chart period"><option value="all">Full history</option><option value="recent">Recent meetings</option><option value="post">Post-hiking cycle</option></select></label>
+    </div>
+
+    <div id="status" style="display:none"></div>
+
+    <h3 class="subhead">A&amp;BG index, <!-- fig:corpus_start_month -->August 2015<!-- /fig:corpus_start_month --> to present</h3>
+    <div id="chart-status" class="fine" style="display:none"></div>
+    <!-- fallback:chart -->
+    <p class="fine" id="chart-fallback">The chart is drawn by JavaScript. In words:
+    <strong>96</strong> readings from 6 August 2015 to
+    17 September 2026 on the A&amp;BG 0&ndash;2 scale, where 1.0
+    is neutral. Latest <strong>1.333</strong> (minutes-2026-09); series low
+    0.000 (minutes-2015-12), high 2.000 (minutes-2015-08). A shaded band marks the hiking cycle, 16 December 2021 to 3 August 2023, derived from the Bank Rate history;
+    a dashed rule marks where the fragility sub-sample begins, 1 September 2023; a diamond marks
+    the locked call for 5 November 2026. Every point is in
+    <code>data/index.json</code>.</p>
+    <!-- /fallback:chart -->
+    <div class="chart-controls" id="chart-controls" style="display:none">
+      <label><input type="checkbox" id="toggle-decisions" checked> Decision with these minutes</label>
+      <label><input type="checkbox" id="toggle-bankrate" checked>
+        <span class="swatch"></span> Bank Rate</label>
+    </div>
+    <!-- fallback:chartmeta -->
+    <div class="chart-wrap" id="chart-wrap" data-fragility-start="2023-09-01"
+         data-fragility-label="fragility sub-sample begins"
+         data-locked-meeting="2026-11-05">
+      <svg id="chart" viewBox="0 0 700 260" style="display:none"
+           role="img" aria-labelledby="chart-title chart-desc" tabindex="0"></svg>
+      <div class="chart-tip" id="chart-tip" style="display:none" role="status" aria-live="polite"></div>
+    </div>
+    <!-- /fallback:chartmeta -->
+    <div class="fine" id="chart-legend"></div>
+  <hr class="divider">
+<!-- fallback:latest -->
+    <div class="reading" id="content">
+      <p class="docline" id="docline">MPC minutes for the meeting ending <strong>16 September 2026</strong>, published 17 September 2026. Decision: maintain Bank Rate at 3.75%; vote 6&ndash;3.</p>
+      <p class="score" id="score"><span class="sign-hawk">1.333</span> <span class="score-word">net hawkish (A&amp;BG Net Index, 0&ndash;2 scale, 1.0 = neutral)</span></p>
+      <div class="scale"><div class="marker" id="marker" style="left:66.6650%"></div></div>
+      <div class="scale-labels"><span>&larr; dovish</span><span>neutral</span><span>hawkish &rarr;</span></div>
+      <p class="fine" id="detail">4 hawkish and 2 dovish noun+adjective hits; lexicon <code>abg_2012</code>; sha256 <code>0c3764be868cbee3&hellip;</code>; <a href="https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2026/september-2026">source document</a>.</p>
+    </div>
+    <!-- /fallback:latest -->
+<dl class="meeting-facts" id="meeting-facts" hidden aria-live="polite"></dl>
+</section>
 
   <section class="section" id="how-it-works" aria-labelledby="how-it-works-h">
     <h2 id="how-it-works-h">How the test works</h2>
@@ -490,45 +549,44 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
     </div>
 </section>
 
-  <!-- 7. Verification, consolidated: the tag, the git command and the
-       repository, in one place near the top of the page rather than spread
-       across the call card and the footer nav. Generated from the locked
-       prediction file by pipeline/build_fallbacks.py. -->
+<!-- fallback:verify -->
+  <section class="section" id="how-to-check">
+    <h2>Check the record</h2>
+    <p class="plain-summary">The call below was published before the announcement.
+    Its timestamp, original text, data and code are public.</p>
+    <details class="disclosure" open>
+      <summary><span class="caret" aria-hidden="true"></span>Read more: verify the timestamp and original call</summary>
+      <div class="disclosure-body">
+    <ol class="verify-list">
+      <li><strong>The timestamp.</strong> Open the
+      <a href="https://github.com/jakefoulkes1/mpc-communication-index/releases/tag/lock-2026-11" rel="noopener">tag <code>lock-2026-11</code></a>, which GitHub dates
+      independently of anything in this repository.</li>
+      <li><strong>The call itself.</strong> Clone the repository and run
+      <code>git show lock-2026-11:data/predictions/lock-2026-11.json</code> to read the call exactly as it stood
+      when it was locked.</li>
+      <li><strong>Everything else.</strong> The code, the data, and the dated log of every
+      methodological choice are in
+      <a href="https://github.com/jakefoulkes1/mpc-communication-index" rel="noopener">the repository</a>.</li>
+    </ol>
+      </div>
+    </details>
+  </section>
+  <!-- /fallback:verify -->
 
-
-  <!-- 1. The call
-       Everything between fallback:call and /fallback:call is generated from
-       data/predictions/lock-2026-07.json and is what a reader sees if the
-       fetch fails or JavaScript never runs. renderCallCard() overwrites it
-       on success. pipeline/tests/test_static_fallback.py asserts these
-       figures still match the JSON - regenerate them, never retype them. -->
-
-  <div id="call-status" style="display:none"></div>
-
-  <!-- 2. The index (latest reading + history chart) -->
-
-
-  <!-- Archived context is retained for reproducibility, not displayed as
-       current pricing. Re-enable only after a verified, dated data refresh. -->
   <section class="section" id="market-context" hidden>
     <h2>Market &amp; macro context <span class="context-badge">Context &mdash; not model inputs</span></h2>
     <div id="context-status" class="fine" style="display:none"></div>
     <div id="context-content">
 
-      <!-- The same "In plain English" device the Results section uses. -->
       <p class="plain-summary" id="context-caption">An archived view of rate pricing and
       gilt yields. This panel is not refreshed with every site build and feeds no model.</p>
-      <!-- fallback:contextstamp --><p class="archive-stamp" id="context-snapshot">Archived snapshot generated 2 November 2026. Market observations as of 30 October 2026; not current pricing.</p><!-- /fallback:contextstamp -->
+      <!-- fallback:contextstamp --><p class="archive-stamp" id="context-snapshot">Archived snapshot dated 2 November 2026. Market observations as of 30 October 2026; not current pricing.</p><!-- /fallback:contextstamp -->
 
       <details class="disclosure" open>
         <summary><span class="caret" aria-hidden="true"></span>More detail</summary>
         <div class="disclosure-body">
 
-      <!-- fallback:context - every figure in this panel generated from
-           data/site_context.json by pipeline/build_fallbacks.py, and
-           overwritten by renderContext() on success. The two sparklines are
-           drawn by JavaScript and stay empty without it; the numbers they
-           illustrate are here in full. -->
+      <!-- fallback:context -->
       <div class="ctx-block">
         <h3 class="ctx-h" id="ois-h">OIS-based path &middot; 3 meetings in this snapshot</h3>
         <p class="ctx-sub" id="ois-sub">Curve as of <b>30 October 2026</b> vs SONIA 3.735% (29 October 2026) &middot; two-state &plusmn;25bp assumption.</p>
@@ -568,35 +626,6 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
     </div>
   </section>
 
-  <!-- 3. Results -->
-
-
-<!-- fallback:verify -->
-  <section class="section" id="how-to-check">
-    <h2>Check the record</h2>
-    <p class="plain-summary">The call below was published before the announcement.
-    Its timestamp, original text, data and code are public.</p>
-    <details class="disclosure" open>
-      <summary><span class="caret" aria-hidden="true"></span>Read more: verify the timestamp and original call</summary>
-      <div class="disclosure-body">
-    <ol class="verify-list">
-      <li><strong>The timestamp.</strong> Open the
-      <a href="https://github.com/jakefoulkes1/mpc-communication-index/releases/tag/lock-2026-11" rel="noopener">tag <code>lock-2026-11</code></a>, which GitHub dates
-      independently of anything in this repository.</li>
-      <li><strong>The call itself.</strong> Clone the repository and run
-      <code>git show lock-2026-11:data/predictions/lock-2026-11.json</code> to read the call exactly as it stood
-      when it was locked.</li>
-      <li><strong>Everything else.</strong> The code, the data, and the dated log of every
-      methodological choice are in
-      <a href="https://github.com/jakefoulkes1/mpc-communication-index" rel="noopener">the repository</a>.</li>
-    </ol>
-      </div>
-    </details>
-  </section>
-  <!-- /fallback:verify -->
-
-  <!-- 9. Glossary. Collapsed, because a reader who knows these terms should
-       not have to scroll past them. -->
   <section class="section" id="glossary">
     <h2>Glossary</h2>
     <details class="disclosure" open>
@@ -630,77 +659,6 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
     </details>
   </section>
 
-  <!-- 3b. Track record -->
-  <section class="section" id="track-record">
-    <h2>Every locked call, scored</h2>
-    <p class="plain-summary">Each call was locked before its announcement and scored
-    afterwards. The Brier column scores the market probabilities, labelled m0;
-    the author's point call is judged by whether it matched the decision.
-    The small number of live calls cannot establish calibration or forecasting skill.</p>
-    <p class="prose">The probabilities above are the <strong>m0 market reference</strong>,
-    not the author's judgmental probability forecast. The author's shaded decision
-    distribution and vote-split distribution are recorded separately in the
-    <a href="https://github.com/jakefoulkes1/mpc-communication-index/blob/lock-2026-09/DECISIONS.md#pre-registration-the-vote-split-as-a-scored-distribution">original pre-registration</a>.
-    Their <a href="https://github.com/jakefoulkes1/mpc-communication-index/blob/main/DECISIONS.md#scores-brier-summed-over-outcome-bins-lower-is-better">hand-scored outcomes</a>
-    remain beside the pipeline scores in the log; they are not folded into this table.</p>
-    <div id="track-status" style="display:none"></div>
-    <div id="track-content">
-      <label class="row-toggle" id="track-toggle-wrap" style="display:none">
-        <input type="checkbox" id="toggle-rehearsals">
-        <span id="track-toggle-label">Show rehearsals and dry runs</span>
-      </label>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Track record of every locked call">
-        <table id="track-table">
-          <caption>Every locked call: meeting date, kind,
-          point call, market-implied probabilities, outcome and Brier score</caption>
-          <thead>
-            <tr><th scope="col">Meeting</th><th scope="col">Locked</th><th scope="col">Call</th><th scope="col">Cut</th><th scope="col">Hold</th><th scope="col">Hike</th><th scope="col">Outcome</th><th scope="col">Brier (m0)</th></tr>
-          </thead>
-          <!-- fallback:track - locked rows generated from data/track_record.json,
-               replaced by renderTrackRecord() on success. Locked calls only: the
-               show-rehearsals toggle is JavaScript, so with no JS the honest
-               static state is the record itself, not a control that does nothing. -->
-          <tbody id="track-tbody">
-            <tr class="kind-locked"><td>30 July 2026</td><td><span class="track-badge locked">Locked</span></td><td>hold</td><td>0%</td><td>96%</td><td>4%</td><td>hold</td><td>0.0030</td></tr>
-            <tr class="kind-locked"><td>17 September 2026</td><td><span class="track-badge locked">Locked</span></td><td>hold</td><td>0%</td><td>71%</td><td>29%</td><td>hold</td><td>0.1673</td></tr>
-            <tr class="kind-locked"><td>5 November 2026</td><td><span class="track-badge locked">Locked</span></td><td>hike</td><td>0%</td><td>10%</td><td>90%</td><td>&mdash;</td><td>&mdash;</td></tr>
-            <tr class="kind-pending"><td>17 December 2026</td><td><span class="track-badge pending">Pending</span> <span class="track-lockdate">locks 15 December 2026</span></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-          </tbody>
-        <!-- /fallback:track -->
-        </table>
-      </div>
-      <p class="fine" id="track-empty-note" style="display:none"></p>
-
-      <!-- The July miss, stated next to the record it belongs to. -->
-      <p class="miss-note" id="july-miss">
-      <strong>July: right on the decision, wrong on the vote.</strong> The locked call, hold,
-      was correct and is scored above. The unscored side-call, that the hawkish minority would
-      stay at two, was wrong: it went to three.
-      <a href="episodes.html#episode-2026-07-30">Read the episode, &ldquo;The minority grew&rdquo;</a>.</p>
-    </div>
-  </section>
-
-  <!-- 4. Episodes. The notes themselves live on episodes.html since
-       2026-09-02; what stays here is the title, the date, the note's own
-       opening two sentences and a link. Nothing is summarised: the
-       standfirst is the note's first two sentences as written. -->
-  <section class="section" id="episodes">
-    <h2>Notes on particular meetings</h2>
-    <p class="fine" style="margin-top:-6px">Short, dated annotations on specific meetings and
-    moments &mdash; written by hand, not generated.
-    <a href="episodes.html">All notes</a>.</p>
-    <div id="episodes-status" class="fine" style="display:none"></div>
-    <!-- fallback:episodes - generated from data/annotations.json by
-         pipeline/build_fallbacks.py (build_episode_list) and overwritten by
-         renderEpisodes() on success. Titles, dates and standfirsts only. -->
-    <ul id="episodes-list" class="episode-list">
-      <li class="ep-item"><h3 class="ep-title"><a href="episodes.html#episode-2026-10-05">The lexicon caught it anyway</a></h3><p class="ep-date">5 October 2026</p><p class="ep-standfirst">The September call scored cleanly. Bank Rate held at 3.75%, the locked probabilities beat the market, and the vote split, scored for the first time rather than carried as an ancillary, came in where I had put most of the weight.</p><p class="ep-more"><a href="episodes.html#episode-2026-10-05">Read the full note</a></p></li><li class="ep-item"><h3 class="ep-title"><a href="episodes.html#episode-2026-07-30">The minority grew</a></h3><p class="ep-date">30 July 2026</p><p class="ep-standfirst">The July call scored cleanly. Bank Rate held at 3.75% on 30 July; the locked probabilities returned a Brier of 0.003; nothing in the record moved between lock and score but the outcome field and the scores that follow from it.</p><p class="ep-more"><a href="episodes.html#episode-2026-07-30">Read the full note</a></p></li>
-    </ul>
-    <!-- /fallback:episodes -->
-  </section>
-
-  <!-- Related work: one list, shared with methodology.html's References and
-       generated by pipeline/build_fallbacks.py from RELATED_WORK. -->
   <section class="section" id="related-work">
     <h2>References</h2>
     <details class="disclosure" open>
@@ -723,7 +681,6 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
 
   </main>
 
-  <!-- 5. Methodology -->
   <nav class="methodology" aria-label="Methodology and source links">
     <span class="m-label">Methodology</span>
     <a href="methodology.html">Full methodology</a>
@@ -735,14 +692,13 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
   <footer>
     <p class="nia"><strong>Not investment advice.</strong> A research project, not a
     recommendation to buy, sell, or hold anything.</p>
-    <!-- fallback:byline - from AUTHOR in pipeline/site_figures.py -->
+    <!-- fallback:byline -->
     <p class="byline"><strong>Jake Foulkes</strong> <span class="affiliation">MPhil Economics, University of Oxford</span> <a href="mailto:jakefoulkes@aol.com">jakefoulkes@aol.com</a></p>
     <!-- /fallback:byline -->
     <p>Source documents &copy; Bank of England, linked, not republished. Lexicon: Apel &amp;
     Blix Grimaldi (2012), implemented verbatim (see the decisions log).
-    <!-- fallback:gennote --><span id="gen-note">Index data generated 5 October 2026.</span><!-- /fallback:gennote --></p>
-    <!-- fallback:buildinfo - generated from data/build_info.json by
-         pipeline/build_build_info.py, refreshed by JS when it loads. -->
+    <!-- fallback:gennote --><span id="gen-note">Index data last updated 5 October 2026.</span><!-- /fallback:gennote --></p>
+    <!-- fallback:buildinfo -->
     <p><span id="build-note">Site last updated 3 November 2026 (<a
       href="https://github.com/jakefoulkes1/mpc-communication-index/commit/b3f5516d837ab14dfe742941aa861adbdc7bbb76"><code>b3f5516</code></a>).</span></p>
     <!-- /fallback:buildinfo -->
@@ -750,9 +706,6 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
 </div>
 
 <script>
-// The prediction file on display is the newest lock-* file, written into
-// the call card's data attribute by pipeline/build_fallbacks.py. Nothing
-// here is edited by hand on lock day.
 const PREDICTION_FILE = document.getElementById('call-card').dataset.predictionFile;
 const SVGNS = 'http://www.w3.org/2000/svg';
 
@@ -856,14 +809,12 @@ ladderPromise
     failSection('ladder-status', 'data/ladder_v1.json', err.message, { fallback: true });
   });
 
-// One-line glosses for the five forecasters, mirroring MODEL_GLOSS in
-// pipeline/build_fallbacks.py: what each model is allowed to see.
 const MODEL_GLOSS = {
-  L0: 'always-hold',
-  L1: 'market pricing',
-  L2: 'market modelled',
-  L3: 'market + tone + skew',
-  L4: 'member simulation',
+  L0: 'Always predict hold',
+  L1: 'Market reference',
+  L2: 'Market pricing, refitted',
+  L3: 'Market pricing + language + voting patterns',
+  L4: 'Member-by-member voting simulation',
 };
 
 function renderLadder(d) {
@@ -883,7 +834,7 @@ function renderLadder(d) {
     const tr = document.createElement('tr');
     if (model === 'L1') tr.className = 'model-l1';
     const skill = (s.skill_vs_l1 === undefined || s.skill_vs_l1 === null) ? '&mdash;' : fmtScore(s.skill_vs_l1);
-    tr.innerHTML = `<td><strong>${model}</strong><span class="model-gloss">${MODEL_GLOSS[model]}</span></td>` +
+    tr.innerHTML = `<td><strong>${MODEL_GLOSS[model]}</strong><span class="model-gloss">Model ${model}</span></td>` +
       `<td>${fmtScore(s.mean_brier)}</td><td>${fmtScore(s.mean_log_score)}</td><td>${skill}</td><td>${s.n}</td>`;
     tbody.appendChild(tr);
   });
@@ -997,9 +948,6 @@ function renderBuildInfo(b) {
 
 function renderTrackRecord(d) {
   const tbody = document.getElementById('track-tbody');
-  // The pending row (the next meeting in the Bank's calendar) is generated
-  // into the static table by build_fallbacks.py and is not in
-  // track_record.json; keep it, so the static and scripted tables agree.
   const pending = Array.from(tbody.querySelectorAll('tr.kind-pending'));
   tbody.innerHTML = '';
   const pct = fmtPct;
@@ -1081,7 +1029,7 @@ function renderCallCard(p) {
   badge.classList.toggle('locked', locked);
   badge.classList.toggle('dry-run', !locked);
   badge.textContent = locked
-    ? (scored ? 'LOCKED CALL · SCORED' : 'LOCKED CALL')
+    ? (scored ? 'Published before the decision · scored' : 'Published before the decision')
     : 'DRY RUN · NOT A CALL';
 
   const announceDate = fmtDate(p.meeting_announcement);
@@ -1111,11 +1059,6 @@ function renderCallCard(p) {
     stamp.innerHTML = `<span class="stamp-label">Status</span>` +
       `<span>not yet locked</span>`;
   }
-  // The verification path now lives in one place, the "How to check this"
-  // box near the top of the page, which is generated from the same prediction
-  // file. What stays here is the as-at note: every figure in this card is the
-  // locked file's own, and the locked file is never edited, so where the site
-  // has since recomputed a figure on a larger corpus the two will differ.
   const asAt = document.getElementById('call-asat');
   if (asAt) {
     if (locked) {
@@ -1136,13 +1079,13 @@ function renderCallCard(p) {
   document.getElementById('call-probbar').innerHTML = probs.map(([label, v]) =>
     `<span class="seg-${label}" style="width:${(v * 100).toFixed(1)}%"></span>`).join('');
   document.getElementById('call-probsrc').innerHTML =
-    `<strong>m0</strong> <span class="prob-gloss">OIS-based proxy, not the author's forecast</span> &mdash; ` +
+    `<strong>Market reference</strong> <span class="prob-gloss">from OIS market pricing, not my forecast</span> &mdash; ` +
     `assumes a single ${m0.assumed_move_bp}bp move or hold.`;
 
   const vsTrailing = p.index_current - p.index_trailing_mean;
   const vsWord = vsTrailing > 0 ? 'above' : (vsTrailing < 0 ? 'below' : 'equal to');
   document.getElementById('call-index-line').innerHTML =
-    `A&amp;BG index (${p.index_current_doc_id}): <strong>${fmtIndex(p.index_current)}</strong> vs ` +
+    `Minutes language score (${p.index_current_doc_id}): <strong>${fmtIndex(p.index_current)}</strong> vs ` +
     `trailing ${p.index_trailing_n}-document mean <strong>${fmtIndex(p.index_trailing_mean)}</strong> ` +
     `(${fmtIndex(Math.abs(vsTrailing))} ${vsWord})`;
 
@@ -1166,7 +1109,7 @@ function renderCallCard(p) {
     // Clear the built-in locked content: this file has no call in it.
     document.getElementById('call-rationale').style.display = 'none';
     document.getElementById('call-fine').innerHTML =
-      `m0 is a market-only reference (OIS forward curve vs SONIA, ${m0.assumed_move_bp}bp two-state assumption) ` +
+      `The market reference is a market-only forecast (OIS forward curve vs SONIA, ${m0.assumed_move_bp}bp two-state assumption) ` +
       `&mdash; not a call, and not the thesis. No point_call has been locked yet.`;
     document.getElementById('call-fine').style.display = 'block';
   }
@@ -1180,7 +1123,7 @@ function renderCallCard(p) {
       outcome.querySelector('.call-outcome-row').innerHTML =
         `<span class="oc-item"><span class="oc-l">Outcome</span>` +
         `<span class="oc-v">${p.outcome}</span></span>` +
-        `<span class="oc-item"><span class="oc-l">Brier (m0)</span>` +
+        `<span class="oc-item"><span class="oc-l">Market reference Brier score</span>` +
         `<span class="oc-v">${fmtScore(brier)}</span></span>` +
         `<span class="oc-item"><span class="oc-l">Point call</span>` +
         `<span class="oc-v${hit ? ' oc-hit' : ''}">${hit ? 'matched' : 'missed'}</span></span>`;
@@ -1189,8 +1132,6 @@ function renderCallCard(p) {
       outcome.style.display = 'none';
     }
   }
-  // #call-next is generated from the Bank's calendar by build_fallbacks.py
-  // and deliberately left alone here, so the static and scripted card agree.
   document.getElementById('call-status').style.display = 'none';
   card.style.display = 'block';
 }
@@ -1214,8 +1155,6 @@ function renderLatest(data, selectedDocument) {
   document.getElementById('marker').style.left = `${50 + net * 50}%`;
   document.getElementById('detail').innerHTML =
     `${doc.abg_hawk} hawkish and ${doc.abg_dove} dovish noun+adjective hits; ` +
-    // The lexicon field is a sentence of provenance; the page shows its
-    // identifier (mirrors lexicon_id() in pipeline/build_fallbacks.py).
     `lexicon <code>${data.lexicon.split(' ')[0]}</code>; sha256 <code>${doc.sha256.slice(0, 16)}&hellip;</code>; ` +
     `<a href="${doc.source_url}">source document</a>.`;
   document.getElementById('status').style.display = 'none';
@@ -1224,7 +1163,7 @@ function renderLatest(data, selectedDocument) {
 
   const gen = document.getElementById('gen-note');
   if (gen && data.generated_utc) {
-    gen.textContent = 'Index data generated ' + fmtDate(data.generated_utc) + '.';
+    gen.textContent = 'Index data last updated ' + fmtDate(data.generated_utc) + '.';
   }
 }
 
@@ -1248,10 +1187,6 @@ function chartMetrics() {
   };
 }
 
-// The hiking cycle: the longest run of consecutive Bank Rate rises in the
-// step series, from the first rise to the last. Derived from the data
-// rather than typed, so the band cannot outlive the history it shades.
-// Mirrors hiking_cycle() in pipeline/build_fallbacks.py.
 function hikingCycle(points) {
   if (!points || points.length < 2) return null;
   let best = null, start = null, end = null, len = 0;
@@ -1286,7 +1221,6 @@ function renderChart(data, context) {
 
   const ratePoints = (context && context.bank_rate_history && context.bank_rate_history.points) || null;
   const wrap = document.getElementById('chart-wrap');
-  // Overlay dates are generated into the markup by build_fallbacks.py.
   const fragStart = wrap.dataset.fragilityStart || null;
   const fragLabel = wrap.dataset.fragilityLabel || 'fragility sub-sample begins';
   const lockedMeeting = wrap.dataset.lockedMeeting || null;
@@ -1444,7 +1378,7 @@ function renderChart(data, context) {
       fill: 'var(--accent)', stroke: 'var(--paper)', 'stroke-width': 1,
     });
     const title = el('title', {});
-    title.textContent = `Locked call: ${fmtDate(lockedMeeting)}`;
+    title.textContent = `Forecast published before the decision: ${fmtDate(lockedMeeting)}`;
     diamond.appendChild(title);
     svg.appendChild(diamond);
   }
@@ -1631,7 +1565,7 @@ function renderContext(ctx) {
     oisH.innerHTML = `OIS-based path &middot; ${n} meeting${n === 1 ? '' : 's'} in this snapshot`;
   }
   document.getElementById('context-snapshot').textContent =
-    `Archived snapshot generated ${fmtDate(ctx.generated_utc)}. Market observations as of ${fmtDate(op.curve_as_of)}; not current pricing.`;
+    `Archived snapshot dated ${fmtDate(ctx.generated_utc)}. Market observations as of ${fmtDate(op.curve_as_of)}; not current pricing.`;
   document.getElementById('ois-sub').innerHTML =
     `Curve as of <b>${fmtDate(op.curve_as_of)}</b> vs SONIA ${op.sonia_pct.toFixed(3)}% ` +
     `(${fmtDate(op.sonia_as_of)}) &middot; two-state &plusmn;${op.assumed_move_bp}bp assumption.`;
@@ -1670,8 +1604,6 @@ function renderContext(ctx) {
     `latest, ${fmtDate(g.as_of)} · ${g.window_months}-month history`;
   drawSparkline('gilt-chart', g.sparkline.map(p => [p.date, p.yield_pct]), 'var(--gilt)');
 
-  // Mirrors CONTEXT_NOTE in pipeline/build_fallbacks.py. The JSON's own
-  // disclaimer string is the machine-readable flag; the sentence is the page's.
   document.getElementById('context-note').innerHTML =
     `Context, not model inputs. These series are shown for orientation only; ` +
     `none of them feed the A&amp;BG communication index, the market benchmark, ` +
@@ -1751,11 +1683,6 @@ function drawSparkline(svgId, series, color) {
   });
 }
 
-// The episode bodies live on episodes.html, which is generated whole; the
-// front page needs only the inline subset (bold, italic, links) and the
-// site's sentence rule, both of which mirror pipeline/build_fallbacks.py
-// (inline_markdown and SENTENCE_BREAK there).
-// pipeline/tests/test_static_js_parity.py fails if the two ever disagree.
 function inlineMarkdown(md) {
   return md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')

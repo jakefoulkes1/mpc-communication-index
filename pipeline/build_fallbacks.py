@@ -58,13 +58,13 @@ BADGE_LABEL = {"locked": "Locked", "dryrun": "Dry run", "rehearsal": "Rehearsal"
 # market-only reference. Labels, not data: they name what each model is
 # allowed to see. Mirrored in index.html's renderLadder()/renderCallCard().
 MODEL_GLOSS = {
-    "L0": "always-hold",
-    "L1": "market pricing",
-    "L2": "market modelled",
-    "L3": "market + tone + skew",
-    "L4": "member simulation",
+    "L0": "Always predict hold",
+    "L1": "Market reference",
+    "L2": "Market pricing, refitted",
+    "L3": "Market pricing + language + voting patterns",
+    "L4": "Member-by-member voting simulation",
 }
-M0_GLOSS = "OIS-based proxy, not the author's forecast"
+M0_GLOSS = "from OIS market pricing, not my forecast"
 
 # The README's longer descriptions of the same five models. Author's labels.
 MODEL_DESCRIPTION = {
@@ -158,11 +158,11 @@ def build_status(html: str, where: str) -> str:
     # The count links to the call card, so a reader after "what's the call"
     # is one click from it (stage four, reader three).
     card = "#call-card" if where == "index.html" else "index.html#call-card"
-    calls = f'<a href="{card}">{n} locked call{"" if n == 1 else "s"}</a>'
+    calls = f'<a href="{card}">{n} forecast{"" if n == 1 else "s"} published</a>'
     body = (
         f'{calls} <span class="sep" aria-hidden="true">&middot;</span> '
-        f'next lock {f["next_lock_date"]} <span class="sep" aria-hidden="true">&middot;</span> '
-        f'{f["corpus_n"]} documents'
+        f'next forecast {f["next_lock_date"]} <span class="sep" aria-hidden="true">&middot;</span> '
+        f'{f["corpus_n"]} sets of minutes analysed'
     )
     html = replace_region(html, "status", body, where=where)
     info = load("data/build_info.json")
@@ -264,7 +264,7 @@ def build_gen_note(html: str) -> str:
     f = figures()
     return replace_region(
         html, "gennote",
-        f'<span id="gen-note">Index data generated {f["index_generated"]}.</span>',
+        f'<span id="gen-note">Index data last updated {f["index_generated"]}.</span>',
     )
 
 
@@ -281,8 +281,8 @@ def build_ladder(html: str) -> str:
         skill = "&mdash;" if s.get("skill_vs_l1") is None else score(s["skill_vs_l1"])
         cls = ' class="model-l1"' if model == "L1" else ""
         rows.append(
-            f"            <tr{cls}><td><strong>{model}</strong>"
-            f'<span class="model-gloss">{MODEL_GLOSS[model]}</span></td>'
+            f"            <tr{cls}><td><strong>{MODEL_GLOSS[model]}</strong>"
+            f'<span class="model-gloss">Model {model}</span></td>'
             f"<td>{score(s['mean_brier'])}</td>"
             f"<td>{score(s['mean_log_score'])}</td><td>{skill}</td><td>{s['n']}</td></tr>"
         )
@@ -394,12 +394,12 @@ def build_statstrip(html: str) -> str:
     """
     f = figures()
     items = [
-        ("Bank Rate", f["bank_rate"], f"next decision {f['next_meeting']}"),
-        ("Locked calls", f["lock_count"],
-         f"{f['lock_correct']} correct of {f['lock_scored']} scored"),
-        ("Best tone model vs market", f["l3_skill"],
-         "below zero: worse than the curve"),
-        ("Corpus", f["corpus_n"], "documents"),
+        ("Bank Rate", f["bank_rate"], f"next decision {f['next_decision']}"),
+        ("Forecasts published", f["lock_count"],
+         f"{f['lock_correct']} of {f['lock_scored']} decided calls correct"),
+        ("Language and voting patterns", "No gain",
+         f"added to market pricing, forecasts scored worse than the market reference (skill score {f['l3_skill']})"),
+        ("Minutes analysed", f["corpus_n"], "Bank of England MPC minutes"),
     ]
     # One <dt> and two <dd>s per figure - valid, and it makes each cell three
     # rows of the strip's own grid, so the numerals share a baseline however
@@ -412,6 +412,121 @@ def build_statstrip(html: str) -> str:
     )
     body = f'\n  <dl class="statstrip">{cells}</dl>\n  '
     return replace_region(html, "statstrip", body)
+
+
+# ------------------------------------------- current view and forecast record
+
+
+def author_view() -> dict:
+    return load("data/author_view.json")
+
+
+def pct2(value: float) -> str:
+    """A probability to two places, as the locked rationale states it."""
+    return f"{value * 100:.2f}%"
+
+
+def lock_files() -> list[tuple[str, dict]]:
+    """Every locked call, oldest first, as (tag, contents)."""
+    files = sorted((ROOT / "data" / "predictions").glob("lock-*.json"))
+    return [(f.stem, json.loads(f.read_text())) for f in files]
+
+
+def build_view(html: str) -> str:
+    """My current view, near the top of the page.
+
+    The probability, vote forecast and publication time come from the newest
+    locked file and data/author_view.json. The build stops if the two
+    disagree about the meeting, or if the locked rationale does not contain
+    the call and vote forecast stated here, so the summary cannot drift away
+    from the text it summarises.
+    """
+    view = author_view()["current"]
+    tag, lock = lock_files()[-1]
+    if view["meeting"] != lock["meeting_announcement"]:
+        raise SystemExit(
+            f"data/author_view.json describes {view['meeting']} but the newest locked call is for "
+            f"{lock['meeting_announcement']} - update the current view before building"
+        )
+    for needed in (view["vote_forecast"], view["call"].split()[-1]):
+        if needed not in lock["rationale"]:
+            raise SystemExit(f"the locked rationale does not contain {needed!r}")
+
+    decided = lock["outcome"] is not None
+    day = gb_date(lock["meeting_announcement"])
+    short_day = day.rsplit(" ", 1)[0]
+    published = gb_stamp_utc(lock["lock_timestamp"])
+    reasons = "".join(f"<li>{r}</li>" for r in view["reasons"])
+    result = ""
+    if decided:
+        result = (f'\n    <p class="view-risk"><strong>Result.</strong> The Committee decided to '
+                  f'{lock["outcome"]}.</p>')
+    eyebrow = "Latest view" if decided else "My current view"
+    body = f'''
+  <section class="section current-view" id="current-view" aria-labelledby="view-h">
+    <span class="eyebrow">{eyebrow}</span>
+    <h2 id="view-h">{short_day}: I expect {view["call"]}.</h2>
+    <dl class="view-facts">
+      <div><dt>Probability of a hike</dt><dd>{pct2(view["my_probability"]["hike"])}</dd></div>
+      <div><dt>Vote forecast</dt><dd>{view["vote_forecast"]}</dd></div>
+      <div><dt>Published</dt><dd class="when"><time datetime="{lock["lock_timestamp"]}">{published}</time>, before the decision</dd></div>
+    </dl>
+    <p class="view-risk"><strong>Main risk.</strong> {view["main_risk"]}</p>{result}
+    <h3 class="subhead">Why</h3>
+    <ol class="view-reasons">{reasons}</ol>
+    <p class="fine">These three points summarise the original rationale, which is unchanged since it was
+    published: <a href="#call-card">read the original locked rationale</a>.</p>
+  </section>
+  '''
+    return replace_region(html, "view", body)
+
+
+def build_record(html: str) -> str:
+    """Market reference, my forecast and the outcome, side by side.
+
+    Market figures and scores are the locked files' own. Mine come from
+    data/author_view.json and are checked against the locked files: the
+    outcome word must agree, and a meeting with no entry stops the build.
+    """
+    mine = {r["meeting"]: r for r in author_view()["record"]}
+    rows = []
+    for tag, lock in lock_files():
+        meeting = lock["meeting_announcement"]
+        if meeting not in mine:
+            raise SystemExit(f"data/author_view.json has no record entry for {meeting}")
+        r = mine[meeting]
+        outcome = lock["outcome"]
+        if outcome is not None and (r["result"] is None or not r["result"].lower().startswith(outcome)):
+            raise SystemExit(
+                f"{meeting}: author_view.json result {r['result']!r} disagrees with the locked outcome {outcome!r}"
+            )
+        market_brier = lock["scores"]["m0_market_only"]["brier_score"] if lock["scores"] else None
+        dash = "&mdash;"
+        cells = [
+            f'<th scope="row"><a href="{REPO_URL}/releases/tag/{tag}">{gb_date(meeting)}</a></th>',
+            f'<td>{pct2(lock["m0_market_only"]["p_hike"])}</td>',
+            f'<td>{pct2(r["my_hike"]) if r["my_hike"] is not None else "not recorded"}</td>',
+            f'<td>{r["vote_forecast"]}</td>',
+            f'<td>{r["result"] if r["result"] else "Due " + gb_date(meeting)}</td>',
+            f'<td>{score(market_brier) if market_brier is not None else dash}</td>',
+            f'<td>{score(r["my_brier"]) if r["my_brier"] is not None else dash}</td>',
+            f'<td>{score(r["vote_brier"]) if r["vote_brier"] is not None else dash}</td>',
+        ]
+        rows.append("          <tr>" + "".join(cells) + "</tr>")
+    columns = ("Decision", "Market reference: chance of a hike", "My chance of a hike",
+               "My vote forecast", "What happened", "Market reference score", "My score",
+               "My vote forecast score")
+    head = "<tr>" + "".join(f'<th scope="col">{c}</th>' for c in columns) + "</tr>"
+    body = (
+        '\n    <div class="table-scroll" tabindex="0" role="region" '
+        'aria-label="Market reference, my forecast and outcome for each decision">\n'
+        '      <table class="record-table">\n'
+        '        <caption>Each date links to the forecast as it was published. Scores are Brier scores: '
+        'lower is better, and 0 is a perfect call.</caption>\n'
+        f'        <thead>{head}</thead>\n        <tbody>\n' + "\n".join(rows) +
+        '\n        </tbody>\n      </table>\n    </div>\n    '
+    )
+    return replace_region(html, "record", body)
 
 
 # ---------------------------------------------------- verification box
@@ -473,6 +588,14 @@ def build_call(html: str) -> str:
     # after this call's own. From the calendar constant, never typed in.
     next_meeting = next_meeting_after(lock["meeting_announcement"])
 
+    if scored:
+        next_line = (f'Next announcement: <strong>{gb_date(next_meeting)}</strong> '
+                     f'&mdash; the next call locks before it.')
+    else:
+        next_line = (f'Decision due: <strong>{gb_date(lock["meeting_announcement"])}</strong>. '
+                     f'The forecast for the {gb_date(next_meeting)} meeting will be published '
+                     f'on {gb_date(lock_date_for(next_meeting))}.')
+
     stamp_iso = lock["lock_timestamp"]
     stamp_utc = gb_stamp_utc(stamp_iso)
     lock_day = gb_date(stamp_iso)
@@ -506,7 +629,7 @@ def build_call(html: str) -> str:
     word = "above" if lock["index_current"] > lock["index_trailing_mean"] else "below"
 
     outcome_row = (
-        f'''<span class="oc-item"><span class="oc-l">Outcome</span><span class="oc-v">{lock["outcome"]}</span></span><span class="oc-item"><span class="oc-l">Brier (m0)</span><span class="oc-v">{score(brier)}</span></span><span class="oc-item"><span class="oc-l">Point call</span><span class="oc-v{" oc-hit" if hit else ""}">{"matched" if hit else "missed"}</span></span>'''
+        f'''<span class="oc-item"><span class="oc-l">Outcome</span><span class="oc-v">{lock["outcome"]}</span></span><span class="oc-item"><span class="oc-l">Market reference Brier score</span><span class="oc-v">{score(brier)}</span></span><span class="oc-item"><span class="oc-l">Point call</span><span class="oc-v{" oc-hit" if hit else ""}">{"matched" if hit else "missed"}</span></span>'''
         if scored else ""
     )
     outcome_note = (
@@ -518,7 +641,7 @@ def build_call(html: str) -> str:
     body = f'''
   <section class="section call-card locked" id="call-card" aria-labelledby="call-badge"
            data-prediction-file="{PREDICTION_FILE}">
-    <div class="call-badge locked" id="call-badge">LOCKED CALL{" &middot; SCORED" if scored else ""}</div>
+    <div class="call-badge locked" id="call-badge">Published before the decision{" &middot; scored" if scored else ""}</div>
     <p class="call-heading" id="call-heading">Call for <strong>{gb_date(lock["meeting_announcement"])}</strong></p>
     <p class="call-stamp" id="call-stamp"><span class="stamp-label">Locked</span><time
       datetime="{stamp_iso}">{stamp_utc}</time> <span
@@ -536,8 +659,8 @@ def build_call(html: str) -> str:
 
     <div class="call-probs" id="call-probs">{prob_divs}</div>
     <div class="call-probbar" id="call-probbar" aria-hidden="true">{bar_segs}</div>
-    <p class="call-probsrc" id="call-probsrc"><strong>m0</strong> <span class="prob-gloss">{M0_GLOSS}</span> &mdash; assumes a single {m0["assumed_move_bp"]:g}bp move or hold.</p>
-    <p class="fine call-index-line" id="call-index-line">A&amp;BG index ({lock["index_current_doc_id"]}): <strong>{index_value(lock["index_current"])}</strong> vs trailing {lock["index_trailing_n"]}-document mean <strong>{index_value(lock["index_trailing_mean"])}</strong> ({index_value(vs)} {word})</p>
+    <p class="call-probsrc" id="call-probsrc"><strong>Market reference</strong> <span class="prob-gloss">{M0_GLOSS}</span> &mdash; assumes a single {m0["assumed_move_bp"]:g}bp move or hold.</p>
+    <p class="fine call-index-line" id="call-index-line">Minutes language score ({lock["index_current_doc_id"]}): <strong>{index_value(lock["index_current"])}</strong> vs trailing {lock["index_trailing_n"]}-document mean <strong>{index_value(lock["index_trailing_mean"])}</strong> ({index_value(vs)} {word})</p>
     <div class="call-rationale" id="call-rationale">
       <p class="call-rationale-h" id="call-rationale-h">Point call <span class="pt-call">{lock["point_call"]}</span></p>
       <p class="call-rationale-body" id="call-rationale-body">{rationale_lead}</p>
@@ -555,8 +678,7 @@ def build_call(html: str) -> str:
       <div class="call-outcome-row">{outcome_row}</div>{outcome_note}
     </div>
 
-    <p class="call-next" id="call-next">Next announcement:
-      <strong>{gb_date(next_meeting)}</strong> &mdash; the next call locks before it.</p>
+    <p class="call-next" id="call-next">{next_line}</p>
   </section>
   '''
     return replace_region(html, "call", body)
@@ -676,7 +798,7 @@ def build_context(html: str) -> str:
     ctx = load("data/site_context.json")
     op = ctx["ois_path"]
     html = replace_region(html, "contextstamp", (
-        f'<p class="archive-stamp" id="context-snapshot">Archived snapshot generated {gb_date(ctx["generated_utc"])}. '
+        f'<p class="archive-stamp" id="context-snapshot">Archived snapshot dated {gb_date(ctx["generated_utc"])}. '
         f'Market observations as of {gb_date(op["curve_as_of"])}; not current pricing.</p>'
     ))
     n = len(op["meetings"])
@@ -951,7 +1073,7 @@ def main() -> None:
     index_path = ROOT / "index.html"
     html = index_path.read_text()
     for fn in (
-        build_statstrip, build_verify, build_call, build_latest, build_chart, build_context,
+        build_view, build_record, build_statstrip, build_verify, build_call, build_latest, build_chart, build_context,
         build_ladder, build_spec3, build_track, build_episode_list, build_gen_note,
     ):
         html = fn(html)
@@ -988,7 +1110,7 @@ def main() -> None:
     readme_path.write_text(write_figures(readme, "README.md", plain()))
 
     print(
-        "regenerated index.html blocks: statstrip, verify, call, latest, chart, context, "
+        "regenerated index.html blocks: view, record, statstrip, verify, call, latest, chart, context, "
         "ladder, spec3, track, episode list, gennote, meta, byline, status, related work; "
         "methodology.html: meta, byline, status, references; "
         "episodes.html: episodes, contents, meta, byline, status; "

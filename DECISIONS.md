@@ -3761,3 +3761,43 @@ mismatch. Regenerating the fallback after the track record fixes it without
 code changes; the November runbook now states the dependency in that order.
 The lock JSON is unaffected. The outcome-fallback test skips intentionally
 while the latest lock has no outcome.
+
+## 2026-11-03 — Homepage reordered around the current view; project shorthand replaced; accessibility fixes
+
+Presentation only. No science-layer code, lexicon, stored result, data schema
+or locked file changes, and the locked November rationale is unchanged and
+still shown in full.
+
+- **Reading order.** About, my current view, evidence and risks, forecast
+  record, the original locked rationale, meeting notes, then the explorer and
+  methods. The current view states the call, the probability, the vote
+  forecast, the publication time and the main risk, with three short reasons
+  and a link to the locked rationale. It is built from the newest lock and
+  the new hand-kept file `data/author_view.json`; the build stops if that
+  file describes a different meeting from the newest lock, or if the locked
+  rationale does not contain the stated call and vote forecast.
+- **One record table.** The market reference, my probability, my vote
+  forecast, what happened and the scores sit in one table, each row linking
+  to that decision's own release tag (replacing a single link that pointed at
+  September). September's 0.0800 and 0.3400 are the hand scores recorded on
+  2026-10-04; a test recomputes the first. July has no separate probability
+  and is shown as not recorded rather than reconstructed. November's
+  probability equals the market reference, as recorded on 2026-11-03.
+- **Next decision.** While the newest lock has no outcome, "next decision"
+  is that lock's own meeting (5 November), and the following meeting is
+  described only as the next forecast. The page had named 17 December.
+- **Plainer labels.** Market reference, minutes language score, minutes
+  analysed, and "published before the decision" replace m0, the A&BG index,
+  the corpus and the locked call on first reading. The ladder table leads with
+  what each model uses and keeps the code (L0 to L4) as small print. The
+  headline finding reads "No gain" with the skill score beneath it. Model
+  codes, hashes and schema names remain in the technical detail.
+- **Accessibility.** Header keyboard focus now has a white ring with a dark
+  halo; the method tabs no longer give list items the tab-panel role; every
+  font size is relative with a 14px floor so browser text settings apply.
+  Not a full accessibility audit: a screen-reader pass and real browser-zoom
+  testing are still to do.
+- **Wording.** Explanatory comments about how the pages are produced were
+  removed from the markup and script, and the visible phrases "index data
+  generated" and "archived snapshot generated" became "last updated" and
+  "dated". The stored field names are unchanged.

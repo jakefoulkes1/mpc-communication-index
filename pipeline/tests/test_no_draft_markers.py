@@ -1,7 +1,7 @@
 """No placeholder may reach a published surface.
 
 The site carried "Draft — JF to revise" badges and <!-- DRAFT: JF to revise -->
-comments through August 2026 by design: prose written by the assistant was
+comments through August 2026 by design: prose drafted in earlier passes was
 marked for the author. Stage 2 of the September pass replaced every one of
 them. This test fails the suite if any marker comes back, on any surface a
 reader can see: both pages, the README, the published episodes and their

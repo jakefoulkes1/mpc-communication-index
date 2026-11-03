@@ -64,7 +64,7 @@ Five stages: scrape → score → benchmark → lock → score.
 
 ## Headline results
 
-Every figure below is written by `pipeline/build_fallbacks.py` from
+Every figure below comes from
 [data/ladder_v1.json](data/ladder_v1.json) and
 [data/inference_v1.json](data/inference_v1.json), which are the source of
 truth; `pipeline/tests/test_site_figures.py` fails if this file drifts from

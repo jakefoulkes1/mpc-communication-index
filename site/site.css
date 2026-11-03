@@ -28,8 +28,8 @@
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* type scale: 1.2 modular on an 18px body, rounded to whole pixels */
-  --fs-xs: 13px; --fs-sm: 15px; --fs-body: 18px; --fs-md: 22px; --fs-lg: 26px;
-  --fs-xl: 32px; --fs-2xl: 38px; --fs-display: 46px;
+  --fs-xs: 0.875rem; --fs-sm: 0.9375rem; --fs-body: 1.125rem; --fs-md: 1.375rem; --fs-lg: 1.625rem;
+  --fs-xl: 2rem; --fs-2xl: 2.375rem; --fs-display: 2.875rem;
   --lh-body: 1.65;
   --measure: 68ch;
   --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 18px; --sp-5: 28px; --sp-6: 44px; --sp-7: 64px;
@@ -358,7 +358,7 @@ footer strong { color: var(--ink); }
 
 /* ---------- responsive ---------- */
 @media (max-width: 640px) {
-  :root { --fs-body: 17px; --fs-md: 20px; --fs-lg: 24px; --fs-xl: 28px; --fs-2xl: 30px; --fs-display: 38px; }
+  :root { --fs-body: 1.0625rem; --fs-md: 1.25rem; --fs-lg: 1.5rem; --fs-xl: 1.75rem; --fs-2xl: 1.875rem; --fs-display: 2.375rem; }
   .wrap { padding: var(--sp-5) 16px var(--sp-6); }
   .ctx-grid { grid-template-columns: 1fr; }
   .statstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
@@ -367,7 +367,7 @@ footer strong { color: var(--ink); }
 }
 /* 380px pass: nothing may overflow the viewport; wide tables scroll inside .table-scroll */
 @media (max-width: 430px) {
-  :root { --fs-display: 32px; --fs-2xl: 27px; }
+  :root { --fs-display: 2rem; --fs-2xl: 1.6875rem; }
   .wrap { padding: var(--sp-4) 13px var(--sp-6); }
   .call-probs { gap: 8px; }
   .ois-row { grid-template-columns: 7em 1fr 3.8em; gap: 8px; }

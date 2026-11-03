@@ -262,6 +262,10 @@ def figures() -> dict[str, str]:
 
     n_locked, n_scored, n_correct = locked_calls()
     next_meeting = next_meeting_after(lock["meeting_announcement"])
+    # While the newest lock has no outcome, its own meeting is the decision
+    # still to come; the following meeting is only the next forecast.
+    decision_pending = lock.get("outcome") is None
+    next_decision = lock["meeting_announcement"] if decision_pending else next_meeting
 
     fig: dict[str, str] = {
         # ---- corpus (data/index.json) ----
@@ -327,6 +331,7 @@ def figures() -> dict[str, str]:
         # ---- the record and the calendar ----
         "lock_count": str(n_locked),
         "next_meeting": gb_date(next_meeting),
+        "next_decision": gb_date(next_decision),
         "next_lock_date": gb_date(lock_date_for(next_meeting)),
         # ---- frozen specification constants, imported read-only ----
         "move_bp": f"{ASSUMED_MOVE_BP:g}",

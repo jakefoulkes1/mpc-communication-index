@@ -61,7 +61,6 @@ REGION_RE = r"<!--\s*{kind}:([a-z0-9_]+)\b.*?-->.*?<!--\s*/{kind}:\1\s*-->"
 # labels, file names, schema tags, standards, dated log references.
 IDENTIFIERS = [
     (r"\bL[0-4]\b", "benchmark ladder model names"),
-    (r"\bm0\b", "the market-only reference's name"),
     (r"\bSpec ?[23]\b", "specification names"),
     (r"\bQ[13]\b", "quartile names"),
     (r"\bladder-v1\b", "the ladder schema tag"),

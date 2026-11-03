@@ -224,7 +224,15 @@
   tabs.setAttribute('role', 'tablist');
   tabs.setAttribute('aria-label', 'How the test works');
   const names = ['Language', 'Market', 'Models', 'Scores'];
-  const panels = Array.from(steps.children);
+  const items = Array.from(steps.children);
+  // The list items stay plain list items. Each one's content goes inside a
+  // wrapper that carries the tab-panel role, so the list semantics survive.
+  const panels = items.map(item => {
+    const panel = document.createElement('div');
+    while (item.firstChild) panel.appendChild(item.firstChild);
+    item.appendChild(panel);
+    return panel;
+  });
   const buttons = names.map((name, i) => {
     const button = document.createElement('button');
     button.type = 'button';
@@ -255,7 +263,7 @@
     buttons.forEach((button, i) => {
       button.setAttribute('aria-selected', String(i === index));
       button.tabIndex = i === index ? 0 : -1;
-      panels[i].hidden = i !== index;
+      items[i].hidden = i !== index;
     });
   }
   steps.before(tabs);

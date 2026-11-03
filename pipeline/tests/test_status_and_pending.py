@@ -40,9 +40,9 @@ def test_status_line_on_every_page_states_the_record_the_calendar_and_the_corpus
     for page in PAGES:
         html = (ROOT / page).read_text()
         status = region(html, "status")
-        assert f"{locked} locked call" in status, f"{page}: status line does not count the locked calls"
-        assert f"next lock {f['next_lock_date']}" in status
-        assert f"{index_n} documents" in status
+        assert f"{locked} forecast" in status, f"{page}: status line does not count the locked calls"
+        assert f"next forecast {f['next_lock_date']}" in status
+        assert f"{index_n} sets of minutes analysed" in status
         assert "Beta" not in html, f"{page} still carries the Beta badge"
 
 

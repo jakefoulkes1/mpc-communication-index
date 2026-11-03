@@ -40,11 +40,11 @@ CONTEXT = ROOT / "data" / "site_context.json"
 LADDER_MODELS = ("L0", "L1", "L2", "L3", "L4")
 # Mirrors MODEL_GLOSS in pipeline/build_fallbacks.py: labels, not data.
 MODEL_GLOSS = {
-    "L0": "always-hold",
-    "L1": "market pricing",
-    "L2": "market modelled",
-    "L3": "market + tone + skew",
-    "L4": "member simulation",
+    "L0": "Always predict hold",
+    "L1": "Market reference",
+    "L2": "Market pricing, refitted",
+    "L3": "Market pricing + language + voting patterns",
+    "L4": "Member-by-member voting simulation",
 }
 
 
@@ -84,8 +84,8 @@ def test_ladder_fallback_rows_match_json(index_html):
         # Rounding policy: scores to 4 d.p., a true minus sign, never a hyphen.
         skill = "&mdash;" if s.get("skill_vs_l1") is None else score(s["skill_vs_l1"])
         expected = (
-            f"<td><strong>{model}</strong>"
-            f'<span class="model-gloss">{MODEL_GLOSS[model]}</span></td>'
+            f"<td><strong>{MODEL_GLOSS[model]}</strong>"
+            f'<span class="model-gloss">Model {model}</span></td>'
             f"<td>{score(s['mean_brier'])}</td>"
             f"<td>{score(s['mean_log_score'])}</td><td>{skill}</td><td>{s['n']}</td>"
         )
@@ -329,10 +329,16 @@ def test_call_card_fallback_next_announcement_comes_from_the_calendar(index_html
 
     later = sorted(m for m in UPCOMING_MEETINGS if m > lock["meeting_announcement"])
     assert later, "the calendar lists no meeting after the locked call's"
-    assert f"<strong>{gb_date(later[0])}</strong>" in block, (
-        f"the built-in next announcement is not {gb_date(later[0])}, "
-        f"the next meeting in data/site_context.json"
-    )
+    if lock["outcome"] is None:
+        # The decision has not been announced: the card names that decision
+        # as due, and gives the following meeting only as the next forecast.
+        assert f"Decision due: <strong>{gb_date(lock['meeting_announcement'])}</strong>" in block
+        assert gb_date(later[0]) in block
+    else:
+        assert f"<strong>{gb_date(later[0])}</strong>" in block, (
+            f"the built-in next announcement is not {gb_date(later[0])}, "
+            f"the next meeting in data/site_context.json"
+        )
 
 
 def test_call_card_heading_is_not_a_stale_forward_notice(index_html):

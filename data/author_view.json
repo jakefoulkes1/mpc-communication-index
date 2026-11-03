@@ -1,0 +1,41 @@
+{
+  "note": "The author's own view and forecast record, kept by hand. Market figures and outcomes are read from the locked files and checked against this file when the pages are built; nothing here replaces a locked call.",
+  "current": {
+    "meeting": "2026-11-05",
+    "call": "Bank Rate to rise to 4.00%",
+    "vote_forecast": "7–2",
+    "my_probability": {"cut": 0.0, "hold": 0.1045, "hike": 0.8955},
+    "main_risk": "The central bloc waits for stronger wage evidence.",
+    "reasons": [
+      "Inflation has moved up on every measure I watch: September CPI rose to 3.5% from 3.1%, core to 2.8% from 2.6%, and services to 3.7% from 3.4%.",
+      "The argument for waiting is weaker than in September. 68% of firms now expect to raise prices, eleven percentage points more than then, although expected wage growth stayed at 3.4%.",
+      "The market already prices a hike at 89.55%, so I did not shade it. The language index is not part of the call."
+    ]
+  },
+  "record": [
+    {
+      "meeting": "2026-07-30",
+      "my_hike": null,
+      "my_brier": null,
+      "vote_forecast": "2 votes to hike (not scored)",
+      "vote_brier": null,
+      "result": "Hold, 6–3"
+    },
+    {
+      "meeting": "2026-09-17",
+      "my_hike": 0.20,
+      "my_brier": 0.0800,
+      "vote_forecast": "3 votes to hike (50%)",
+      "vote_brier": 0.3400,
+      "result": "Hold, 6–3"
+    },
+    {
+      "meeting": "2026-11-05",
+      "my_hike": 0.8955,
+      "my_brier": null,
+      "vote_forecast": "7–2 for a hike",
+      "vote_brier": null,
+      "result": null
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 Between 2 September 2026's stage two and its close-out, the pages carried
 HTML comments recording that some prose had been written under a bypassed
 approval gate and was awaiting review. That is a note between the author and
-the assistant, not something a reader of a working paper should find in the
+the drafting process, not something a reader of a working paper should find in the
 source. The record of it belongs in DECISIONS.md, which is where it stayed.
 
 This guard fails if the process vocabulary comes back on any surface a reader
