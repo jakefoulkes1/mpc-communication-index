@@ -3750,3 +3750,14 @@ forecast and named members are assessed separately in the episode; the
 coarse 5+ bin cannot distinguish a 5–4 hike from a 7–2 hike. The pipeline
 continues to score m0 only; any separate author-distribution score is recorded
 manually, without altering the frozen scoring code.
+
+### Lock-commit addendum: generator order
+
+The November runbook inherited September's `build_fallbacks` then
+`build_track_record` order. Adding the third lock exposed stale HTML counts
+and a missing static November track row: the fallback reads the track JSON,
+so it must run after the track builder. Three existing guards caught the
+mismatch. Regenerating the fallback after the track record fixes it without
+code changes; the November runbook now states the dependency in that order.
+The lock JSON is unaffected. The outcome-fallback test skips intentionally
+while the latest lock has no outcome.

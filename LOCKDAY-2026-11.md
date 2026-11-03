@@ -89,8 +89,8 @@ scores. Validate and show the complete file, then **wait for Jake's go**:
 Regenerate the card and record rather than hand-editing generated markup:
 
 ```bash
-.venv/bin/python -m pipeline.build_fallbacks
 .venv/bin/python -m pipeline.build_track_record
+.venv/bin/python -m pipeline.build_fallbacks
 ```
 
 The required PREDICTION_FILE edit is generated: verify the card now carries

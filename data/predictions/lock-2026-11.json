@@ -1,0 +1,31 @@
+{
+  "schema": "prediction-v1",
+  "meeting_announcement": "2026-11-05",
+  "lock_timestamp": "2026-11-03T09:37:31+00:00",
+  "code_version": "ada6e03733bde02c18fe262b3ff089523f951eb1",
+  "input_hashes": {
+    "corpus_index_json_sha256": "78c8779319d068259816cc2120f2fc102a94e3d87e6f5cf7865d755fe5515f6f",
+    "ois_snapshot_sha256": "5d8d6bf8fdfacebd8467f960457ca148d4bdc8357256508f157ca9b0823e29f0"
+  },
+  "m0_market_only": {
+    "meeting_date": "2026-11-05",
+    "curve_as_of": "2026-10-30",
+    "sonia_as_of": "2026-10-30",
+    "forward_rate_pct": 3.9587,
+    "sonia_pct": 3.7348,
+    "assumed_move_bp": 25.0,
+    "lock_offset_days": 3,
+    "implied_change_bp": 22.39,
+    "p_hike": 0.8955,
+    "p_hold": 0.1045,
+    "p_cut": 0.0
+  },
+  "index_current": 1.3333,
+  "index_current_doc_id": "minutes-2026-09",
+  "index_trailing_mean": 1.1786,
+  "index_trailing_n": 4,
+  "point_call": "hike",
+  "rationale": "Raise Bank Rate by 25bp to 4.00%. My probability of a hike is 89.55%, the same as m0, with 10.45% on hold and zero on a cut. This is the first call where I have not shaded the market probability. The communication index stays out of the call: L3 scores −0.6250 against the market-only benchmark and Spec 2 returns p = 0.4997. The index reads 1.333 against a trailing four-document mean of 1.179, hawkish and pointing the same way as the curve, but the project has not shown that using it improves the forecast.\n\nSeptember’s reason for shading down does not carry over. The meeting-plus-three read still clips to the first one-month node, but that node now falls around 29 November, after this decision and before December’s. A November hike belongs in that price. The first four forwards are 3.9587%, 4.0463%, 4.1504% and 4.2657%. Smoothing may still pull some later pricing into the first point, but I cannot use those nodes to put a number on the effect. September’s correct hold did not validate the mechanism. I have no sufficiently well-supported reason to replace the curve’s probability with my own.\n\nThe data since September gives the four conditional hawks more reason to move. September CPI rose to 3.5% from 3.1%, led by motor fuels, but core also rose to 2.8% from 2.6% and services to 3.7% from 3.4%. In September I argued that the headline had moved while the measures the majority was waiting for had stayed still. That is harder to argue now. The October pay release put regular earnings growth at 3.7%, with private-sector growth edging up to 3.0% after three periods at 2.9%, though those figures cover June–August and predate the September meeting. The more recent business survey found 68% of firms expecting to raise prices in response to the energy shock, eleven percentage points more than in September. Expected wage growth, however, remained at 3.4%. The evidence is stronger on prices than on wages. My judgement is that the four will now regard the risk of waiting as greater than the risk of moving before the wage evidence is conclusive.\n\nThe vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join Greene, Mann and Pill, with Dhingra and Taylor holding. Against that, vacancies fell by 21,000 to 691,000 and firms’ wage expectations have not risen. There is still a case for waiting, and I would reconsider if the central bloc made clear that sustained wage acceleration remained a condition for a rise. My hold alternative is 5–4, with Lombardelli crossing first and Bailey, Breeden and Ramsden waiting. A hold would mean I had mistaken their willingness to discuss a rise for a willingness to vote for one. A 5–4 hike would get the decision right but show that I had expected too many of them to move together.",
+  "outcome": null,
+  "scores": null
+}
