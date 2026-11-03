@@ -3697,3 +3697,56 @@ non-lock rehearsal records m0 cut 0 / hold 0.1061 / hike 0.8939, index 1.3333
 and trailing-four mean 1.1786 including September. These are dated rehearsal
 observations, not tomorrow's rationale or a registered call. The old root URL
 was verified serving a meta-refresh and visible link to the new site.
+
+## 2026-11-03 — November pre-lock records: sources, unshaded call and vote distribution
+
+Recorded before the November lock. The author approved the rationale and
+explicitly delegated the vote-bin weights, retaining September's scoring
+protocol. No science-layer code, schema or existing lock changes.
+
+- Source verification is preserved in `verification/2026-11-03.md` and its
+  companion download record. All CPI, pay, DMP and vacancy figures in the
+  approved prose match the official releases, with observation periods
+  distinguished from publication dates. The reference-free approved prose
+  is saved in `verification/2026-11-approved-rationale.txt`.
+- The first 3 November rehearsal returned the 30 October curve and 29 October
+  SONIA: hike 0.8939 / hold 0.1061. An independent no-cache download then
+  caught newly available SONIA dated 30 October, 3.7348%. A standard CLI
+  retry (after one HTTP timeout that wrote nothing) completed at 09:32:14
+  UTC: hike **0.8955**, hold **0.1045**, cut **0**, curve still 30 October.
+  Both rehearsals are preserved under non-lock filenames. The curve guard
+  passes at two business days old; direct inspection of both archive and
+  current-month files found no newer dated row being skipped. This describes
+  availability at the check time, not the rest of the day. Fresh inputs are
+  required again when the actual lock command runs.
+- The author's decision distribution equals m0, without a discretionary
+  shade. September's clipping argument is not treated as a standing downward
+  correction: the first maturity is after November's decision and before
+  December's. Smoothing remains a limitation, without an identified numerical
+  correction. September's correct hold did not establish that mechanism.
+- The point forecast is a 25bp hike to 4.00%, seven votes to two, with Bailey,
+  Lombardelli, Breeden and Ramsden joining Greene, Mann and Pill. The named
+  hold alternative is five votes to four, with only Lombardelli crossing.
+
+The prospective vote distribution, fixed before the lock:
+
+| Votes for a hike | Probability |
+|---|---:|
+| 0–2 | 0.0050 |
+| 3 | 0.0250 |
+| 4 | 0.0745 |
+| 5 or more | 0.8955 |
+
+These are judgemental weights, not fitted estimates. The 5+ bin equals the
+hike probability exactly; the other bins sum to the 0.1045 hold probability.
+Most hold mass sits on the named four-hike-vote alternative, with less on a
+repeat of three and little on a dissenter stepping back. The author's
+illustrative 0.02 / 0.07 / 0.12 / 0.79 was not adopted because its 5+ mass
+would conflict with the unshaded decision distribution.
+
+Score the vote distribution after the announcement with the sum of squared
+errors across these four bins, as registered in September. The 7–2 point
+forecast and named members are assessed separately in the episode; the
+coarse 5+ bin cannot distinguish a 5–4 hike from a 7–2 hike. The pipeline
+continues to score m0 only; any separate author-distribution score is recorded
+manually, without altering the frozen scoring code.

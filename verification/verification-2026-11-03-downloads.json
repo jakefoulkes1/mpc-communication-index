@@ -1,0 +1,90 @@
+{
+  "checked_utc": "2026-11-03T09:30:11+00:00",
+  "sources": [
+    {
+      "label": "CPI",
+      "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/september2026",
+      "http_status": 200,
+      "sha256": "cb98082f1fe925c18af051b99ed833567258f53e873e848a4623c855a5cc639c"
+    },
+    {
+      "label": "Pay",
+      "url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/averageweeklyearningsingreatbritain/october2026",
+      "http_status": 200,
+      "sha256": "01294ae46ecc4cfdcce00efaafad6268114c60340dce9edf0905d3fee68328e5"
+    },
+    {
+      "label": "Labour",
+      "url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/uklabourmarket/october2026",
+      "http_status": 200,
+      "sha256": "f68e189336510505f5283facd1f4ee10a98287392ba20fd67cf7b5149e826f70"
+    },
+    {
+      "label": "DMP",
+      "url": "https://www.bankofengland.co.uk/decision-maker-panel/2026/october-2026",
+      "http_status": 200,
+      "sha256": "1440b59fd4ceee59cf565c3ef871906c95379f5c8001710efd25a992f2b5ae25"
+    },
+    {
+      "label": "OIS download",
+      "url": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/oisddata.zip",
+      "http_status": 200,
+      "last_modified": "Fri, 02 Oct 2026 15:36:54 GMT",
+      "server_date": "Tue, 03 Nov 2026 09:30:12 GMT",
+      "sha256": "1847f6d19fd6acfd2beddd51ac9ed16791b9e9b9dac2e9dd503b6b1b091b8bc7"
+    },
+    {
+      "label": "OIS download",
+      "url": "https://www.bankofengland.co.uk/-/media/boe/files/statistics/yield-curves/latest-yield-curve-data.zip",
+      "http_status": 200,
+      "last_modified": "Mon, 02 Nov 2026 11:04:35 GMT",
+      "server_date": "Tue, 03 Nov 2026 09:30:13 GMT",
+      "sha256": "15f249c4ff5b2fdae7f70a807e89a438ccea9eb19579a28ffa8ea20d34c67386"
+    }
+  ],
+  "workbooks": [
+    {
+      "file": "OIS daily data_2016 to 2024.xlsx",
+      "last_dated_row": "2024-12-31",
+      "last_complete_row": "2024-12-31",
+      "first_four_forwards": [
+        4.646357886313732,
+        4.550757655829651,
+        4.487616072047597,
+        4.441430091460601
+      ]
+    },
+    {
+      "file": "OIS daily data_2025 to present.xlsx",
+      "last_dated_row": "2026-09-30",
+      "last_complete_row": "2026-09-30",
+      "first_four_forwards": [
+        3.8095636585882198,
+        3.9514477952272107,
+        4.077731829318755,
+        4.200327473326007
+      ]
+    },
+    {
+      "file": "OIS daily data current month.xlsx",
+      "last_dated_row": "2026-10-30",
+      "last_complete_row": "2026-10-30",
+      "first_four_forwards": [
+        3.9586703060884987,
+        4.046344031861346,
+        4.1503609458236115,
+        4.26571103616543
+      ]
+    }
+  ],
+  "curve_as_of": "2026-10-30",
+  "business_days_old": 2,
+  "freshness_guard": "PASS",
+  "sonia": {
+    "as_of": "2026-10-30",
+    "rate_pct": 3.7348,
+    "url": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=24/Oct/2026&Dateto=now&SeriesCodes=IUDSOIA&UsingCodes=Y&CSVF=TT&VPD=Y&VFD=N",
+    "http_status": 200,
+    "sha256": "580e1343f014971af9056dd6084c7736be277d438a51765c6b4270d813fdd531"
+  }
+}
