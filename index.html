@@ -95,7 +95,7 @@
 
   <!-- Figures generated from the catalogue by pipeline/build_fallbacks.py. -->
   <!-- fallback:statstrip -->
-  <dl class="statstrip"><div class="stat"><dt>Bank Rate</dt><dd class="stat-n">3.75%</dd><dd class="stat-sub">next decision 17 December 2026</dd></div><div class="stat"><dt>Locked calls</dt><dd class="stat-n">3</dd><dd class="stat-sub">2 correct of 2 scored</dd></div><div class="stat"><dt>Best tone model vs market</dt><dd class="stat-n">&minus;0.6250</dd><dd class="stat-sub">below zero: worse than the curve</dd></div><div class="stat"><dt>Corpus</dt><dd class="stat-n">96</dd><dd class="stat-sub">documents</dd></div></dl>
+  <dl class="statstrip"><div class="stat"><dt>Bank Rate</dt><dd class="stat-n">3.75%</dd><dd class="stat-sub">next decision 17 December 2026</dd></div><div class="stat"><dt>Locked calls</dt><dd class="stat-n">3</dd><dd class="stat-sub">3 correct of 3 scored</dd></div><div class="stat"><dt>Best tone model vs market</dt><dd class="stat-n">&minus;0.6250</dd><dd class="stat-sub">below zero: worse than the curve</dd></div><div class="stat"><dt>Corpus</dt><dd class="stat-n">96</dd><dd class="stat-sub">documents</dd></div></dl>
   <!-- /fallback:statstrip -->
 
   <div class="dashboard-grid">
@@ -164,7 +164,7 @@
 <!-- fallback:call -->
   <section class="section call-card locked" id="call-card" aria-labelledby="call-badge"
            data-prediction-file="data/predictions/lock-2026-11.json">
-    <div class="call-badge locked" id="call-badge">LOCKED CALL</div>
+    <div class="call-badge locked" id="call-badge">LOCKED CALL &middot; SCORED</div>
     <p class="call-heading" id="call-heading">Call for <strong>5 November 2026</strong></p>
     <p class="call-stamp" id="call-stamp"><span class="stamp-label">Locked</span><time
       datetime="2026-11-03T09:37:31+00:00">3 November 2026, 09:37:31 UTC</time> <span
@@ -203,8 +203,10 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
     <!-- Once the announcement has happened and score_outcomes has run, the
          card stops being a forward-looking notice and becomes a result. Both
          figures come from the locked file's own outcome/scores fields. -->
-    <div class="call-outcome" id="call-outcome" hidden>
-      <div class="call-outcome-row"></div>
+    <div class="call-outcome" id="call-outcome">
+      <div class="call-outcome-row"><span class="oc-item"><span class="oc-l">Outcome</span><span class="oc-v">hike</span></span><span class="oc-item"><span class="oc-l">Brier (m0)</span><span class="oc-v">0.0218</span></span><span class="oc-item"><span class="oc-l">Point call</span><span class="oc-v oc-hit">matched</span></span></div>
+      <p class="oc-note" id="call-outcome-note">The outcome and scores were added after
+      the announcement. The original call and reasoning are retained.</p>
     </div>
 
     <p class="call-next" id="call-next">Next announcement:
@@ -663,7 +665,7 @@ The vote split is called at 7–2: Bailey, Lombardelli, Breeden and Ramsden join
           <tbody id="track-tbody">
             <tr class="kind-locked"><td>30 July 2026</td><td><span class="track-badge locked">Locked</span></td><td>hold</td><td>0%</td><td>96%</td><td>4%</td><td>hold</td><td>0.0030</td></tr>
             <tr class="kind-locked"><td>17 September 2026</td><td><span class="track-badge locked">Locked</span></td><td>hold</td><td>0%</td><td>71%</td><td>29%</td><td>hold</td><td>0.1673</td></tr>
-            <tr class="kind-locked"><td>5 November 2026</td><td><span class="track-badge locked">Locked</span></td><td>hike</td><td>0%</td><td>10%</td><td>90%</td><td>&mdash;</td><td>&mdash;</td></tr>
+            <tr class="kind-locked"><td>5 November 2026</td><td><span class="track-badge locked">Locked</span></td><td>hike</td><td>0%</td><td>10%</td><td>90%</td><td>hike</td><td>0.0218</td></tr>
             <tr class="kind-pending"><td>17 December 2026</td><td><span class="track-badge pending">Pending</span> <span class="track-lockdate">locks 15 December 2026</span></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
           </tbody>
         <!-- /fallback:track -->

@@ -3761,3 +3761,80 @@ mismatch. Regenerating the fallback after the track record fixes it without
 code changes; the November runbook now states the dependency in that order.
 The lock JSON is unaffected. The outcome-fallback test skips intentionally
 while the latest lock has no outcome.
+
+## 2026-11-24 — November outcome scored; the decision and vote-split distributions scored by hand
+
+The post-announcement entry the 2026-11-03 pre-registration calls for.
+`lock-2026-07.json`, `lock-2026-09.json` and all three tags are untouched;
+no science module, no schema, no code.
+
+### The outcome
+
+- At the meeting ending 4 November, announced 5 November 2026, the MPC
+  voted **8–1 to increase Bank Rate by 0.25 percentage points, to 4%**.
+  Bailey, Breeden, Dhingra, Greene, Lombardelli, Pill, Ramsden and Taylor
+  voted for the 0.25pp rise; Mann voted against the proposition, preferring
+  a 0.5pp rise to 4.25%. No member voted to hold or cut. Checked against
+  the Bank's own page (`monetary-policy-summary-and-minutes/2026/november-2026`,
+  published 5 November 2026) before the outcome was written. **Nine votes
+  for a hike.**
+- `score_outcomes` scored the file with `hike`. **Deviation in how the file
+  was written, not in what was scored.** The scorer writes with
+  `json.dumps(..., indent=2)`, which escapes non-ASCII. September's lock
+  already stored its rationale escaped, so its diff was clean; November's
+  rationale was saved as raw UTF-8 (− ’ –), and the scorer's own write
+  re-encoded it, so `git diff` touched `rationale` (same text, different
+  bytes). That write was reverted. The payload was then produced by
+  `score_outcomes.fill_outcome` (imported read-only) and written with the
+  same indent and `ensure_ascii=False`, after asserting that this
+  reproduces the committed file byte for byte. `git diff` on
+  `lock-2026-11.json` now touches `outcome` and `scores` only (LOCKDAY.md,
+  rule 3), and re-running `score_outcomes ... hike` reports "already
+  scored; unchanged". The scorer itself is not changed; whether its write
+  should preserve UTF-8 is a question for the author under the
+  forward-only rule.
+- Scored 19 days after the announcement. The `lock-2026-11` tag fixes the
+  call as it stood before it.
+
+### Scores (Brier summed over outcome bins; lower is better)
+
+| forecast | distribution | Brier | log |
+|---|---|---|---|
+| m0, market only (pipeline) | cut 0 / hold 10.45 / hike 89.55 | 0.0218 | 0.1104 |
+| the author's distribution (by hand) | cut 0 / hold 10.45 / hike 89.55 | 0.0218 | 0.1104 |
+| always-hold reference (pipeline) | hold 100 | 2.0000 | 20.7233 |
+
+- The author's distribution equals the locked m0 (2026-11-03 entry: no
+  discretionary shade), so the two scores are identical. For reference
+  only: the 2 November and first 3 November rehearsals' m0 (cut 0 / hold
+  10.61 / hike 89.39) would have scored Brier 0.0225, log 0.1122. That
+  distribution was never locked.
+- **Vote split** (by hand, against the distribution pre-registered on
+  2026-11-03; outcome: nine votes for a hike, the 5-or-more bin): 0–2 at
+  0.0050, 3 at 0.0250, 4 at 0.0745, **5 or more at 0.8955** gives Brier
+  0.005² + 0.025² + 0.0745² + (1 − 0.8955)² = **0.0171**; log score
+  −ln 0.8955 = 0.1104.
+- The coarse 5+ bin cannot distinguish the 7–2 point forecast from the
+  realised 8–1 (nine votes to raise); the point forecast is assessed below.
+- Computed with `score_outcomes.brier_score` / `log_score` imported
+  read-only. The schema holds m0 only, so the hand scores live here.
+
+### The point forecast and named members
+
+- Point forecast: hike, 25bp, 7–2. Realised: hike, 25bp, 8–1. The decision
+  and size were right; the split was not.
+- The four members the rationale named as crossing the threshold all voted
+  for the 0.25pp rise: **Bailey, Lombardelli, Breeden, Ramsden**.
+- Greene and Pill voted for the rise, as called. Mann voted to raise, as
+  called, but by 0.5pp rather than 0.25pp.
+- **Dhingra and Taylor, called to hold, voted for the rise.** They account
+  for the split error. Seven of nine members' directions were called
+  correctly; no member held.
+
+### Not done in this entry
+
+- The November minutes are not ingested, `votes.csv` is not updated, and
+  `market_history`, the ladder, the inference specifications and
+  `site_context.json` are not rebuilt. Corpus stays at 96 documents. The
+  stat strip's Bank Rate (3.75%) is generated from the corpus and will
+  correct itself at the ingest; it is not hand-edited.
