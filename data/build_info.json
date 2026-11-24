@@ -1,9 +1,9 @@
 {
   "schema": "build-info-v1",
-  "last_commit_sha": "b3f5516d837ab14dfe742941aa861adbdc7bbb76",
-  "last_commit_short_sha": "b3f5516",
-  "last_commit_iso": "2026-11-03T09:41:33Z",
-  "last_commit_subject": "Lock call for 5 November 2026",
-  "generated_utc": "2026-11-03T09:41:33+00:00",
+  "last_commit_sha": "6ffd77978a4519abcd9587ef2f86f483a6d81571",
+  "last_commit_short_sha": "6ffd779",
+  "last_commit_iso": "2026-11-24T18:05:00+00:00",
+  "last_commit_subject": "Outcome: 5 November 2026 MPC",
+  "generated_utc": "2026-11-24T18:05:00+00:00",
   "note": "Written by pipeline/build_build_info.py from git log -1 at the time it ran. Not a claim about the data's vintage - data/index.json carries its own generated_utc."
 }
